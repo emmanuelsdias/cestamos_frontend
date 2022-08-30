@@ -47,4 +47,4 @@ app.*.map.json
 /android/app/release
 
 # Project-specific files
-#/lib/helpers/http-requests/base-urls.dart
+/lib/helpers/http-requests/base_urls.dart
