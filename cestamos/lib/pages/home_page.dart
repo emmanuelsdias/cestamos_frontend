@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import '../models/user.dart';
+import '../models/user.dart';
 
 import '../helpers/http-requests/user.dart';
 
@@ -15,17 +15,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  // List<User> _users = [];
-  int _usersCount = 0;
+  List<User> _users = [];
   bool _usersAreLoaded = false;
 
   void _loadUsers() async {
     var users = await UserHttpRequestHelper.getUsers();
 
     setState(() {
-      //_users = users;
+      _users = users;
       _usersAreLoaded = true;
-      _usersCount = users.length;
     });
   }
 
@@ -57,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             if (_usersAreLoaded)
               Text(
-                'Número de usuários: $_usersCount',
+                'Número de usuários: ${_users[0].userName}',
               ),
           ],
         ),
