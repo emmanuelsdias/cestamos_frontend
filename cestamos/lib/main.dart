@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'pages/home_page.dart';
 // import 'pages/landing_page.dart';
-// import 'pages/register_page.dart';
-// import 'pages/login_page.dart';
+import 'pages/register_page.dart';
+import 'pages/login_page.dart';
 import 'pages/lists_page.dart';
 // import 'pages/groups_page.dart';
 // import 'pages/friends_page.dart';
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
   final _routes = <String, WidgetBuilder>{
     '/': (BuildContext context) => const MyHomePage(title: 'Cestamos'),
     // LandingPage.pageRouteName: (BuildContext context) => const LandingPage(),
-    // RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
-    // LoginPage.pageRouteName:    (BuildContext context) => const LoginPage(),
+    RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
+    LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     ListsPage.pageRouteName: (BuildContext context) => const ListsPage(),
     // GroupsPage.pageRouteName:   (BuildContext context) => const GroupsPage(),
     // FriendsPage.pageRouteName:  (BuildContext context) => const FriendsPage(),
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
           surface: Colors.white,
           onSurface: Colors.black,
         ),
+        fontFamily: 'Nexa',
       ),
       routes: _routes,
     );

@@ -35,7 +35,7 @@ class _ListsPageState extends State<ListsPage> {
   //     _counter++;
   //   });
   // }
-  int _selectedItemPosition = 2;
+  int _selectedItemPosition = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -43,26 +43,23 @@ class _ListsPageState extends State<ListsPage> {
     //   _loadUsers();
     // }
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: SvgPicture.asset(
           '../assets/images/cestamos_logo_white.svg',
-          // fit: BoxFit.contain,
+          fit: BoxFit.contain,
           height: 28,
         ),
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: Container(
-          width: double.infinity,
-          color: Theme.of(context).colorScheme.background,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                'Minhas listas aqui!',
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text(
+              'Minhas listas aqui!',
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: SnakeNavigationBar.color(
@@ -81,11 +78,11 @@ class _ListsPageState extends State<ListsPage> {
         // unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
 
         currentIndex: _selectedItemPosition,
-        onTap: (index) => setState(() => _selectedItemPosition = index),
+        onTap: (index) => setState(() => [_selectedItemPosition = index]),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'listas'),
           BottomNavigationBarItem(icon: Icon(Icons.group), label: 'grupos'),
-          BottomNavigationBarItem(icon: Icon(Icons.child_care), label: 'amigos'),
+          BottomNavigationBarItem(icon: Icon(Icons.face), label: 'amigos'),
           // BottomNavigationBarItem(icon: Icon(Icons.cookie_outlined ), label: 'receitas')
           BottomNavigationBarItem(icon: Icon(Icons.liquor), label: 'receitas')
         ],
