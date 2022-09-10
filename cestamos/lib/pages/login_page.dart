@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'register_page.dart';
+
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
 import '../widgets/elevated_gradient_button.dart';
@@ -223,7 +225,9 @@ class _LoginPageState extends State<LoginPage> {
                                             ),
                                           ),
                                           TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.of(context).pushReplacementNamed(RegisterPage.pageRouteName);
+                                            },
                                             style: TextButton.styleFrom(
                                               padding: const EdgeInsets.symmetric(
                                                 horizontal: 3,
