@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
 
-class ListsPage extends StatefulWidget {
-  const ListsPage({super.key});
-  static const pageRouteName = "/lists";
+class RecipesPage extends StatefulWidget {
+  const RecipesPage({super.key});
+  static const pageRouteName = "/recipes";
 
   @override
-  State<ListsPage> createState() => _ListsPageState();
+  State<RecipesPage> createState() => _RecipesPageState();
 }
 
-class _ListsPageState extends State<ListsPage> {
+class _RecipesPageState extends State<RecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _ListsPageState extends State<ListsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'Minhas listas aqui!',
+              'Minhas receitas aqui!',
             ),
           ],
         ),

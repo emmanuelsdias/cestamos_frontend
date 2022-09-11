@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'pages/home_page.dart';
-// import 'pages/landing_page.dart';
-import 'pages/register_page.dart';
+import 'pages/landing_page.dart';
 import 'pages/login_page.dart';
-import 'pages/lists_page.dart';
-// import 'pages/groups_page.dart';
-// import 'pages/friends_page.dart';
+import 'pages/register_page.dart';
+import 'pages/logged_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,13 +13,14 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final _routes = <String, WidgetBuilder>{
-    '/': (BuildContext context) => const MyHomePage(title: 'Cestamos'),
-    // LandingPage.pageRouteName: (BuildContext context) => const LandingPage(),
-    RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
+    LandingPage.pageRouteName: (BuildContext context) => const LandingPage(),
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
-    ListsPage.pageRouteName: (BuildContext context) => const ListsPage(),
+    RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
+    LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
+    // ListsPage.pageRouteName: (BuildContext context) => const ListsPage(),
     // GroupsPage.pageRouteName:   (BuildContext context) => const GroupsPage(),
     // FriendsPage.pageRouteName:  (BuildContext context) => const FriendsPage(),
+    // RecipesPage.pageRouteName:   (BuildContext context) => const RecipesPage(),
   };
 
   @override
