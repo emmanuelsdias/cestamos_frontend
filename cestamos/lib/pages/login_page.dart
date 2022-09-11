@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'register_page.dart';
+import 'logged_screen.dart';
 
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
@@ -183,7 +184,9 @@ class _LoginPageState extends State<LoginPage> {
                                       //   color2: Theme.of(context).colorScheme.inversePrimary,
                                       // ),
                                       ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacementNamed(LoggedScreen.pageRouteName);
+                                        },
                                         style: ElevatedButton.styleFrom(
                                             minimumSize: const Size(0, 56),
                                             maximumSize: const Size(200, 100),
