@@ -4,6 +4,7 @@ import 'pages/landing_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
 import 'pages/logged_screen.dart';
+import 'pages/one_list_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
-    // ListsPage.pageRouteName: (BuildContext context) => const ListsPage(),
+    OneListPage.pageRouteName: (BuildContext context) => const OneListPage(),
     // GroupsPage.pageRouteName:   (BuildContext context) => const GroupsPage(),
     // FriendsPage.pageRouteName:  (BuildContext context) => const FriendsPage(),
     // RecipesPage.pageRouteName:   (BuildContext context) => const RecipesPage(),

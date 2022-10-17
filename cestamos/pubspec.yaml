@@ -37,6 +37,8 @@ dependencies:
   http: ^0.13.5
   flutter_snake_navigationbar:
   flutter_svg:
+  flutter_slidable: ^2.0.0
+  flutter_reorderable_list: ^1.2.0
 
 dev_dependencies:
   flutter_test:
