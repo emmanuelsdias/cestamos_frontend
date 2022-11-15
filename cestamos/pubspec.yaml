@@ -66,6 +66,8 @@ flutter:
   assets:
     - assets/images/cestamos_logo_blue.svg
     - assets/images/cestamos_logo_white.svg
+    - assets/images/cestamos_C_white.svg
+    - assets/images/cestamos_icon_white.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

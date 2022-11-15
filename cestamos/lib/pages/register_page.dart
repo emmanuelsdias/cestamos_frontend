@@ -46,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
             left: -MediaQuery.of(context).size.width * 0.1,
             top: MediaQuery.of(context).size.height * 0.5,
             child: SvgPicture.asset(
-              '../assets/images/cestamos_C_white.svg',
+              'assets/images/cestamos_C_white.svg',
               alignment: Alignment.center,
               // width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.8,
@@ -59,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SvgPicture.asset(
-                    '../assets/images/cestamos_icon_white.svg',
+                    'assets/images/cestamos_icon_white.svg',
                     fit: BoxFit.contain,
                     width: 120,
                   ),
@@ -107,7 +107,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   key: _formKey,
                                   autovalidateMode: AutovalidateMode.disabled,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       //           if (_errorOnCreate)
                                       // const Text(
@@ -116,7 +117,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         decoration: InputDecoration(
                                           prefixIcon: const Icon(Icons.person),
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(25.0),
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
                                             borderSide: const BorderSide(
                                               width: 0,
                                               style: BorderStyle.none,
@@ -127,7 +129,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                           fillColor: Colors.grey[100],
                                         ),
                                         validator: (String? userName) {
-                                          if (userName == null || userName.isEmpty) {
+                                          if (userName == null ||
+                                              userName.isEmpty) {
                                             return "Nome de usuário não pode ser vazio";
                                           }
                                           // if (!_userNameIsValid) {
@@ -155,9 +158,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                       TextFormField(
                                         decoration: InputDecoration(
-                                          prefixIcon: const Icon(Icons.email_rounded),
+                                          prefixIcon:
+                                              const Icon(Icons.email_rounded),
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(25.0),
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
                                             borderSide: const BorderSide(
                                               width: 0,
                                               style: BorderStyle.none,
@@ -168,7 +173,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           fillColor: Colors.grey[100],
                                         ),
                                         validator: (String? value) {
-                                          if (value == null || value.isEmpty || !value.contains("@")) {
+                                          if (value == null ||
+                                              value.isEmpty ||
+                                              !value.contains("@")) {
                                             return "Digite um e-mail válido";
                                           }
                                           // if (!_emailIsValid) {
@@ -181,7 +188,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                             // _verifyEmailAddress(value);
                                           });
                                         },
-                                        keyboardType: TextInputType.emailAddress,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         onSaved: (email) {
                                           if (email != null) {
                                             // user.email = email;
@@ -196,7 +204,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         decoration: InputDecoration(
                                           prefixIcon: const Icon(Icons.vpn_key),
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(25.0),
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
                                             borderSide: const BorderSide(
                                               width: 0,
                                               style: BorderStyle.none,
@@ -208,7 +217,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ),
                                         obscureText: true,
                                         validator: (String? value) {
-                                          if (value == null || value.length < 6) {
+                                          if (value == null ||
+                                              value.length < 6) {
                                             return "A senha deve ter pelo menos 6 caracteres";
                                           }
                                           return null;
@@ -232,7 +242,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         decoration: InputDecoration(
                                           prefixIcon: const Icon(Icons.vpn_key),
                                           border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(25.0),
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
                                             borderSide: const BorderSide(
                                               width: 0,
                                               style: BorderStyle.none,
@@ -247,7 +258,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                           // if (value != user.password) {
                                           //   return "As senhas não coincidem";
                                           // }
-                                          if (value == null || value.length < 6) {
+                                          if (value == null ||
+                                              value.length < 6) {
                                             return "A senha deve ter pelo menos 6 caracteres";
                                           }
                                           return null;
@@ -274,12 +286,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                             minimumSize: const Size(0, 56),
                                             maximumSize: const Size(200, 100),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(25),
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
                                             ),
                                             shadowColor: Colors.transparent,
-                                            primary: Theme.of(context).colorScheme.inversePrimary),
+                                            primary: Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: const [
                                             Text(
                                               'cadastrar',
@@ -302,7 +318,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         height: 10,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           const Text(
                                             'Já possui conta?',
@@ -312,17 +329,22 @@ class _RegisterPageState extends State<RegisterPage> {
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.of(context).pushReplacementNamed(LoginPage.pageRouteName);
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                      LoginPage.pageRouteName);
                                             },
                                             style: TextButton.styleFrom(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 horizontal: 3,
                                               ),
                                             ),
                                             child: Text(
                                               'Fazer login',
                                               style: TextStyle(
-                                                color: Theme.of(context).colorScheme.inversePrimary,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .inversePrimary,
                                                 fontSize: 12,
                                               ),
                                             ),

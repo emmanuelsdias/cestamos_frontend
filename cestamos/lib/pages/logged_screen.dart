@@ -33,11 +33,9 @@ class LoggedScreen extends StatefulWidget {
 
 class _LoggedScreenState extends State<LoggedScreen> {
   final PageController pageController = PageController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CestamosBar(),
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -59,7 +57,8 @@ class _StreamagramBottomNavBar extends StatefulWidget {
   final PageController pageController;
 
   @override
-  State<_StreamagramBottomNavBar> createState() => _StreamagramBottomNavBarState();
+  State<_StreamagramBottomNavBar> createState() =>
+      _StreamagramBottomNavBarState();
 }
 
 class _StreamagramBottomNavBarState extends State<_StreamagramBottomNavBar> {
@@ -111,7 +110,8 @@ class _KeepAlivePage extends StatefulWidget {
   _KeepAlivePageState createState() => _KeepAlivePageState();
 }
 
-class _KeepAlivePageState extends State<_KeepAlivePage> with AutomaticKeepAliveClientMixin {
+class _KeepAlivePageState extends State<_KeepAlivePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
