@@ -5,7 +5,7 @@ import '../helpers/http-requests/user.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
-  static const pageRouteName = "/";
+  static const pageRouteName = "/landing";
 
   @override
   State<LandingPage> createState() => _LandingPageState();

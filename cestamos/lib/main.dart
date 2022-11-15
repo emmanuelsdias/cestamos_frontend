@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final _routes = <String, WidgetBuilder>{
+    '/': (BuildContext context) => const LoginPage(),
     LandingPage.pageRouteName: (BuildContext context) => const LandingPage(),
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),

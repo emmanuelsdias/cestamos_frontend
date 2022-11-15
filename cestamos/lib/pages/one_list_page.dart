@@ -72,8 +72,11 @@ class _OneListPageState extends State<OneListPage> {
     });
   }
 
-  List<Widget> _getListItems() =>
-      items.asMap().map((i, item) => MapEntry(i, _buildTenableListTile(item, i))).values.toList();
+  List<Widget> _getListItems() => items
+      .asMap()
+      .map((i, item) => MapEntry(i, _buildTenableListTile(item, i)))
+      .values
+      .toList();
 
   Widget _buildTenableListTile(Item item, int index) {
     return Dismissible(
@@ -85,12 +88,14 @@ class _OneListPageState extends State<OneListPage> {
         });
       },
       confirmDismiss: (direction) async {
+        // TODO: (MM fix warning "nullable return type")
         if (direction == DismissDirection.endToStart) {
           final bool res = await showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  content: Text("Tem certeza que você quer excluir da sua lista o item ${items[index].name}?"),
+                  content: Text(
+                      "Tem certeza que você quer excluir da sua lista o item ${items[index].name}?"),
                   actions: <Widget>[
                     TextButton(
                       child: const Text(
@@ -129,17 +134,18 @@ class _OneListPageState extends State<OneListPage> {
         child: const Icon(Icons.delete),
       ),
       child: ListTile(
-        trailing: ReorderableDragStartListener(index: index, child: const Icon(Icons.drag_indicator_outlined)),
+        trailing: ReorderableDragStartListener(
+            index: index, child: const Icon(Icons.drag_indicator_outlined)),
         key: ValueKey(item.itemId),
         title: Text(
-          '${item.name}',
+          item.name,
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
-          '${item.quantity}',
+          item.quantity,
           style: const TextStyle(
             color: Colors.black,
           ),
