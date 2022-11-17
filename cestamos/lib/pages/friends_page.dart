@@ -15,10 +15,23 @@ class FriendsPage extends StatefulWidget {
 
 class _FriendsPageState extends State<FriendsPage> {
   final friendships = <Friendship>[
-    Friendship(1, 1, "Gandhi"),
-    Friendship(2, 2, "Educado"),
-    Friendship(3, 3, "MM"),
+    Friendship(
+      friendshipId: 1,
+      userId: 1,
+      username: "Gandhi",
+    ),
+    Friendship(
+      friendshipId: 2,
+      userId: 2,
+      username: "Educado",
+    ),
+    Friendship(
+      friendshipId: 3,
+      userId: 3,
+      username: "MM",
+    ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
