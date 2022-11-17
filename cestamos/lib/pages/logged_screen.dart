@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/cestamos_bar.dart';
 import 'lists_page.dart';
 import 'groups_page.dart';
 import 'friends_page.dart';
