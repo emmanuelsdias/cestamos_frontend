@@ -3,16 +3,15 @@ import '../models/user.dart';
 
 import '../helpers/http-requests/user.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
+  static const pageRouteName = "/landing";
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LandingPage> createState() => _LandingPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LandingPageState extends State<LandingPage> {
   int _counter = 0;
 
   List<User> _users = [];
@@ -40,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Cestamos'),
       ),
       body: Center(
         child: Column(
