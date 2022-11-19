@@ -12,12 +12,16 @@ class CestamosBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: SvgPicture.asset(
-        'assets/images/cestamos_logo_white.svg',
-        fit: BoxFit.contain,
-        height: 28,
+      title: Row(
+        children: [
+          SvgPicture.asset(
+            'assets/images/cestamos_logo_white.svg',
+            fit: BoxFit.contain,
+            height: 28,
+          ),
+        ],
       ),
-      title: title == null ? null : Text(title!),
+      //(title == null ? null : Text(title!))
       // elevation: 0.0,
       automaticallyImplyLeading: false,
       // actions: <Widget>[
