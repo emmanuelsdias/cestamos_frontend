@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/cestamos_bar.dart';
 import 'lists_page.dart';
-import 'groups_page.dart';
 import 'friends_page.dart';
 import 'recipes_page.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -21,7 +19,6 @@ class LoggedScreen extends StatefulWidget {
   /// List of pages available from the home screen.
   static const List<Widget> _homePages = <Widget>[
     _KeepAlivePage(child: ListsPage()),
-    _KeepAlivePage(child: GroupsPage()),
     _KeepAlivePage(child: FriendsPage()),
     _KeepAlivePage(child: RecipesPage()),
   ];
@@ -90,7 +87,6 @@ class _StreamagramBottomNavBarState extends State<_StreamagramBottomNavBar> {
       currentIndex: widget.pageController.page?.toInt() ?? 0,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'listas'),
-        BottomNavigationBarItem(icon: Icon(Icons.group), label: 'grupos'),
         BottomNavigationBarItem(icon: Icon(Icons.face), label: 'amigos'),
         BottomNavigationBarItem(icon: Icon(Icons.liquor), label: 'receitas')
       ],

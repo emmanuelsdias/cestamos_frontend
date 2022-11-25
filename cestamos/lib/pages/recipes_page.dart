@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../widgets/cestamos_bar.dart';
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
 
@@ -15,6 +15,7 @@ class _RecipesPageState extends State<RecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CestamosBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Column(

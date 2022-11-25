@@ -37,9 +37,7 @@ class _ListsPageState extends State<ListsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CestamosBar(
-        title: "Listas",
-      ),
+      appBar: const CestamosBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: listassum.isEmpty
           ? const Center(
