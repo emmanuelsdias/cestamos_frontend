@@ -1,1 +1,0 @@
-This file must be deleted after any other file is added to cestamos/lib/widgets folder.

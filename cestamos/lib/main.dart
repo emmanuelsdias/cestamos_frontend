@@ -1,3 +1,4 @@
+import 'package:cestamos/pages/create_list_page.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/landing_page.dart';
@@ -20,11 +21,14 @@ class MyApp extends StatelessWidget {
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
     OneListPage.pageRouteName: (BuildContext context) => const OneListPage(),
+    CreateListPage.pageRouteName: (BuildContext context) =>
+        const CreateListPage(),
   };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Cestamos!',
       theme: ThemeData(
         colorScheme: const ColorScheme(
