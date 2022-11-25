@@ -15,9 +15,7 @@ class _RecipesPageState extends State<RecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CestamosBar(
-        title: "Receitas",
-      ),
+      appBar: const CestamosBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Column(

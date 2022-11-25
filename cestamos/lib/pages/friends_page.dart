@@ -35,9 +35,7 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CestamosBar(
-        title: "Amigos",
-      ),
+      appBar: const CestamosBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: friendships.isEmpty
           ? const Center(
