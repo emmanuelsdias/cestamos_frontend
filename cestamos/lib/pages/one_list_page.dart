@@ -45,11 +45,21 @@ class _OneListPageState extends State<OneListPage> {
     ),
   ];
 
+  void refreshList() {
+    // refresh
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Minha Lista"),
+        actions: [
+          IconButton(
+            onPressed: refreshList,
+            icon: const Icon(Icons.loop),
+          ),
+        ],
       ),
       body: ReorderableListView(
         onReorder: onReorder,
