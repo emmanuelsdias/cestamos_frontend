@@ -20,9 +20,6 @@ class MyApp extends StatelessWidget {
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
     OneListPage.pageRouteName: (BuildContext context) => const OneListPage(),
-    // GroupsPage.pageRouteName:   (BuildContext context) => const GroupsPage(),
-    // FriendsPage.pageRouteName:  (BuildContext context) => const FriendsPage(),
-    // RecipesPage.pageRouteName:   (BuildContext context) => const RecipesPage(),
   };
 
   @override

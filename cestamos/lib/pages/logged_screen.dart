@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/cestamos_bar.dart';
 import 'lists_page.dart';
-import 'groups_page.dart';
 import 'friends_page.dart';
 import 'recipes_page.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -21,7 +19,6 @@ class LoggedScreen extends StatefulWidget {
   /// List of pages available from the home screen.
   static const List<Widget> _homePages = <Widget>[
     _KeepAlivePage(child: ListsPage()),
-    _KeepAlivePage(child: GroupsPage()),
     _KeepAlivePage(child: FriendsPage()),
     _KeepAlivePage(child: RecipesPage()),
   ];
@@ -33,11 +30,9 @@ class LoggedScreen extends StatefulWidget {
 
 class _LoggedScreenState extends State<LoggedScreen> {
   final PageController pageController = PageController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CestamosBar(),
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -59,7 +54,8 @@ class _StreamagramBottomNavBar extends StatefulWidget {
   final PageController pageController;
 
   @override
-  State<_StreamagramBottomNavBar> createState() => _StreamagramBottomNavBarState();
+  State<_StreamagramBottomNavBar> createState() =>
+      _StreamagramBottomNavBarState();
 }
 
 class _StreamagramBottomNavBarState extends State<_StreamagramBottomNavBar> {
@@ -91,7 +87,6 @@ class _StreamagramBottomNavBarState extends State<_StreamagramBottomNavBar> {
       currentIndex: widget.pageController.page?.toInt() ?? 0,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'listas'),
-        BottomNavigationBarItem(icon: Icon(Icons.group), label: 'grupos'),
         BottomNavigationBarItem(icon: Icon(Icons.face), label: 'amigos'),
         BottomNavigationBarItem(icon: Icon(Icons.liquor), label: 'receitas')
       ],
@@ -111,7 +106,8 @@ class _KeepAlivePage extends StatefulWidget {
   _KeepAlivePageState createState() => _KeepAlivePageState();
 }
 
-class _KeepAlivePageState extends State<_KeepAlivePage> with AutomaticKeepAliveClientMixin {
+class _KeepAlivePageState extends State<_KeepAlivePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
