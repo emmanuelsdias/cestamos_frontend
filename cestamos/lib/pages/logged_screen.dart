@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'lists_page.dart';
 import 'friends_page.dart';
 import 'recipes_page.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import '../providers/friendships.dart';
 
 /// LoggedScreen of the application.
 ///
@@ -32,14 +34,17 @@ class _LoggedScreenState extends State<LoggedScreen> {
   final PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: LoggedScreen._homePages,
-      ),
-      bottomNavigationBar: _StreamagramBottomNavBar(
-        pageController: pageController,
+    return ChangeNotifierProvider(
+      create: (context) => Friendships(),
+      child: Scaffold(
+        body: PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: LoggedScreen._homePages,
+        ),
+        bottomNavigationBar: _StreamagramBottomNavBar(
+          pageController: pageController,
+        ),
       ),
     );
   }

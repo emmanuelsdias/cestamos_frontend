@@ -1,4 +1,3 @@
-import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/cestamos_bar.dart';
@@ -14,8 +13,6 @@ class CreateListPage extends StatefulWidget {
 
 class _CreateListPageState extends State<CreateListPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final _friends = <Friendship>[];
 
   @override
   Widget build(BuildContext context) {
