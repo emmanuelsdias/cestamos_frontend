@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Item {
-  String itemId;
-  String name;
-  String quantity;
-
-  Item({
-    required this.itemId,
-    required this.name,
-    this.quantity = "",
-  });
-}
+import '../models/item.dart';
+import '../widgets/item_edit_dialog.dart';
 
 class OneListPage extends StatefulWidget {
   const OneListPage({Key? key}) : super(key: key);
@@ -24,29 +15,48 @@ class OneListPage extends StatefulWidget {
 class _OneListPageState extends State<OneListPage> {
   List<Item> items = [
     Item(
-      itemId: "1",
+      itemId: 1,
       name: "Arroz Tio João",
       quantity: "5 kg",
+      wasBought: false,
     ),
     Item(
-      itemId: "2",
+      itemId: 2,
       name: "Feijão Preto",
       quantity: "2 kg",
+      wasBought: false,
     ),
     Item(
-      itemId: "3",
+      itemId: 3,
       name: "Açúcar Refinado União",
       quantity: "300 g",
+      wasBought: false,
     ),
     Item(
-      itemId: "4",
+      itemId: 4,
       name: "Café Melissa",
       quantity: "1 caixa",
+      wasBought: false,
     ),
   ];
 
   void refreshList() {
     // refresh
+  }
+
+  void removeItem(int index) {
+    // remove item
+    setState(() {
+      items.removeAt(index);
+    });
+  }
+
+  void editItem(String itemName, String itemQuantity) {
+    // edit item
+  }
+
+  void changeBoughtStatus() {
+    // change was_bought
   }
 
   @override
@@ -90,7 +100,7 @@ class _OneListPageState extends State<OneListPage> {
 
   Widget _buildTenableListTile(Item item, int index) {
     return Dismissible(
-      key: Key(item.itemId),
+      key: ValueKey(item.itemId),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
         setState(() {
@@ -142,8 +152,19 @@ class _OneListPageState extends State<OneListPage> {
         child: const Icon(Icons.delete),
       ),
       child: ListTile(
+        leading: Checkbox(
+          checkColor: Colors.white,
+          value: item.wasBought,
+          onChanged: (bool? value) {
+            setState(() {
+              item.wasBought = value!;
+            });
+          },
+        ),
         trailing: ReorderableDragStartListener(
-            index: index, child: const Icon(Icons.drag_indicator_outlined)),
+          index: index,
+          child: const Icon(Icons.drag_indicator_outlined),
+        ),
         key: ValueKey(item.itemId),
         title: Text(
           item.name,
@@ -158,7 +179,17 @@ class _OneListPageState extends State<OneListPage> {
             color: Colors.black,
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (ctx) {
+              return ItemEditDialog(
+                editItem: editItem,
+                item: item,
+              );
+            },
+          );
+        },
       ),
     );
   }
