@@ -63,7 +63,7 @@ class _ListsPageState extends State<ListsPage> {
                 const Padding(
                   padding: EdgeInsets.all(15),
                   child: Text(
-                    "Suas Listas",
+                    "Minhas Listas",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,

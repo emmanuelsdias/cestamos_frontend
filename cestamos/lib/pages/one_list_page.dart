@@ -92,13 +92,12 @@ class _OneListPageState extends State<OneListPage> {
     return Dismissible(
       key: Key(item.itemId),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
+      onDismissed: (_) {
         setState(() {
           items.removeAt(index);
         });
       },
       confirmDismiss: (direction) async {
-        // TODO: (MM fix warning "nullable return type")
         if (direction == DismissDirection.endToStart) {
           final bool res = await showDialog(
               context: context,
@@ -113,7 +112,7 @@ class _OneListPageState extends State<OneListPage> {
                         style: TextStyle(color: Colors.black),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context, false);
                       },
                     ),
                     TextButton(
@@ -126,16 +125,15 @@ class _OneListPageState extends State<OneListPage> {
                         setState(() {
                           items.removeAt(index);
                         });
-                        Navigator.of(context).pop();
+                        Navigator.pop(context, true);
                       },
                     ),
                   ],
                 );
               });
           return res;
-        } else {
-          // TODO: Navigate to edit page;
         }
+        return false;
       },
       background: Container(
         color: Theme.of(context).colorScheme.inversePrimary,
