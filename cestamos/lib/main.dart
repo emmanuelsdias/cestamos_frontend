@@ -1,6 +1,8 @@
-import 'package:cestamos/pages/create_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'providers/friendships.dart';
+import 'pages/create_list_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
@@ -27,27 +29,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Cestamos!',
-      theme: ThemeData(
-        colorScheme: const ColorScheme(
-          brightness: Brightness.light,
-          primary: Color(0xFF25548D),
-          onPrimary: Colors.white,
-          inversePrimary: Color(0xFFE9476D),
-          secondary: Colors.white,
-          onSecondary: Colors.black,
-          error: Colors.black,
-          onError: Colors.red,
-          background: Color(0xFFE4E4E4),
-          onBackground: Colors.black,
-          surface: Colors.white,
-          onSurface: Colors.black,
+    return ChangeNotifierProvider(
+      create: (context) => Friendships(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Cestamos!',
+        theme: ThemeData(
+          colorScheme: const ColorScheme(
+            brightness: Brightness.light,
+            primary: Color(0xFF25548D),
+            onPrimary: Colors.white,
+            inversePrimary: Color(0xFFE9476D),
+            secondary: Colors.white,
+            onSecondary: Colors.black,
+            error: Colors.black,
+            onError: Colors.red,
+            background: Color(0xFFE4E4E4),
+            onBackground: Colors.black,
+            surface: Colors.white,
+            onSurface: Colors.black,
+          ),
+          fontFamily: 'Nexa',
         ),
-        fontFamily: 'Nexa',
+        routes: _routes,
       ),
-      routes: _routes,
     );
   }
 }
