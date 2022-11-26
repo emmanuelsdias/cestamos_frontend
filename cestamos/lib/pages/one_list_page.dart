@@ -102,8 +102,12 @@ class _OneListPageState extends State<OneListPage> {
     return Dismissible(
       key: ValueKey(item.itemId),
       direction: DismissDirection.endToStart,
+      onDismissed: (_) {
+        setState(() {
+          items.removeAt(index);
+        });
+      },
       confirmDismiss: (direction) async {
-        // TODO: (MM fix warning "nullable return type")
         if (direction == DismissDirection.endToStart) {
           final bool res = await showDialog(
               context: context,
@@ -118,7 +122,7 @@ class _OneListPageState extends State<OneListPage> {
                         style: TextStyle(color: Colors.black),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context, false);
                       },
                     ),
                     TextButton(
@@ -127,8 +131,11 @@ class _OneListPageState extends State<OneListPage> {
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () {
-                        removeItem(index);
-                        Navigator.of(context).pop();
+                        // TODO: Delete the item from DB etc..
+                        setState(() {
+                          items.removeAt(index);
+                        });
+                        Navigator.pop(context, true);
                       },
                     ),
                   ],
@@ -136,6 +143,7 @@ class _OneListPageState extends State<OneListPage> {
               });
           return res;
         }
+        return false;
       },
       background: Container(
         color: Theme.of(context).colorScheme.inversePrimary,

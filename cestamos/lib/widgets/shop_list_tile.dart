@@ -9,8 +9,13 @@ class ShopListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(shopListSummary.shopListName),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Card(
+        child: ListTile(
+          title: Text(shopListSummary.shopListName),
+        ),
+      ),
     );
   }
 }
