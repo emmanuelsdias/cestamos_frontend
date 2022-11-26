@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Item {
-  String itemId;
-  String name;
-  String quantity;
-  bool wasBought;
-
-  Item({
-    required this.itemId,
-    required this.name,
-    this.quantity = "",
-    this.wasBought = false,
-  });
-}
+import '../models/item.dart';
+import '../widgets/item_edit_dialog.dart';
 
 class OneListPage extends StatefulWidget {
   const OneListPage({Key? key}) : super(key: key);
@@ -26,25 +15,25 @@ class OneListPage extends StatefulWidget {
 class _OneListPageState extends State<OneListPage> {
   List<Item> items = [
     Item(
-      itemId: "1",
+      itemId: 1,
       name: "Arroz Tio João",
       quantity: "5 kg",
       wasBought: false,
     ),
     Item(
-      itemId: "2",
+      itemId: 2,
       name: "Feijão Preto",
       quantity: "2 kg",
       wasBought: false,
     ),
     Item(
-      itemId: "3",
+      itemId: 3,
       name: "Açúcar Refinado União",
       quantity: "300 g",
       wasBought: false,
     ),
     Item(
-      itemId: "4",
+      itemId: 4,
       name: "Café Melissa",
       quantity: "1 caixa",
       wasBought: false,
@@ -60,6 +49,14 @@ class _OneListPageState extends State<OneListPage> {
     setState(() {
       items.removeAt(index);
     });
+  }
+
+  void editItem(String itemName, String itemQuantity) {
+    // edit item
+  }
+
+  void changeBoughtStatus() {
+    // change was_bought
   }
 
   @override
@@ -103,7 +100,7 @@ class _OneListPageState extends State<OneListPage> {
 
   Widget _buildTenableListTile(Item item, int index) {
     return Dismissible(
-      key: Key(item.itemId),
+      key: ValueKey(item.itemId),
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) async {
         // TODO: (MM fix warning "nullable return type")
@@ -149,7 +146,6 @@ class _OneListPageState extends State<OneListPage> {
       child: ListTile(
         leading: Checkbox(
           checkColor: Colors.white,
-          // fillColor: MaterialStateProperty.resolveWith(getColor),
           value: item.wasBought,
           onChanged: (bool? value) {
             setState(() {
@@ -176,7 +172,15 @@ class _OneListPageState extends State<OneListPage> {
           ),
         ),
         onTap: () {
-          print("BBBBBBBBBBBB");
+          showDialog(
+            context: context,
+            builder: (ctx) {
+              return ItemEditDialog(
+                editItem: editItem,
+                item: item,
+              );
+            },
+          );
         },
       ),
     );

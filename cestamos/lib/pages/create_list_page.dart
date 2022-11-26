@@ -1,9 +1,9 @@
-import 'package:cestamos/widgets/shop_create_friend_select_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../models/friendship.dart';
 import '../widgets/friendship_tile.dart';
 import '../widgets/cestamos_bar.dart';
+import '../widgets/shop_create_friend_select_dialog.dart';
 
 class CreateListPage extends StatefulWidget {
   const CreateListPage({Key? key}) : super(key: key);
