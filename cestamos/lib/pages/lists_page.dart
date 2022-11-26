@@ -6,6 +6,7 @@ import '../models/shop_list.dart';
 import '../widgets/cestamos_bar.dart';
 import './one_list_page.dart';
 import './create_list_page.dart';
+import '../widgets/add_floating_button.dart';
 
 class ListsPage extends StatefulWidget {
   const ListsPage({super.key});
@@ -57,34 +58,37 @@ class _ListsPageState extends State<ListsPage> {
                 "Você não tem listas",
               ),
             )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Text(
-                      "Suas Listas",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      ),
+          : Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    "Suas Listas",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
                     ),
-                  );
-                }
-                return GestureDetector(
-                  onTap: () => Navigator.of(context)
-                      .pushNamed(OneListPage.pageRouteName),
-                  child: ShopListTile(
-                    shopListSummary: listassum[index - 1],
                   ),
-                );
-              },
-              itemCount: listassum.length + 1,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(OneListPage.pageRouteName),
+                        child: ShopListTile(
+                          shopListSummary: listassum[index],
+                        ),
+                      );
+                    },
+                    itemCount: listassum.length,
+                  ),
+                ),
+              ],
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: AddFloatingButton(
         onPressed: () =>
             Navigator.of(context).pushNamed(CreateListPage.pageRouteName),
-        child: const Icon(Icons.add),
       ),
     );
   }
