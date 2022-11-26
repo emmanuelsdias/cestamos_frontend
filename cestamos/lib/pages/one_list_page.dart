@@ -168,14 +168,22 @@ class _OneListPageState extends State<OneListPage> {
         key: ValueKey(item.itemId),
         title: Text(
           item.name,
-          style: const TextStyle(
+          style: TextStyle(
+            decoration: item.wasBought
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationThickness: 2,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
           item.quantity,
-          style: const TextStyle(
+          style: TextStyle(
+            decoration: item.wasBought
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationThickness: 2,
             color: Colors.black,
           ),
         ),
