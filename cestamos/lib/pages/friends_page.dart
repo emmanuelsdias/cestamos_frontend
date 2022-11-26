@@ -1,11 +1,13 @@
 import 'package:cestamos/pages/add_friend_page.dart';
+import 'package:cestamos/providers/friendships.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../widgets/cestamos_bar.dart';
 import '../widgets/friendship_tile.dart';
 import '../widgets/add_floating_button.dart';
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
-import '../models/friendship.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -16,26 +18,10 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage> {
-  final friendships = <Friendship>[
-    Friendship(
-      friendshipId: 1,
-      userId: 1,
-      username: "Gandhi",
-    ),
-    Friendship(
-      friendshipId: 2,
-      userId: 2,
-      username: "Educado",
-    ),
-    Friendship(
-      friendshipId: 3,
-      userId: 3,
-      username: "MM",
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final friendshipsData = Provider.of<Friendships>(context);
+    final friendships = friendshipsData.friendships;
     return Scaffold(
       appBar: CestamosBar(
         actions: [

@@ -5,6 +5,7 @@ import '../widgets/shop_list_tile.dart';
 import '../models/shop_list.dart';
 import '../widgets/cestamos_bar.dart';
 import './one_list_page.dart';
+import './create_list_page.dart';
 
 class ListsPage extends StatefulWidget {
   const ListsPage({super.key});
@@ -34,10 +35,21 @@ class _ListsPageState extends State<ListsPage> {
     ShopListSummary(id: 4, shopListName: "Física de Plasmas")
   ];
 
+  void refreshList() {
+    // refresh
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CestamosBar(),
+      appBar: CestamosBar(
+        actions: [
+          IconButton(
+            onPressed: refreshList,
+            icon: const Icon(Icons.loop),
+          ),
+        ],
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: listassum.isEmpty
           ? const Center(
@@ -47,16 +59,33 @@ class _ListsPageState extends State<ListsPage> {
             )
           : ListView.builder(
               itemBuilder: (context, index) {
+                if (index == 0) {
+                  return const Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      "Suas Listas",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                  );
+                }
                 return GestureDetector(
                   onTap: () => Navigator.of(context)
                       .pushNamed(OneListPage.pageRouteName),
                   child: ShopListTile(
-                    shopListSummary: listassum[index],
+                    shopListSummary: listassum[index - 1],
                   ),
                 );
               },
-              itemCount: listassum.length,
+              itemCount: listassum.length + 1,
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            Navigator.of(context).pushNamed(CreateListPage.pageRouteName),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
