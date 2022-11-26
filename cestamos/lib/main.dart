@@ -5,6 +5,7 @@ import 'pages/login_page.dart';
 import 'pages/register_page.dart';
 import 'pages/logged_screen.dart';
 import 'pages/one_list_page.dart';
+import 'pages/add_friend_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,12 +21,15 @@ class MyApp extends StatelessWidget {
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
     OneListPage.pageRouteName: (BuildContext context) => const OneListPage(),
+    AddFriendPage.pageRouteName: (BuildContext context) =>
+        const AddFriendPage(),
   };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cestamos!',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
