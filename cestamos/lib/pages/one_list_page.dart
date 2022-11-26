@@ -4,11 +4,13 @@ class Item {
   String itemId;
   String name;
   String quantity;
+  bool wasBought;
 
   Item({
     required this.itemId,
     required this.name,
     this.quantity = "",
+    this.wasBought = false,
   });
 }
 
@@ -27,26 +29,37 @@ class _OneListPageState extends State<OneListPage> {
       itemId: "1",
       name: "Arroz Tio João",
       quantity: "5 kg",
+      wasBought: false,
     ),
     Item(
       itemId: "2",
       name: "Feijão Preto",
       quantity: "2 kg",
+      wasBought: false,
     ),
     Item(
       itemId: "3",
       name: "Açúcar Refinado União",
       quantity: "300 g",
+      wasBought: false,
     ),
     Item(
       itemId: "4",
       name: "Café Melissa",
       quantity: "1 caixa",
+      wasBought: false,
     ),
   ];
 
   void refreshList() {
     // refresh
+  }
+
+  void removeItem(int index) {
+    // remove item
+    setState(() {
+      items.removeAt(index);
+    });
   }
 
   @override
@@ -92,11 +105,6 @@ class _OneListPageState extends State<OneListPage> {
     return Dismissible(
       key: Key(item.itemId),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        setState(() {
-          items.removeAt(index);
-        });
-      },
       confirmDismiss: (direction) async {
         // TODO: (MM fix warning "nullable return type")
         if (direction == DismissDirection.endToStart) {
@@ -122,10 +130,7 @@ class _OneListPageState extends State<OneListPage> {
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () {
-                        // TODO: Delete the item from DB etc..
-                        setState(() {
-                          items.removeAt(index);
-                        });
+                        removeItem(index);
                         Navigator.of(context).pop();
                       },
                     ),
@@ -133,8 +138,6 @@ class _OneListPageState extends State<OneListPage> {
                 );
               });
           return res;
-        } else {
-          // TODO: Navigate to edit page;
         }
       },
       background: Container(
@@ -144,8 +147,20 @@ class _OneListPageState extends State<OneListPage> {
         child: const Icon(Icons.delete),
       ),
       child: ListTile(
+        leading: Checkbox(
+          checkColor: Colors.white,
+          // fillColor: MaterialStateProperty.resolveWith(getColor),
+          value: item.wasBought,
+          onChanged: (bool? value) {
+            setState(() {
+              item.wasBought = value!;
+            });
+          },
+        ),
         trailing: ReorderableDragStartListener(
-            index: index, child: const Icon(Icons.drag_indicator_outlined)),
+          index: index,
+          child: const Icon(Icons.drag_indicator_outlined),
+        ),
         key: ValueKey(item.itemId),
         title: Text(
           item.name,
@@ -160,7 +175,9 @@ class _OneListPageState extends State<OneListPage> {
             color: Colors.black,
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          print("BBBBBBBBBBBB");
+        },
       ),
     );
   }
