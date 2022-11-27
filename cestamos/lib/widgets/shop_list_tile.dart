@@ -13,7 +13,11 @@ class ShopListTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
         child: ListTile(
-          title: Text(shopListSummary.shopListName),
+          title: Text(
+            shopListSummary.shopListName,
+            overflow: TextOverflow.clip,
+            softWrap: false,
+          ),
         ),
       ),
     );

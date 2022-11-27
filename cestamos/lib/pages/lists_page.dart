@@ -21,7 +21,8 @@ class _ListsPageState extends State<ListsPage> {
     ShopListSummary(id: 1, shopListName: "Melhor grupo"),
     ShopListSummary(id: 2, shopListName: "Cestamos"),
     ShopListSummary(id: 3, shopListName: "CTC-34"),
-    ShopListSummary(id: 4, shopListName: "Física de Plasmas"),
+    ShopListSummary(
+        id: 4, shopListName: "Física de Plasmas AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
     ShopListSummary(id: 1, shopListName: "Melhor grupo"),
     ShopListSummary(id: 2, shopListName: "Cestamos"),
     ShopListSummary(id: 3, shopListName: "CTC-34"),

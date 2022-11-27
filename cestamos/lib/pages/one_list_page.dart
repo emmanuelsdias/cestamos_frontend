@@ -41,6 +41,12 @@ class _OneListPageState extends State<OneListPage> {
       quantity: "1 caixa",
       wasBought: false,
     ),
+    Item(
+      itemId: 5,
+      name: "Item com nome muito extenso jesus pelo amor diminui isso",
+      quantity: "Nada mais justo que uma descrição igualmente longa aaaaaa",
+      wasBought: false,
+    ),
   ];
 
   void refreshList() {
@@ -63,18 +69,27 @@ class _OneListPageState extends State<OneListPage> {
   }
 
   void editItem(String itemName, String itemQuantity) {
-    // edit item
+    // editar item
+    Navigator.of(context).pop();
   }
 
   void changeBoughtStatus() {
     // change was_bought
   }
 
+  String getListName() {
+    // return list name
+    return "Lista específica 1";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Minha Lista"),
+        title: Text(
+          getListName(),
+          overflow: TextOverflow.clip,
+        ),
         actions: [
           IconButton(
             onPressed: refreshList,
@@ -212,6 +227,7 @@ class _OneListPageState extends State<OneListPage> {
       child: ListTile(
         leading: Checkbox(
           checkColor: Colors.white,
+          activeColor: Theme.of(context).colorScheme.inversePrimary,
           value: item.wasBought,
           onChanged: (bool? value) {
             setState(() {
@@ -226,14 +242,28 @@ class _OneListPageState extends State<OneListPage> {
         key: ValueKey(item.itemId),
         title: Text(
           item.name,
-          style: const TextStyle(
+          maxLines: 1,
+          overflow: TextOverflow.clip,
+          softWrap: false,
+          style: TextStyle(
+            decoration: item.wasBought
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationThickness: 2,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
           item.quantity,
-          style: const TextStyle(
+          maxLines: 1,
+          overflow: TextOverflow.clip,
+          softWrap: false,
+          style: TextStyle(
+            decoration: item.wasBought
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationThickness: 2,
             color: Colors.black,
           ),
         ),

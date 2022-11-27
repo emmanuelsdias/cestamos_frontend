@@ -164,6 +164,9 @@ class _CreateListPageState extends State<CreateListPage> {
               onPressed: () => Navigator.of(context).pop(),
               option: 2,
             ),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
