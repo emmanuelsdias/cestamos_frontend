@@ -68,7 +68,7 @@ class _OneListPageState extends State<OneListPage> {
 
   String getListName() {
     // return list name
-    return "Lista específica 1 AAAAAAAAAAAAA";
+    return "Lista específica 1";
   }
 
   @override
