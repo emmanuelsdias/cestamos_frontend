@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
 
-import '../models/item.dart';
 import '../widgets/form_buton.dart';
 
-class ItemEditDialog extends StatefulWidget {
-  const ItemEditDialog({
-    required this.editItem,
-    required this.item,
+class ItemCreateDialog extends StatefulWidget {
+  const ItemCreateDialog({
+    required this.createItem,
     Key? key,
   }) : super(key: key);
 
-  final Function editItem;
-  final Item item;
+  final Function createItem;
 
   @override
-  State<ItemEditDialog> createState() => _ItemEditDialogState();
+  State<ItemCreateDialog> createState() => _ItemCreateDialogState();
 }
 
-class _ItemEditDialogState extends State<ItemEditDialog> {
+class _ItemCreateDialogState extends State<ItemCreateDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    String itemName = widget.item.name;
-    String itemQuantity = widget.item.quantity;
+    String itemName = "";
+    String itemQuantity = "";
 
     return Dialog(
       child: Container(
@@ -35,7 +32,7 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
           child: Column(
             children: [
               const Text(
-                "Edite seu item",
+                "Adicione seu item",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -66,7 +63,6 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                           filled: true,
                           fillColor: Colors.grey[100],
                         ),
-                        initialValue: widget.item.name,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return "Dê um nome ao seu item!";
@@ -102,7 +98,6 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                           filled: true,
                           fillColor: Colors.grey[100],
                         ),
-                        initialValue: widget.item.quantity,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return "Dê uma quantidade ao seu item!";
@@ -123,10 +118,12 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                         child: Container(),
                       ),
                       FormButton(
-                        text: "Alterar",
-                        icon: Icons.edit,
-                        onPressed: () =>
-                            widget.editItem(itemName, itemQuantity),
+                        text: "Adicionar",
+                        icon: Icons.add,
+                        onPressed: () => widget.createItem(
+                          itemName,
+                          itemQuantity,
+                        ),
                         option: 1,
                       ),
                       const SizedBox(

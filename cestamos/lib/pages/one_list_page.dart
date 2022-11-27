@@ -2,9 +2,11 @@ import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
+import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
 import '../widgets/add_friend_to_shop_list_dialog.dart';
 import '../widgets/confirm_quit_shop_list_dialog.dart';
+import '../widgets/add_floating_button.dart';
 
 class OneListPage extends StatefulWidget {
   const OneListPage({Key? key}) : super(key: key);
@@ -70,6 +72,11 @@ class _OneListPageState extends State<OneListPage> {
 
   void editItem(String itemName, String itemQuantity) {
     // editar item
+    Navigator.of(context).pop();
+  }
+
+  void createItem(String itemName, String itemQuantity) {
+    // criar item
     Navigator.of(context).pop();
   }
 
@@ -149,6 +156,16 @@ class _OneListPageState extends State<OneListPage> {
         buildDefaultDragHandles: false,
         children: _getListItems(),
       ),
+      floatingActionButton: AddFloatingButton(onPressed: () {
+        showDialog(
+          context: context,
+          builder: (ctx) {
+            return ItemCreateDialog(
+              createItem: createItem,
+            );
+          },
+        );
+      }),
     );
   }
 
