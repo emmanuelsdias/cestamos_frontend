@@ -1,7 +1,10 @@
+import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
 import '../widgets/item_edit_dialog.dart';
+import '../widgets/add_friend_to_shop_list_dialog.dart';
+import '../widgets/confirm_quit_shop_list_dialog.dart';
 
 class OneListPage extends StatefulWidget {
   const OneListPage({Key? key}) : super(key: key);
@@ -50,11 +53,19 @@ class _OneListPageState extends State<OneListPage> {
     // refresh
   }
 
+  void quitList() {
+    // quit
+  }
+
   void removeItem(int index) {
     // remove item
     setState(() {
       items.removeAt(index);
     });
+  }
+
+  void addFriend(Friendship friendship) {
+    // add friendship
   }
 
   void editItem(String itemName, String itemQuantity) {
@@ -83,6 +94,53 @@ class _OneListPageState extends State<OneListPage> {
           IconButton(
             onPressed: refreshList,
             icon: const Icon(Icons.loop),
+          ),
+          PopupMenuButton(
+            onSelected: (result) {
+              switch (result) {
+                case 0:
+                  {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AddFriendToShopListDialog(
+                          addFriend: addFriend,
+                        );
+                      },
+                    );
+                  }
+                  break;
+                case 1:
+                  {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return ConfirmQuitShopListDialog(
+                          quit: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            quitList();
+                          },
+                        );
+                      },
+                    );
+                  }
+                  break;
+                default:
+                  break;
+              }
+            },
+            icon: const Icon(Icons.more_vert_outlined),
+            itemBuilder: (context) => <PopupMenuEntry>[
+              const PopupMenuItem(
+                value: 0,
+                child: Text('Adicionar amigo'),
+              ),
+              const PopupMenuItem(
+                value: 1,
+                child: Text('Sair do grupo'),
+              ),
+            ],
           ),
         ],
       ),
