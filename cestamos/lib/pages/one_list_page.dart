@@ -70,14 +70,24 @@ class _OneListPageState extends State<OneListPage> {
     // add friendship
   }
 
-  void editItem(String itemName, String itemQuantity) {
-    // editar item
-    Navigator.of(context).pop();
+  void editItem(formKey, int itemId, String itemName, String itemQuantity) {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    if (itemName.isNotEmpty & itemQuantity.isNotEmpty) {
+      // editar item
+      Navigator.of(context).pop();
+    }
   }
 
-  void createItem(String itemName, String itemQuantity) {
-    // criar item
-    Navigator.of(context).pop();
+  void createItem(formKey, String itemName, String itemQuantity) {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    if (itemName.isNotEmpty & itemQuantity.isNotEmpty) {
+      // criar item
+      Navigator.of(context).pop();
+    }
   }
 
   void changeBoughtStatus() {
