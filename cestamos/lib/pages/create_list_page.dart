@@ -1,9 +1,10 @@
-import 'package:cestamos/widgets/shop_create_friend_select_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../models/friendship.dart';
 import '../widgets/friendship_tile.dart';
 import '../widgets/cestamos_bar.dart';
+import '../widgets/form_buton.dart';
+import '../widgets/shop_create_friend_select_dialog.dart';
 
 class CreateListPage extends StatefulWidget {
   const CreateListPage({Key? key}) : super(key: key);
@@ -119,15 +120,18 @@ class _CreateListPageState extends State<CreateListPage> {
                 ],
               ),
             ),
-            if (_invitedFriendships.isNotEmpty)
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (ctx, index) => FriendshipTile(
-                    friendship: _invitedFriendships[index],
+            _invitedFriendships.isNotEmpty
+                ? Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (ctx, index) => FriendshipTile(
+                        friendship: _invitedFriendships[index],
+                      ),
+                      itemCount: _invitedFriendships.length,
+                    ),
+                  )
+                : Expanded(
+                    child: Container(),
                   ),
-                  itemCount: _invitedFriendships.length,
-                ),
-              ),
             TextButton(
               onPressed: () {
                 showDialog(
@@ -145,38 +149,23 @@ class _CreateListPageState extends State<CreateListPage> {
             const SizedBox(
               height: 30,
             ),
-            ElevatedButton(
+            FormButton(
+              text: "Criar",
+              icon: Icons.add,
               onPressed: createList,
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(0, 56),
-                  maximumSize: const Size(200, 100),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  shadowColor: Colors.transparent,
-                  primary: Theme.of(context).colorScheme.inversePrimary),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    'Criar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.add,
-                  ),
-                ],
-              ),
+              option: 1,
             ),
             const SizedBox(
               height: 10,
+            ),
+            FormButton(
+              text: "Cancelar",
+              icon: Icons.cancel,
+              onPressed: () => Navigator.of(context).pop(),
+              option: 2,
+            ),
+            const SizedBox(
+              height: 20,
             ),
           ],
         ),
