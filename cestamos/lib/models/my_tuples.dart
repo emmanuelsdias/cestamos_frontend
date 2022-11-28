@@ -5,6 +5,13 @@ class Pair<T1, T2> {
   Pair(this.content, this.success);
 }
 
+class RequestResponse<T1> {
+  T1 content;
+  int code;
+
+  RequestResponse(this.content, this.code);
+}
+
 class Trio<T1, T2, T3> {
   final T1 content;
   final T2 success;

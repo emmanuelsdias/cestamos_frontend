@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/user.dart';
-
-import '../helpers/http-requests/user.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -14,18 +11,6 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   int _counter = 0;
 
-  List<User> _users = [];
-  bool _usersAreLoaded = false;
-
-  void _loadUsers() async {
-    var users = await UserHttpRequestHelper.getUsers();
-
-    setState(() {
-      _users = users;
-      _usersAreLoaded = true;
-    });
-  }
-
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -34,9 +19,6 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_usersAreLoaded) {
-      _loadUsers();
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cestamos'),
@@ -52,10 +34,6 @@ class _LandingPageState extends State<LandingPage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            if (_usersAreLoaded)
-              Text(
-                'Número de usuários: ${_users[0].userName}',
-              ),
           ],
         ),
       ),
