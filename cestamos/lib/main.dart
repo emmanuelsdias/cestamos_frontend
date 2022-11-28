@@ -1,3 +1,4 @@
+import 'package:cestamos/pages/pending_invites_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
         const AddFriendPage(),
     CreateListPage.pageRouteName: (BuildContext context) =>
         const CreateListPage(),
+    PendingInvitesPage.pageRouteName: (BuildContext context) =>
+        const PendingInvitesPage()
   };
 
   @override

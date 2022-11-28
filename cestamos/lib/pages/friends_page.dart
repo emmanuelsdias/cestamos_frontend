@@ -1,4 +1,5 @@
 import 'package:cestamos/pages/add_friend_page.dart';
+import 'package:cestamos/pages/pending_invites_page.dart';
 import 'package:cestamos/providers/friendships.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,13 +44,26 @@ class _FriendsPageState extends State<FriendsPage> {
                     ],
                   ),
                 );
+              } else if (result == 1) {
+                Navigator.of(context).pushNamed(AddFriendPage.pageRouteName);
+              } else if (result == 2) {
+                Navigator.of(context)
+                    .pushNamed(PendingInvitesPage.pageRouteName);
               }
             },
             icon: const Icon(Icons.more_vert_outlined),
             itemBuilder: (context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 value: 0,
-                child: Text('Aqui aparecera suas informacoes'),
+                child: Text('Informações do usuário'),
+              ),
+              const PopupMenuItem(
+                value: 1,
+                child: Text('Adicionar amigo'),
+              ),
+              const PopupMenuItem(
+                value: 2,
+                child: Text('Convites pendentes'),
               ),
             ],
           ),
