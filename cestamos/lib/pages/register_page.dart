@@ -1,9 +1,12 @@
+import 'package:cestamos/widgets/form_buton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_page.dart';
+import 'logged_screen.dart';
 
-// import '../helpers/http-requests/user.dart';
+import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
 // import '../widgets/elevated_gradient_button.dart';
 
@@ -17,14 +20,43 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-//   final User _user = User(email: "", password: "", userName: "");
-//   var _successOnRegister = true;
+
+  var _email = "";
+  var _userName = "";
+  var _password = "";
+  var _repeatedPassword = "";
+  var _successOnLogin = true;
+
+  void _signUp(BuildContext ctx) {
+    _successOnLogin = true;
+    if (!_formKey.currentState!.validate()) return;
+    UserHttpRequestHelper.logInUser(
+      _email,
+      _password,
+    ).then(
+      (response) {
+        setState(() {
+          _successOnLogin = response.success;
+          _formKey.currentState!.validate();
+        });
+        if (!_formKey.currentState!.validate() || !_successOnLogin) {
+          return;
+        }
+        var prefs = SharedPreferences.getInstance();
+        prefs.then((prefsValue) {
+          prefsValue.setInt('user_id', response.content.id!);
+          prefsValue.setString('username', response.content.userName!);
+          prefsValue.setString('email', response.content.email!);
+          prefsValue.setString('token', response.content.token!);
+          prefsValue.setBool('loggedIn', true);
+        });
+        Navigator.of(ctx).pushReplacementNamed(LoggedScreen.pageRouteName);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // if (!_usersAreLoaded) {
-    //   _loadUsers();
-    // }
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -141,16 +173,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                         onChanged: (userName) => {
                                           setState(
                                             () {
-                                              // _verifyUserName(userName);
+                                              _userName = userName;
                                             },
                                           )
                                         },
                                         keyboardType: TextInputType.name,
-                                        onSaved: (userName) {
-                                          if (userName != null) {
-                                            // user.userName = userName;
-                                          }
-                                        },
                                         textInputAction: TextInputAction.next,
                                       ),
                                       const SizedBox(
@@ -183,18 +210,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                           // }
                                           return null;
                                         },
-                                        onChanged: (value) {
+                                        onChanged: (email) {
                                           setState(() {
-                                            // _verifyEmailAddress(value);
+                                            _email = email;
                                           });
                                         },
                                         keyboardType:
                                             TextInputType.emailAddress,
-                                        onSaved: (email) {
-                                          if (email != null) {
-                                            // user.email = email;
-                                          }
-                                        },
                                         textInputAction: TextInputAction.next,
                                       ),
                                       const SizedBox(
@@ -223,15 +245,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                           }
                                           return null;
                                         },
-                                        onSaved: (password) {
-                                          if (password != null) {
-                                            //user.password = password;
-                                          }
-                                        },
                                         textInputAction: TextInputAction.next,
-                                        onChanged: (value) {
+                                        onChanged: (password) {
                                           setState(() {
-                                            //user.password = value;
+                                            _password = password;
                                           });
                                         },
                                       ),
@@ -254,65 +271,30 @@ class _RegisterPageState extends State<RegisterPage> {
                                           fillColor: Colors.grey[100],
                                         ),
                                         obscureText: true,
+                                        onChanged: (password) {
+                                          setState(() {
+                                            _repeatedPassword = password;
+                                          });
+                                        },
                                         validator: (String? value) {
                                           // if (value != user.password) {
                                           //   return "As senhas não coincidem";
                                           // }
                                           if (value == null ||
-                                              value.length < 6) {
-                                            return "A senha deve ter pelo menos 6 caracteres";
+                                              value != _password) {
+                                            return "As senhas estão diferentes.";
                                           }
                                           return null;
                                         },
                                         textInputAction: TextInputAction.done,
-                                        onFieldSubmitted: (value) {
-                                          //_saveForm();
-                                        },
                                       ),
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      // ElevatedGradientButton(
-                                      //   text: 'entrar',
-                                      //   onPressed: () {},
-                                      //   textColor: Colors.white,
-                                      //   iconChosen: Icons.Register,
-                                      //   color1: Theme.of(context).colorScheme.inversePrimary,
-                                      //   color2: Theme.of(context).colorScheme.inversePrimary,
-                                      // ),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                            minimumSize: const Size(0, 56),
-                                            maximumSize: const Size(200, 100),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                            ),
-                                            shadowColor: Colors.transparent,
-                                            primary: Theme.of(context)
-                                                .colorScheme
-                                                .inversePrimary),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            Text(
-                                              'cadastrar',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            Icon(
-                                              Icons.person_add,
-                                            ),
-                                          ],
-                                        ),
+                                      FormButton(
+                                        text: "cadastrar",
+                                        icon: Icons.person_add,
+                                        onPressed: () => _signUp(context),
                                       ),
                                       const SizedBox(
                                         height: 10,

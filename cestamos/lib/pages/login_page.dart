@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   var _email = "";
   var _password = "";
   var _successOnLogin = true;
-  var _loggedIn = false;
 
   void _logIn(BuildContext ctx) {
     _successOnLogin = true;
@@ -47,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
           prefsValue.setString('token', response.content.token!);
           prefsValue.setBool('loggedIn', true);
         });
-        _loggedIn = true;
         Navigator.of(ctx).pushReplacementNamed(LoggedScreen.pageRouteName);
       },
     );
