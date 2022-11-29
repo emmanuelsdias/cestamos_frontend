@@ -26,6 +26,15 @@ class _FriendsPageState extends State<FriendsPage> {
     return Scaffold(
       appBar: CestamosBar(
         actions: [
+          IconButton(
+              icon: const Icon(
+                Icons.refresh_rounded,
+              ),
+              onPressed: () {
+                setState(() {
+                  refreshFriendsList();
+                });
+              }),
           PopupMenuButton(
             onSelected: (result) {
               if (result == 0) {
@@ -124,5 +133,9 @@ class _FriendsPageState extends State<FriendsPage> {
       //   ),
       // ),
     );
+  }
+
+  void refreshFriendsList() {
+    // TO DO: IMPLEMENT THE REFRESH WITH THE BACKEND
   }
 }
