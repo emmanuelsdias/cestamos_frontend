@@ -2,11 +2,14 @@ import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
 
 import '../models/item.dart';
+import '../models/shop_list.dart';
 import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
 import '../widgets/add_friend_to_shop_list_dialog.dart';
 import '../widgets/confirm_quit_shop_list_dialog.dart';
 import '../widgets/add_floating_button.dart';
+
+import '../widgets/helpers/flight_shuttle_builder.dart';
 
 class OneListPage extends StatefulWidget {
   const OneListPage({Key? key}) : super(key: key);
@@ -91,11 +94,21 @@ class _OneListPageState extends State<OneListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final shopListSummary =
+        ModalRoute.of(context)!.settings.arguments as ShopListSummary;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          getListName(),
-          overflow: TextOverflow.clip,
+        title: Hero(
+          tag: shopListSummary.id,
+          flightShuttleBuilder: flightShuttleBuilder,
+          child: Text(
+            shopListSummary.shopListName,
+            overflow: TextOverflow.clip,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          ),
         ),
         actions: [
           IconButton(

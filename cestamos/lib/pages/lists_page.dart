@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../helpers/http-requests/shop_list.dart';
-// import '../models/user.dart';
 import '../widgets/shop_list_tile.dart';
 import '../models/shop_list.dart';
 import '../widgets/cestamos_bar.dart';
@@ -20,7 +19,6 @@ class _ListsPageState extends State<ListsPage> {
   List<ShopListSummary> _lists = [];
 
   Future<bool> _refreshList() async {
-    // refresh
     var response = ShopListHttpRequestHelper.getLists();
     return response.then((value) {
       _lists = value.content;
@@ -83,8 +81,11 @@ class _ListsPageState extends State<ListsPage> {
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () => Navigator.of(context)
-                                .pushNamed(OneListPage.pageRouteName),
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              OneListPage.pageRouteName,
+                              arguments: _lists[index],
+                            ),
                             child: ShopListTile(
                               shopListSummary: _lists[index],
                             ),

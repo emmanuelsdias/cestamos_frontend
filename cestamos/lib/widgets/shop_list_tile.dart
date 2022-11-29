@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/shop_list.dart';
+import './helpers/flight_shuttle_builder.dart';
 
 class ShopListTile extends StatelessWidget {
   const ShopListTile({Key? key, required this.shopListSummary})
@@ -13,10 +14,14 @@ class ShopListTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
         child: ListTile(
-          title: Text(
-            shopListSummary.shopListName,
-            overflow: TextOverflow.clip,
-            softWrap: false,
+          title: Hero(
+            tag: shopListSummary.id,
+            flightShuttleBuilder: flightShuttleBuilder,
+            child: Text(
+              shopListSummary.shopListName,
+              overflow: TextOverflow.clip,
+              softWrap: false,
+            ),
           ),
         ),
       ),

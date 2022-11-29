@@ -41,7 +41,6 @@ class _RegisterPageState extends State<RegisterPage> {
           _formKey.currentState!.validate();
         });
         if (!_formKey.currentState!.validate() || !_successOnLogin) {
-          print(response.errorMessage);
           return;
         }
         var prefs = SharedPreferences.getInstance();
