@@ -17,15 +17,16 @@ class ListsPage extends StatefulWidget {
 }
 
 class _ListsPageState extends State<ListsPage> {
-  Future<List<ShopListSummary>> _refreshList() async {
+  List<ShopListSummary> _lists = [];
+
+  Future<bool> _refreshList() async {
     // refresh
-    var lists = ShopListHttpRequestHelper.getLists();
-    return lists.then(
-      (value) {
-        print(value.content.length);
-        return value.content;
-      },
-    );
+    var response = ShopListHttpRequestHelper.getLists();
+    return response.then((value) {
+      _lists = value.content;
+
+      return value.success;
+    });
   }
 
   @override
@@ -34,13 +35,17 @@ class _ListsPageState extends State<ListsPage> {
       appBar: CestamosBar(
         actions: [
           IconButton(
-            onPressed: _refreshList,
+            onPressed: () {
+              setState(() {
+                _refreshList();
+              });
+            },
             icon: const Icon(Icons.loop),
           ),
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: FutureBuilder<List<ShopListSummary>>(
+      body: FutureBuilder<bool>(
         future: _refreshList(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -48,8 +53,15 @@ class _ListsPageState extends State<ListsPage> {
               child: CircularProgressIndicator(),
             );
           }
-          var lists = snapshot.data!;
-          return lists.isEmpty
+          var success = snapshot.data!;
+          if (!success) {
+            return const Center(
+              child: Text(
+                "Algo de errado aconteceu. Tente novamente mais tarde",
+              ),
+            );
+          }
+          return _lists.isEmpty
               ? const Center(
                   child: Text(
                     "Você não tem listas",
@@ -74,11 +86,11 @@ class _ListsPageState extends State<ListsPage> {
                             onTap: () => Navigator.of(context)
                                 .pushNamed(OneListPage.pageRouteName),
                             child: ShopListTile(
-                              shopListSummary: lists[index],
+                              shopListSummary: _lists[index],
                             ),
                           );
                         },
-                        itemCount: lists.length,
+                        itemCount: _lists.length,
                       ),
                     ),
                   ],
