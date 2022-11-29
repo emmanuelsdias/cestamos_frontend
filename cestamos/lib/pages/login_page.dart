@@ -53,7 +53,6 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> checkIfLoggedIn() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.clear();
     var logged = pref.getBool('loggedIn') ?? false;
     return logged;
   }

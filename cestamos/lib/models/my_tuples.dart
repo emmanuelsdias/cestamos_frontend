@@ -6,10 +6,11 @@ class Pair<T1, T2> {
 }
 
 class RequestResponse {
+  List<dynamic> listedContent;
   Map<String, dynamic> content;
   int code;
 
-  RequestResponse(this.content, this.code);
+  RequestResponse(this.content, this.listedContent, this.code);
 
   String get message {
     if (success) return "";

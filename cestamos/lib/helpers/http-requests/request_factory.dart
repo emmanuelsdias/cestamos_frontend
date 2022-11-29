@@ -7,15 +7,26 @@ class RequestFactory {
   static final encoding = Encoding.getByName('utf-8');
   static final headers = {'Content-Type': 'application/json'};
 
+  static RequestResponse convert(http.Response response) {
+    var result = RequestResponse({}, [], 0);
+
+    result.code = response.statusCode;
+
+    var data = json.decode(response.body);
+    if (data is List) {
+      result.listedContent = data;
+    } else {
+      result.content = data;
+    }
+
+    return result;
+  }
+
   static Future<RequestResponse> get(String url) async {
     var response = await http.get(
       Uri.parse(url),
     );
-    var result = RequestResponse({}, 0);
-    result.code = response.statusCode;
-    var data = json.decode(response.body);
-    result.content = data;
-    return result;
+    return convert(response);
   }
 
   static Future<RequestResponse> post(
@@ -27,11 +38,7 @@ class RequestFactory {
       encoding: encoding,
       headers: headers,
     );
-    var result = RequestResponse({}, 0);
-    result.code = response.statusCode;
-    var data = json.decode(response.body);
-    result.content = data;
-    return result;
+    return convert(response);
   }
 
   static Future<RequestResponse> put(
@@ -43,11 +50,7 @@ class RequestFactory {
       encoding: encoding,
       headers: headers,
     );
-    var result = RequestResponse({}, 0);
-    result.code = response.statusCode;
-    var data = json.decode(response.body);
-    result.content = data;
-    return result;
+    return convert(response);
   }
 
   static Future<RequestResponse> delete(
@@ -59,10 +62,6 @@ class RequestFactory {
       encoding: encoding,
       headers: headers,
     );
-    var result = RequestResponse({}, 0);
-    result.code = response.statusCode;
-    var data = json.decode(response.body);
-    result.content = data;
-    return result;
+    return convert(response);
   }
 }
