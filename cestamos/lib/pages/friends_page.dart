@@ -73,19 +73,40 @@ class _FriendsPageState extends State<FriendsPage> {
       body: friendships.isEmpty
           ? const Center(
               child: Text(
-                "Você não tem listas",
+                "Você não tem amigos",
               ),
             )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => {},
-                  child: FriendshipTile(
-                    friendship: friendships[index],
+          : Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    "Meus Amigos",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
                   ),
-                );
-              },
-              itemCount: friendships.length,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () => {},
+                          child: Card(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: FriendshipTile(
+                                friendship: friendships[index],
+                              ),
+                            ),
+                          ));
+                    },
+                    itemCount: friendships.length,
+                  ),
+                ),
+              ],
             ),
       floatingActionButton: AddFloatingButton(
         onPressed: () =>

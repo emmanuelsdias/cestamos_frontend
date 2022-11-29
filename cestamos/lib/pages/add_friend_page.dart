@@ -1,4 +1,3 @@
-import 'package:cestamos/pages/logged_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/cestamos_bar.dart';
 
