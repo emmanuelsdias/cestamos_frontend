@@ -5,11 +5,20 @@ class Pair<T1, T2> {
   Pair(this.content, this.success);
 }
 
-class RequestResponse<T1> {
-  T1 content;
+class RequestResponse {
+  Map<String, dynamic> content;
   int code;
 
   RequestResponse(this.content, this.code);
+
+  String get message {
+    if (success) return "";
+    return content["detail"] ?? "";
+  }
+
+  bool get success {
+    return code == 200;
+  }
 }
 
 class Trio<T1, T2, T3> {

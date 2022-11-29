@@ -53,15 +53,13 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> checkIfLoggedIn() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.clear();
     var logged = pref.getBool('loggedIn') ?? false;
     return logged;
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (_loggedIn) {
-    //   Navigator.of(context).pushReplacementNamed(LoggedScreen.pageRouteName);
-    // }
     return FutureBuilder<bool>(
       future: checkIfLoggedIn(),
       builder: ((context, snapshot) {

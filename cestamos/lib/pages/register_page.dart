@@ -24,13 +24,14 @@ class _RegisterPageState extends State<RegisterPage> {
   var _email = "";
   var _userName = "";
   var _password = "";
-  var _repeatedPassword = "";
   var _successOnLogin = true;
+  var _errorMessage = "";
 
   void _signUp(BuildContext ctx) {
     _successOnLogin = true;
     if (!_formKey.currentState!.validate()) return;
-    UserHttpRequestHelper.logInUser(
+    UserHttpRequestHelper.createUser(
+      _userName,
       _email,
       _password,
     ).then(
@@ -40,6 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
           _formKey.currentState!.validate();
         });
         if (!_formKey.currentState!.validate() || !_successOnLogin) {
+          print(response.errorMessage);
           return;
         }
         var prefs = SharedPreferences.getInstance();
@@ -132,6 +134,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
+                                if (!_successOnLogin)
+                                  Text(
+                                    "Cadastro inválido",
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inversePrimary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -271,15 +283,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           fillColor: Colors.grey[100],
                                         ),
                                         obscureText: true,
-                                        onChanged: (password) {
-                                          setState(() {
-                                            _repeatedPassword = password;
-                                          });
-                                        },
                                         validator: (String? value) {
-                                          // if (value != user.password) {
-                                          //   return "As senhas não coincidem";
-                                          // }
                                           if (value == null ||
                                               value != _password) {
                                             return "As senhas estão diferentes.";

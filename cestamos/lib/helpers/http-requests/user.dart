@@ -8,7 +8,7 @@ import './request_factory.dart';
 class UserHttpRequestHelper {
   static const String baseBackEndUserUrl = "${BaseUrls.baseBackEndUrl}/user/";
 
-  static Future<Pair<User, bool>> createUser(
+  static Future<Trio<User, bool, String>> createUser(
       String userName, String email, String password) async {
     const String url = baseBackEndUserUrl;
     final body = {
@@ -19,16 +19,17 @@ class UserHttpRequestHelper {
     var response = await RequestFactory.post(url, body);
     var userData = response.content;
     User user;
-    if (response.code == 200) {
+    if (response.success) {
       user = User.fromJson(userData);
     } else {
       user = User();
     }
-    return Pair(user, response.code == 200);
+    return Trio(user, response.success, response.message);
   }
 
   static Future<Pair<User, bool>> logInUser(
       String email, String password) async {
-    return await createUser("", email, password);
+    var response = await createUser("", email, password);
+    return Pair(response.content, response.success);
   }
 }

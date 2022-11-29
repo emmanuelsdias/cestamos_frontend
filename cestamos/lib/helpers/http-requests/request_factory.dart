@@ -7,20 +7,18 @@ class RequestFactory {
   static final encoding = Encoding.getByName('utf-8');
   static final headers = {'Content-Type': 'application/json'};
 
-  static Future<RequestResponse<dynamic>> get(String url) async {
+  static Future<RequestResponse> get(String url) async {
     var response = await http.get(
       Uri.parse(url),
     );
-    var result = RequestResponse(null, 0);
+    var result = RequestResponse({}, 0);
     result.code = response.statusCode;
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      result.content = data;
-    }
+    var data = json.decode(response.body);
+    result.content = data;
     return result;
   }
 
-  static Future<RequestResponse<dynamic>> post(
+  static Future<RequestResponse> post(
       String url, Map<String, dynamic> body) async {
     final jsonBody = json.encode(body);
     var response = await http.post(
@@ -31,14 +29,12 @@ class RequestFactory {
     );
     var result = RequestResponse({}, 0);
     result.code = response.statusCode;
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      result.content = data;
-    }
+    var data = json.decode(response.body);
+    result.content = data;
     return result;
   }
 
-  static Future<RequestResponse<dynamic>> put(
+  static Future<RequestResponse> put(
       String url, Map<String, dynamic> body) async {
     final jsonBody = json.encode(body);
     var response = await http.put(
@@ -49,14 +45,12 @@ class RequestFactory {
     );
     var result = RequestResponse({}, 0);
     result.code = response.statusCode;
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      result.content = data;
-    }
+    var data = json.decode(response.body);
+    result.content = data;
     return result;
   }
 
-  static Future<RequestResponse<dynamic>> delete(
+  static Future<RequestResponse> delete(
       String url, Map<String, dynamic> body) async {
     final jsonBody = json.encode(body);
     var response = await http.delete(
@@ -67,10 +61,8 @@ class RequestFactory {
     );
     var result = RequestResponse({}, 0);
     result.code = response.statusCode;
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      result.content = data;
-    }
+    var data = json.decode(response.body);
+    result.content = data;
     return result;
   }
 }
