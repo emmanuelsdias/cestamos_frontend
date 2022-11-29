@@ -85,6 +85,7 @@ class _OneListPageState extends State<OneListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Hero(
+          transitionOnUserGestures: true,
           tag: shopListSummary.id,
           flightShuttleBuilder: flightShuttleBuilder,
           child: Text(

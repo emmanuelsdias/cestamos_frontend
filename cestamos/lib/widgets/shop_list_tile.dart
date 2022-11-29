@@ -15,6 +15,7 @@ class ShopListTile extends StatelessWidget {
       child: Card(
         child: ListTile(
           title: Hero(
+            transitionOnUserGestures: true,
             tag: shopListSummary.id,
             flightShuttleBuilder: flightShuttleBuilder,
             child: Text(

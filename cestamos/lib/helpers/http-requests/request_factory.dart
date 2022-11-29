@@ -4,7 +4,7 @@ import 'dart:core';
 import '../../models/my_tuples.dart';
 
 class RequestFactory {
-  static final encoding = Encoding.getByName('unicode');
+  static final encoding = Encoding.getByName('utf-8');
   static final headers = {'Content-Type': 'application/json'};
 
   static RequestResponse convert(http.Response response) {
@@ -12,7 +12,7 @@ class RequestFactory {
 
     result.code = response.statusCode;
 
-    var data = json.decode(response.body);
+    var data = json.decode(utf8.decode(response.bodyBytes));
     if (data is List) {
       result.listedContent = data;
     } else {
