@@ -24,4 +24,21 @@ class ShopListHttpRequestHelper {
     }
     return Pair(lists, response.success);
   }
+
+  static Future<Pair<ShopList, bool>> getList(
+    int shopListId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndUserUrl/$shopListId?token=$token";
+    var response = await RequestFactory.get(url);
+    var listData = response.content;
+    ShopList list;
+    if (response.success) {
+      list = ShopList.fromJson(listData);
+    } else {
+      list = ShopList();
+    }
+    return Pair(list, response.success);
+  }
 }

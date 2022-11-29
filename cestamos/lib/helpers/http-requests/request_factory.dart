@@ -4,7 +4,7 @@ import 'dart:core';
 import '../../models/my_tuples.dart';
 
 class RequestFactory {
-  static final encoding = Encoding.getByName('utf-8');
+  static final encoding = Encoding.getByName('unicode');
   static final headers = {'Content-Type': 'application/json'};
 
   static RequestResponse convert(http.Response response) {
@@ -25,6 +25,7 @@ class RequestFactory {
   static Future<RequestResponse> get(String url) async {
     var response = await http.get(
       Uri.parse(url),
+      headers: headers,
     );
     return convert(response);
   }

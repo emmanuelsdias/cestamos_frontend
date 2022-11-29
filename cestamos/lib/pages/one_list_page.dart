@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../models/item.dart';
 import '../models/shop_list.dart';
+
+import '../helpers/http-requests/shop_list.dart';
+
 import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
 import '../widgets/add_friend_to_shop_list_dialog.dart';
 import '../widgets/confirm_quit_shop_list_dialog.dart';
 import '../widgets/add_floating_button.dart';
-
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
 class OneListPage extends StatefulWidget {
@@ -21,41 +23,25 @@ class OneListPage extends StatefulWidget {
 }
 
 class _OneListPageState extends State<OneListPage> {
-  List<Item> items = [
-    Item(
-      itemId: 1,
-      name: "Arroz Tio João",
-      quantity: "5 kg",
-      wasBought: false,
-    ),
-    Item(
-      itemId: 2,
-      name: "Feijão Preto",
-      quantity: "2 kg",
-      wasBought: false,
-    ),
-    Item(
-      itemId: 3,
-      name: "Açúcar Refinado União",
-      quantity: "300 g",
-      wasBought: false,
-    ),
-    Item(
-      itemId: 4,
-      name: "Café Melissa",
-      quantity: "1 caixa",
-      wasBought: false,
-    ),
-    Item(
-      itemId: 5,
-      name: "Item com nome muito extenso jesus pelo amor diminui isso",
-      quantity: "Nada mais justo que uma descrição igualmente longa aaaaaa",
-      wasBought: false,
-    ),
-  ];
+  List<Item> _items = [];
+  var _loaded = false;
 
   void refreshList() {
-    // refresh
+    setState(() {
+      _loaded = false;
+    });
+  }
+
+  Future<bool> _getList(int shopListId) async {
+    if (!_loaded) {
+      _loaded = true;
+      var response = ShopListHttpRequestHelper.getList(shopListId);
+      return response.then((value) {
+        _items = value.content.items;
+        return value.success;
+      });
+    }
+    return true;
   }
 
   void quitList() {
@@ -65,7 +51,7 @@ class _OneListPageState extends State<OneListPage> {
   void removeItem(int index) {
     // remove item
     setState(() {
-      items.removeAt(index);
+      _items.removeAt(index);
     });
   }
 
@@ -164,21 +150,41 @@ class _OneListPageState extends State<OneListPage> {
           ),
         ],
       ),
-      body: ReorderableListView(
-        onReorder: onReorder,
-        buildDefaultDragHandles: false,
-        children: _getListItems(),
-      ),
-      floatingActionButton: AddFloatingButton(onPressed: () {
-        showDialog(
-          context: context,
-          builder: (ctx) {
-            return ItemCreateDialog(
-              createItem: createItem,
+      body: FutureBuilder<bool>(
+        future: _getList(shopListSummary.id),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        );
-      }),
+          }
+          var success = snapshot.data!;
+          if (!success) {
+            return const Center(
+              child: Text(
+                "Algo de errado aconteceu. Tente novamente mais tarde",
+              ),
+            );
+          }
+          return ReorderableListView(
+            onReorder: onReorder,
+            buildDefaultDragHandles: false,
+            children: _getListItems(),
+          );
+        },
+      ),
+      floatingActionButton: AddFloatingButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (ctx) {
+              return ItemCreateDialog(
+                createItem: createItem,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -188,14 +194,14 @@ class _OneListPageState extends State<OneListPage> {
     }
 
     setState(() {
-      Item item = items[oldIndex];
+      Item item = _items[oldIndex];
 
-      items.removeAt(oldIndex);
-      items.insert(newIndex, item);
+      _items.removeAt(oldIndex);
+      _items.insert(newIndex, item);
     });
   }
 
-  List<Widget> _getListItems() => items
+  List<Widget> _getListItems() => _items
       .asMap()
       .map((i, item) => MapEntry(i, _buildTenableListTile(item, i)))
       .values
@@ -207,7 +213,7 @@ class _OneListPageState extends State<OneListPage> {
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
         setState(() {
-          items.removeAt(index);
+          _items.removeAt(index);
         });
       },
       confirmDismiss: (direction) async {
@@ -217,7 +223,7 @@ class _OneListPageState extends State<OneListPage> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   content: Text(
-                      "Tem certeza que você quer excluir da sua lista o item ${items[index].name}?"),
+                      "Tem certeza que você quer excluir da sua lista o item ${_items[index].name}?"),
                   actions: <Widget>[
                     TextButton(
                       child: const Text(
@@ -236,7 +242,7 @@ class _OneListPageState extends State<OneListPage> {
                       onPressed: () {
                         // TODO: Delete the item from DB etc..
                         setState(() {
-                          items.removeAt(index);
+                          _items.removeAt(index);
                         });
                         Navigator.pop(context, true);
                       },

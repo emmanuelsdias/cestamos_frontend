@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import '../helpers/http-requests/shop_list.dart';
-import '../widgets/shop_list_tile.dart';
-import '../models/shop_list.dart';
-import '../widgets/cestamos_bar.dart';
-import './one_list_page.dart';
+
 import './create_list_page.dart';
+import './one_list_page.dart';
+
+import '../helpers/http-requests/shop_list.dart';
+import '../models/shop_list.dart';
+
+import '../widgets/cestamos_bar.dart';
 import '../widgets/add_floating_button.dart';
+import '../widgets/shop_list_tile.dart';
 
 class ListsPage extends StatefulWidget {
   const ListsPage({super.key});
