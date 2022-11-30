@@ -163,37 +163,40 @@ class _FriendsPageState extends State<FriendsPage> {
                     "Você não tem amigos",
                   ),
                 )
-              : Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text(
-                        "Meus Amigos",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          "Meus Amigos",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () => {},
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: FriendshipTile(
-                                    friendship: friendships[index],
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () => {},
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: FriendshipTile(
+                                      friendship: friendships[index],
+                                    ),
                                   ),
-                                ),
-                              ));
-                        },
-                        itemCount: friendships.length,
+                                ));
+                          },
+                          itemCount: friendships.length,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
         }),
       ),
