@@ -25,6 +25,7 @@ class OneListPage extends StatefulWidget {
 class _OneListPageState extends State<OneListPage> {
   List<Item> _items = [];
   var _loaded = false;
+  var _shopListId = 0;
 
   void refreshList() {
     setState(() {
@@ -59,14 +60,26 @@ class _OneListPageState extends State<OneListPage> {
     // add friendship
   }
 
-  void editItem(String itemName, String itemQuantity) {
-    // editar item
-    Navigator.of(context).pop();
+  void editItem(formKey, int itemId, String itemName, String itemQuantity) {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    if (itemName.isNotEmpty & itemQuantity.isNotEmpty) {
+      // editar item
+      Navigator.of(context).pop();
+    }
   }
 
-  void createItem(String itemName, String itemQuantity) {
-    // criar item
-    Navigator.of(context).pop();
+  void createItem(String itemName, String itemQuantity) async {
+    var newList = await ShopListHttpRequestHelper.addItemToList(
+      _shopListId,
+      itemName,
+      itemQuantity,
+    );
+    setState(() {
+      _items = newList.content.items;
+    });
+    refreshList();
   }
 
   void changeBoughtStatus() {
@@ -82,6 +95,7 @@ class _OneListPageState extends State<OneListPage> {
   Widget build(BuildContext context) {
     final shopListSummary =
         ModalRoute.of(context)!.settings.arguments as ShopListSummary;
+    _shopListId = shopListSummary.id;
     return Scaffold(
       appBar: AppBar(
         title: Hero(
@@ -100,7 +114,7 @@ class _OneListPageState extends State<OneListPage> {
         actions: [
           IconButton(
             onPressed: refreshList,
-            icon: const Icon(Icons.loop),
+            icon: const Icon(Icons.refresh_rounded),
           ),
           PopupMenuButton(
             onSelected: (result) {

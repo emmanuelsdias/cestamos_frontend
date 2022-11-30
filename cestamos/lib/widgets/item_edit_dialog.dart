@@ -76,9 +76,9 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemName) {
                           if (newItemName.isNotEmpty) {
-                            setState(() {
-                              itemName = newItemName;
-                            });
+                            // setState(() {
+                            itemName = newItemName;
+                            // });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -112,9 +112,9 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemQuantity) {
                           if (newItemQuantity.isNotEmpty) {
-                            setState(() {
-                              itemQuantity = newItemQuantity;
-                            });
+                            // setState(() {
+                            itemQuantity = newItemQuantity;
+                            // });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -125,8 +125,12 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                       FormButton(
                         text: "Alterar",
                         icon: Icons.edit,
-                        onPressed: () =>
-                            widget.editItem(itemName, itemQuantity),
+                        onPressed: () => widget.editItem(
+                          _formKey,
+                          widget.item.itemId,
+                          itemName,
+                          itemQuantity,
+                        ),
                         option: 1,
                       ),
                       const SizedBox(

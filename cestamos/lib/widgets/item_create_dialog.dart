@@ -16,12 +16,20 @@ class ItemCreateDialog extends StatefulWidget {
 
 class _ItemCreateDialogState extends State<ItemCreateDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var itemName = "";
+  var itemQuantity = "";
+
+  void _createItem(BuildContext context) {
+    if (!_formKey.currentState!.validate()) return;
+    widget.createItem(
+      itemName,
+      itemQuantity,
+    );
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String itemName = "";
-    String itemQuantity = "";
-
     return Dialog(
       child: Container(
         color: Colors.white,
@@ -72,9 +80,9 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemName) {
                           if (newItemName.isNotEmpty) {
-                            setState(() {
-                              itemName = newItemName;
-                            });
+                            // setState(() {
+                            itemName = newItemName;
+                            // });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -106,11 +114,9 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                         },
                         keyboardType: TextInputType.name,
                         onChanged: (newItemQuantity) {
-                          if (newItemQuantity.isNotEmpty) {
-                            setState(() {
-                              itemQuantity = newItemQuantity;
-                            });
-                          }
+                          setState(() {
+                            itemQuantity = newItemQuantity;
+                          });
                         },
                         textInputAction: TextInputAction.done,
                       ),
@@ -120,10 +126,7 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                       FormButton(
                         text: "Adicionar",
                         icon: Icons.add,
-                        onPressed: () => widget.createItem(
-                          itemName,
-                          itemQuantity,
-                        ),
+                        onPressed: () => _createItem(context),
                         option: 1,
                       ),
                       const SizedBox(

@@ -48,3 +48,7 @@ app.*.map.json
 
 # Project-specific files
 /lib/helpers/http-requests/base_urls.dart
+
+# Auto generated stuff
+*/pubspec.lock
+*/GeneratedPluginRegistrant.swift
