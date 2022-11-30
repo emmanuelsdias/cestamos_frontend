@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../models/friendship.dart';
+
+import '../helpers/http-requests/shop_list.dart';
+
 import '../widgets/friendship_tile.dart';
 import '../widgets/cestamos_bar.dart';
 import '../widgets/form_buton.dart';
@@ -40,14 +43,15 @@ class _CreateListPageState extends State<CreateListPage> {
     });
   }
 
-  void createList() {
+  Future<bool> _createList() async {
     if (!_formKey.currentState!.validate()) {
-      return;
+      return false;
     }
-    if (_listName.isNotEmpty) {
-      // criar lista
-      Navigator.of(context).pop();
-    }
+    var userIds = _invitedFriendships.map((e) => e.userId).toList();
+    var response = ShopListHttpRequestHelper.createList(_listName, userIds);
+    return response.then((value) {
+      return value.success;
+    });
   }
 
   @override
@@ -152,7 +156,10 @@ class _CreateListPageState extends State<CreateListPage> {
             FormButton(
               text: "Criar",
               icon: Icons.add,
-              onPressed: createList,
+              onPressed: () {
+                _createList();
+                Navigator.of(context).pop();
+              },
               option: 1,
             ),
             const SizedBox(
