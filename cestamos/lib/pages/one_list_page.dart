@@ -114,7 +114,7 @@ class _OneListPageState extends State<OneListPage> {
         actions: [
           IconButton(
             onPressed: refreshList,
-            icon: const Icon(Icons.loop),
+            icon: const Icon(Icons.refresh_rounded),
           ),
           PopupMenuButton(
             onSelected: (result) {

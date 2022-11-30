@@ -41,7 +41,7 @@ class _ListsPageState extends State<ListsPage> {
                 _refreshList();
               });
             },
-            icon: const Icon(Icons.loop),
+            icon: const Icon(Icons.refresh_rounded),
           ),
         ],
       ),

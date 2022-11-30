@@ -8,8 +8,11 @@ class FriendshipTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(friendship.username),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ListTile(
+        title: Text(friendship.username),
+      ),
     );
   }
 }
