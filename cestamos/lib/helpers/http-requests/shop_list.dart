@@ -113,6 +113,7 @@ class ShopListHttpRequestHelper {
     } else {
       friend = Friendship();
     }
+    // TODO: fix friend -> List<UserList>
     return Pair(friend, response.success);
   }
 }
