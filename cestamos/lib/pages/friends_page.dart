@@ -12,7 +12,6 @@ import '../widgets/friendship_tile.dart';
 import '../widgets/add_floating_button.dart';
 
 import '../helpers/http-requests/friendship.dart';
-import '../models/friendship.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
