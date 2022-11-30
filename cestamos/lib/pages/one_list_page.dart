@@ -56,8 +56,10 @@ class _OneListPageState extends State<OneListPage> {
     });
   }
 
-  void addFriend(Friendship friendship) {
-    // add friendship
+  void addFriend(Friendship friendship) async {
+    await ShopListHttpRequestHelper.addFriendtoList(
+        friendship.userId, friendship.username);
+    refreshList();
   }
 
   void editItem(formKey, int itemId, String itemName, String itemQuantity) {

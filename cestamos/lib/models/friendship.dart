@@ -1,8 +1,8 @@
 class Friendship {
   Friendship({
-    required this.friendshipId,
-    required this.userId,
-    required this.username,
+    this.friendshipId = 0,
+    this.userId = 0,
+    this.username = "",
   });
   final String username;
   final int userId;

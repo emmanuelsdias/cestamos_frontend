@@ -21,7 +21,9 @@ class UserHttpRequestHelper {
       "password": password,
       "new_user": newUser,
     };
+
     var response = await RequestFactory.post(url, body);
+
     var userData = response.content;
     User user;
     if (response.success) {
@@ -29,12 +31,14 @@ class UserHttpRequestHelper {
     } else {
       user = User();
     }
+
     return Trio(user, response.success, response.message);
   }
 
   static Future<Pair<User, bool>> logInUser(
       String email, String password) async {
     var response = await createUser("", email, password, newUser: false);
+
     return Pair(response.content, response.success);
   }
 }
