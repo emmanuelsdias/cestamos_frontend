@@ -44,13 +44,24 @@ class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
               child: ListView.builder(
                 itemBuilder: (_, index) {
                   Friendship friendship = friendships[index];
-                  return GestureDetector(
-                    child: ListTile(
-                      title: Text(friendship.username),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: GestureDetector(
+                      child: Card(
+                        color: Theme.of(context).colorScheme.primary,
+                        child: ListTile(
+                          title: Text(
+                            friendship.username,
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        _showConfirmDialog(context, friendship);
+                      },
                     ),
-                    onTap: () {
-                      _showConfirmDialog(context, friendship);
-                    },
                   );
                 },
                 itemCount: friendships.length,

@@ -161,6 +161,10 @@ class _OneListPageState extends State<OneListPage> {
                         return ShowMembersOfListDialog(
                           listMembers: _shopList.users,
                           selfUser: getUserListFromUserId(_myUserId),
+                          expellUser: (int userListId) {
+                            removeUserFromList(userListId);
+                            refreshList();
+                          },
                         );
                       },
                     );
