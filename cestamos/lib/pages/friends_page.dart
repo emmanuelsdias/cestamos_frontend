@@ -1,4 +1,5 @@
 import 'package:cestamos/pages/add_friend_page.dart';
+import 'package:cestamos/pages/pending_invites_page.dart';
 import 'package:cestamos/providers/friendships.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,15 @@ class _FriendsPageState extends State<FriendsPage> {
     return Scaffold(
       appBar: CestamosBar(
         actions: [
+          IconButton(
+              icon: const Icon(
+                Icons.refresh_rounded,
+              ),
+              onPressed: () {
+                setState(() {
+                  refreshFriendsList();
+                });
+              }),
           PopupMenuButton(
             onSelected: (result) {
               if (result == 0) {
@@ -43,13 +53,26 @@ class _FriendsPageState extends State<FriendsPage> {
                     ],
                   ),
                 );
+              } else if (result == 1) {
+                Navigator.of(context).pushNamed(AddFriendPage.pageRouteName);
+              } else if (result == 2) {
+                Navigator.of(context)
+                    .pushNamed(PendingInvitesPage.pageRouteName);
               }
             },
             icon: const Icon(Icons.more_vert_outlined),
             itemBuilder: (context) => <PopupMenuEntry>[
               const PopupMenuItem(
                 value: 0,
-                child: Text('Aqui aparecera suas informacoes'),
+                child: Text('Informações do usuário'),
+              ),
+              const PopupMenuItem(
+                value: 1,
+                child: Text('Adicionar amigo'),
+              ),
+              const PopupMenuItem(
+                value: 2,
+                child: Text('Convites pendentes'),
               ),
             ],
           ),
@@ -59,19 +82,40 @@ class _FriendsPageState extends State<FriendsPage> {
       body: friendships.isEmpty
           ? const Center(
               child: Text(
-                "Você não tem listas",
+                "Você não tem amigos",
               ),
             )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => {},
-                  child: FriendshipTile(
-                    friendship: friendships[index],
+          : Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    "Meus Amigos",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
                   ),
-                );
-              },
-              itemCount: friendships.length,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () => {},
+                          child: Card(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: FriendshipTile(
+                                friendship: friendships[index],
+                              ),
+                            ),
+                          ));
+                    },
+                    itemCount: friendships.length,
+                  ),
+                ),
+              ],
             ),
       floatingActionButton: AddFloatingButton(
         onPressed: () =>
@@ -89,5 +133,9 @@ class _FriendsPageState extends State<FriendsPage> {
       //   ),
       // ),
     );
+  }
+
+  void refreshFriendsList() {
+    // TO DO: IMPLEMENT THE REFRESH WITH THE BACKEND
   }
 }
