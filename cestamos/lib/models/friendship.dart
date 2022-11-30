@@ -11,8 +11,8 @@ class Friendship {
   factory Friendship.fromJson(Map<String, dynamic> json) {
     return Friendship(
       friendshipId: json['friendship_id'] as int,
-      userId: json['user_id2'] as int,
-      username: json['username2'] as String,
+      userId: json['user_id'] as int,
+      username: json['username'] as String,
     );
   }
 }

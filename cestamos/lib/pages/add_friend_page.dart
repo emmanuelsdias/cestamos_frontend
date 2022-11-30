@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/cestamos_bar.dart';
 import '../widgets/form_buton.dart';
 
+import '../helpers/http-requests/invitation.dart';
+
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});
   static const pageRouteName = "/addfriend";
@@ -38,11 +40,10 @@ class _AddFriendFormState extends State<AddFriendForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  String _friendEmail = "";
   String _userID = "";
 
   void sendInvite() {
-    // TO DO: implementar a request
+    InvitationHttpRequestHelper.createInvitation(int.parse(_userID));
   }
 
   @override
@@ -102,7 +103,6 @@ class _AddFriendFormState extends State<AddFriendForm> {
                             filled: true,
                             fillColor: Colors.grey[100],
                           ),
-                          obscureText: true,
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
                               return "Insira o email";
@@ -110,12 +110,7 @@ class _AddFriendFormState extends State<AddFriendForm> {
                             return null;
                           },
                           keyboardType: TextInputType.name,
-                          onChanged: (friendEmail) {
-                            if (friendEmail.isNotEmpty) {
-                              _friendEmail = friendEmail;
-                            }
-                          },
-                          textInputAction: TextInputAction.done,
+                          textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(
                           height: 20,
@@ -134,14 +129,13 @@ class _AddFriendFormState extends State<AddFriendForm> {
                             filled: true,
                             fillColor: Colors.grey[100],
                           ),
-                          obscureText: true,
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
                               return "Insira o user ID";
                             }
                             return null;
                           },
-                          keyboardType: TextInputType.name,
+                          keyboardType: const TextInputType.numberWithOptions(),
                           onChanged: (userID) {
                             if (userID.isNotEmpty) {
                               _userID = userID;
@@ -159,7 +153,10 @@ class _AddFriendFormState extends State<AddFriendForm> {
                 FormButton(
                   text: "Adicionar",
                   icon: Icons.add,
-                  onPressed: sendInvite,
+                  onPressed: () {
+                    sendInvite();
+                    Navigator.of(context).pop();
+                  },
                   option: 1,
                 ),
                 const SizedBox(

@@ -25,6 +25,7 @@ class OneListPage extends StatefulWidget {
 class _OneListPageState extends State<OneListPage> {
   List<Item> _items = [];
   var _loaded = false;
+  var _shopListId = 0;
 
   void refreshList() {
     setState(() {
@@ -69,14 +70,16 @@ class _OneListPageState extends State<OneListPage> {
     }
   }
 
-  void createItem(formKey, String itemName, String itemQuantity) {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-    if (itemName.isNotEmpty & itemQuantity.isNotEmpty) {
-      // criar item
-      Navigator.of(context).pop();
-    }
+  void createItem(String itemName, String itemQuantity) async {
+    var newList = await ShopListHttpRequestHelper.addItemToList(
+      _shopListId,
+      itemName,
+      itemQuantity,
+    );
+    setState(() {
+      _items = newList.content.items;
+    });
+    refreshList();
   }
 
   void changeBoughtStatus() {
@@ -92,6 +95,7 @@ class _OneListPageState extends State<OneListPage> {
   Widget build(BuildContext context) {
     final shopListSummary =
         ModalRoute.of(context)!.settings.arguments as ShopListSummary;
+    _shopListId = shopListSummary.id;
     return Scaffold(
       appBar: AppBar(
         title: Hero(
