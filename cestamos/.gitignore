@@ -50,5 +50,5 @@ app.*.map.json
 /lib/helpers/http-requests/base_urls.dart
 
 # Auto generated stuff
-pubspeck.lock
-GeneratedPluginRegistrant.swift
+*/pubspec.lock
+*/GeneratedPluginRegistrant.swift
