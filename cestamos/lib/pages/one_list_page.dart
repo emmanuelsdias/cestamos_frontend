@@ -46,28 +46,24 @@ class _OneListPageState extends State<OneListPage> {
   }
 
   void quitList() {
-    // quit
+    // TODO: quit
   }
 
   void removeItem(int index) {
-    // remove item
+    // TODO: remove item
     setState(() {
       _items.removeAt(index);
     });
   }
 
   void addFriend(Friendship friendship) {
-    // add friendship
+    // TODO: add friendship
   }
 
-  void editItem(formKey, int itemId, String itemName, String itemQuantity) {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-    if (itemName.isNotEmpty & itemQuantity.isNotEmpty) {
-      // editar item
-      Navigator.of(context).pop();
-    }
+  void editItem(Item item) {
+    // TODO: editar item
+
+    refreshList();
   }
 
   void createItem(String itemName, String itemQuantity) async {
@@ -84,11 +80,6 @@ class _OneListPageState extends State<OneListPage> {
 
   void changeBoughtStatus() {
     // change was_bought
-  }
-
-  String getListName() {
-    // return list name
-    return "Lista específica 1";
   }
 
   @override

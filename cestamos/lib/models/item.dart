@@ -1,7 +1,7 @@
 class Item {
   Item({
-    required this.itemId,
-    required this.name,
+    this.itemId = 0,
+    this.name = "",
     this.quantity = "",
     this.wasBought = false,
   });

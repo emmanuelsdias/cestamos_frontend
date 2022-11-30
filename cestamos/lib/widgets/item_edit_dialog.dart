@@ -20,10 +20,23 @@ class ItemEditDialog extends StatefulWidget {
 class _ItemEditDialogState extends State<ItemEditDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  void _editItem(
+    Item item,
+    Function edit,
+  ) {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    edit(item);
+  }
+
+  String itemName = "";
+  String itemQuantity = "";
+
   @override
   Widget build(BuildContext context) {
-    String itemName = widget.item.name;
-    String itemQuantity = widget.item.quantity;
+    itemName = widget.item.name;
+    itemQuantity = widget.item.quantity;
 
     return Dialog(
       child: Container(
@@ -76,9 +89,9 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemName) {
                           if (newItemName.isNotEmpty) {
-                            // setState(() {
-                            itemName = newItemName;
-                            // });
+                            setState(() {
+                              itemName = newItemName;
+                            });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -112,9 +125,9 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemQuantity) {
                           if (newItemQuantity.isNotEmpty) {
-                            // setState(() {
-                            itemQuantity = newItemQuantity;
-                            // });
+                            setState(() {
+                              itemQuantity = newItemQuantity;
+                            });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -125,12 +138,18 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
                       FormButton(
                         text: "Alterar",
                         icon: Icons.edit,
-                        onPressed: () => widget.editItem(
-                          _formKey,
-                          widget.item.itemId,
-                          itemName,
-                          itemQuantity,
-                        ),
+                        onPressed: () {
+                          _editItem(
+                            Item(
+                              itemId: widget.item.itemId,
+                              name: itemName,
+                              quantity: itemQuantity,
+                              wasBought: widget.item.wasBought,
+                            ),
+                            widget.editItem,
+                          );
+                          Navigator.of(context).pop();
+                        },
                         option: 1,
                       ),
                       const SizedBox(
