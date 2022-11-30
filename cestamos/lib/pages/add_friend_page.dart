@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/cestamos_bar.dart';
+import '../widgets/form_buton.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});
@@ -12,9 +13,10 @@ class AddFriendPage extends StatefulWidget {
 class _AddFriendPage extends State<AddFriendPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CestamosBar(),
-      body: AddFriendForm(),
+    return Scaffold(
+      appBar: const CestamosBar(),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: const AddFriendForm(),
     );
   }
 }
@@ -36,85 +38,145 @@ class _AddFriendFormState extends State<AddFriendForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+  String _friendEmail = "";
+  String _userID = "";
+
+  void sendInvite() {
+    // TO DO: implementar a request
+  }
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: 'User ID',
-              labelText: 'Friend\'s User ID *',
+    return Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 15,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(25),
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-              // ---------------
-              // PESSOAL DO BACK REQUEST AQUI !!!!!
-              // ----------------------
-            },
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Digite o User ID';
-              }
-              return null;
-            },
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 1,
+                spreadRadius: 1,
+                color: Colors.black.withOpacity(0.1),
+                offset: const Offset(2, 2),
+              ),
+            ],
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.mail),
-              hintText: 'Email',
-              labelText: 'Friend\'s Email *',
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    "Adicionar amigo",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.disabled,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.email_rounded),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: "Email",
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                          ),
+                          obscureText: true,
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "Insira o email";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.name,
+                          onChanged: (friendEmail) {
+                            if (friendEmail.isNotEmpty) {
+                              _friendEmail = friendEmail;
+                            }
+                          },
+                          textInputAction: TextInputAction.done,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.numbers_rounded),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: "User ID",
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                          ),
+                          obscureText: true,
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "Insira o user ID";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.name,
+                          onChanged: (userID) {
+                            if (userID.isNotEmpty) {
+                              _userID = userID;
+                            }
+                          },
+                          textInputAction: TextInputAction.done,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                FormButton(
+                  text: "Adicionar",
+                  icon: Icons.add,
+                  onPressed: sendInvite,
+                  option: 1,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                FormButton(
+                  text: "Cancelar",
+                  icon: Icons.cancel,
+                  onPressed: () => Navigator.of(context).pop(),
+                  option: 2,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-              // ---------------
-              // PESSOAL DO BACK REQUEST AQUI !!!!!
-              // ----------------------
-            },
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Digite o email';
-              }
-              return null;
-            },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  // ---------------
-                  // PESSOAL DO BACK REQUEST AQUI !!!!!
-                  // ----------------------
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Enviando Convite')),
-                  );
-                }
-              },
-              child: const Text('Enviar Convite'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () => {(Navigator.of(context).pop())},
-              child: const Text('Cancelar'),
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
