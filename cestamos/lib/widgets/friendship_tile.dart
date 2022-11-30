@@ -22,8 +22,8 @@ class FriendshipTile extends StatelessWidget {
                 title: const Text('Deseja mesmo deletar a amizade?'),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(
-                        style: TextStyle(color: Colors.redAccent), 'Deletar'),
+                    child: const Text('Deletar',
+                        style: TextStyle(color: Colors.redAccent)),
                     onPressed: () {
                       // TO DO: implement the logout
                       FriendshipHttpRequestHelper.deleteFriendship(
