@@ -77,7 +77,9 @@ class _OneListPageState extends State<OneListPage> {
 
   void addFriend(Friendship friendship) async {
     await ShopListHttpRequestHelper.addFriendtoList(
-        friendship.userId, friendship.username);
+      _shopList.id,
+      friendship.userId,
+    );
     refreshList();
   }
 

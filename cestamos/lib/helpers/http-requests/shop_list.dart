@@ -93,13 +93,18 @@ class ShopListHttpRequestHelper {
   }
 
   static Future<Pair<Friendship, bool>> addFriendtoList(
-      int friendId, String userName) async {
+    int shopListId,
+    int userId,
+  ) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
-    final url = "$baseBackEndShopListUrl/$friendId/item?token=$token";
-    final body = {
-      "name": userName,
-    };
+    final url = "$baseBackEndShopListUrl/$shopListId/user?token=$token";
+    final body = [
+      {
+        "user_id": userId,
+        "is_nutritionist": false,
+      }
+    ];
     var response = await RequestFactory.post(url, body);
     var friendData = response.content;
     Friendship friend;

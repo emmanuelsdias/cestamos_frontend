@@ -28,8 +28,7 @@ class RequestFactory {
     return convert(response);
   }
 
-  static Future<RequestResponse> post(
-      String url, Map<String, dynamic> body) async {
+  static Future<RequestResponse> post(String url, dynamic body) async {
     final jsonBody = json.encode(body);
     var response = await http.post(
       Uri.parse(url),
