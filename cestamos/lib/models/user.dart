@@ -29,12 +29,14 @@ class UserList {
   String userName;
   bool isAdm;
   bool isNutritionist;
+  int userListId;
 
   UserList({
-    required this.id,
-    required this.userName,
-    required this.isAdm,
-    required this.isNutritionist,
+    this.id = 0,
+    this.userName = "",
+    this.isAdm = false,
+    this.isNutritionist = false,
+    this.userListId = 0,
   });
 
   factory UserList.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class UserList {
       userName: json['username'] ?? "",
       isAdm: json['is_adm'] ?? false,
       isNutritionist: json['is_nutritionist'] ?? false,
+      userListId: json['user_list_id'] ?? 0,
     );
   }
 }

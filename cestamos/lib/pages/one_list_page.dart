@@ -1,6 +1,8 @@
 import 'package:cestamos/helpers/http-requests/item.dart';
+import 'package:cestamos/helpers/http-requests/user_list.dart';
 import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/item.dart';
 import '../models/shop_list.dart';
@@ -25,6 +27,7 @@ class OneListPage extends StatefulWidget {
 
 class _OneListPageState extends State<OneListPage> {
   List<Item> _items = [];
+  ShopList _shopList = ShopList();
   var _loaded = false;
   var _shopListId = 0;
 
@@ -39,6 +42,7 @@ class _OneListPageState extends State<OneListPage> {
       _loaded = true;
       var response = ShopListHttpRequestHelper.getList(shopListId);
       return response.then((value) {
+        _shopList = value.content;
         _items = value.content.items;
         return value.success;
       });
@@ -46,8 +50,24 @@ class _OneListPageState extends State<OneListPage> {
     return true;
   }
 
-  void quitList() {
-    // TODO: quit
+  void removeUserFromList(int userListId) {
+    UserListHttpRequestHelper.deleteUserList(userListId);
+  }
+
+  int getUserListIdFromUserId(int userId) {
+    return _shopList.users
+        .firstWhere(
+          (element) => element.id == userId,
+        )
+        .userListId;
+  }
+
+  void quitList() async {
+    var pref = SharedPreferences.getInstance();
+    pref.then((value) {
+      var selfUserId = value.getInt('user_id') ?? 0;
+      removeUserFromList(getUserListIdFromUserId(selfUserId));
+    });
   }
 
   void removeItem(Item item) {
@@ -125,6 +145,7 @@ class _OneListPageState extends State<OneListPage> {
                           quit: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
+
                             quitList();
                           },
                         );
