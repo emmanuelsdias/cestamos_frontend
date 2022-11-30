@@ -1,3 +1,4 @@
+import 'package:cestamos/helpers/http-requests/item.dart';
 import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
 
@@ -49,11 +50,9 @@ class _OneListPageState extends State<OneListPage> {
     // TODO: quit
   }
 
-  void removeItem(int index) {
-    // TODO: remove item
-    setState(() {
-      _items.removeAt(index);
-    });
+  void removeItem(Item item) {
+    ItemHttpRequestHelper.deleteItem(item);
+    refreshList();
   }
 
   void addFriend(Friendship friendship) {
@@ -61,8 +60,7 @@ class _OneListPageState extends State<OneListPage> {
   }
 
   void editItem(Item item) {
-    // TODO: editar item
-
+    ItemHttpRequestHelper.editItem(item);
     refreshList();
   }
 
@@ -76,10 +74,6 @@ class _OneListPageState extends State<OneListPage> {
       _items = newList.content.items;
     });
     refreshList();
-  }
-
-  void changeBoughtStatus() {
-    // change was_bought
   }
 
   @override
@@ -246,10 +240,7 @@ class _OneListPageState extends State<OneListPage> {
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () {
-                        // TODO: Delete the item from DB etc..
-                        setState(() {
-                          _items.removeAt(index);
-                        });
+                        removeItem(item);
                         Navigator.pop(context, true);
                       },
                     ),
@@ -272,9 +263,8 @@ class _OneListPageState extends State<OneListPage> {
           activeColor: Theme.of(context).colorScheme.inversePrimary,
           value: item.wasBought,
           onChanged: (bool? value) {
-            setState(() {
-              item.wasBought = value!;
-            });
+            item.wasBought = value ?? item.wasBought;
+            editItem(item);
           },
         ),
         trailing: ReorderableDragStartListener(

@@ -34,10 +34,14 @@ class _ItemEditDialogState extends State<ItemEditDialog> {
   String itemQuantity = "";
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     itemName = widget.item.name;
     itemQuantity = widget.item.quantity;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Dialog(
       child: Container(
         color: Colors.white,
