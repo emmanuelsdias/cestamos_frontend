@@ -99,193 +99,199 @@ class _LoginPageState extends State<LoginPage> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          'assets/images/cestamos_icon_white.svg',
-                          fit: BoxFit.contain,
-                          width: 120,
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const Text(
-                          "bem-vindo!",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 30,
-                            color: Colors.white,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            'assets/images/cestamos_icon_white.svg',
+                            fit: BoxFit.contain,
+                            width: 120,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          const Text(
+                            "bem-vindo!",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 30,
+                              color: Colors.white,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 1,
-                                spreadRadius: 1,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: const Offset(2, 2),
-                              ),
-                            ],
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Form(
-                                        key: _formKey,
-                                        autovalidateMode:
-                                            AutovalidateMode.disabled,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            TextFormField(
-                                              decoration: InputDecoration(
-                                                prefixIcon: const Icon(
-                                                    Icons.email_rounded),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                  borderSide: const BorderSide(
-                                                    width: 0,
-                                                    style: BorderStyle.none,
-                                                  ),
-                                                ),
-                                                hintText: "email",
-                                                filled: true,
-                                                fillColor: Colors.grey[100],
-                                              ),
-                                              validator: (String? email) {
-                                                if (email == null ||
-                                                    email.isEmpty) {
-                                                  return "Preencha seu email!";
-                                                }
-                                                return null;
-                                              },
-                                              keyboardType:
-                                                  TextInputType.emailAddress,
-                                              onChanged: (email) {
-                                                setState(() {
-                                                  _email = email;
-                                                });
-                                              },
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            TextFormField(
-                                              decoration: InputDecoration(
-                                                prefixIcon:
-                                                    const Icon(Icons.vpn_key),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                  borderSide: const BorderSide(
-                                                    width: 0,
-                                                    style: BorderStyle.none,
-                                                  ),
-                                                ),
-                                                hintText: "senha",
-                                                filled: true,
-                                                fillColor: Colors.grey[100],
-                                              ),
-                                              obscureText: true,
-                                              validator: (String? value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return "Preencha a senha!";
-                                                }
-                                                if (!_successOnLogin) {
-                                                  return "Senha ou login incorretos.";
-                                                }
-                                                return null;
-                                              },
-                                              onChanged: (password) {
-                                                setState(() {
-                                                  _password = password;
-                                                });
-                                              },
-                                              textInputAction:
-                                                  TextInputAction.done,
-                                              onFieldSubmitted: (_) {},
-                                            ),
-                                            const SizedBox(
-                                              height: 30,
-                                            ),
-                                            FormButton(
-                                              text: "entrar",
-                                              icon: Icons.login,
-                                              onPressed: () => _logIn(context),
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const Text(
-                                                  'Não possui conta?',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pushReplacementNamed(
-                                                            RegisterPage
-                                                                .pageRouteName);
-                                                  },
-                                                  style: TextButton.styleFrom(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 3,
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: const Offset(2, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Form(
+                                          key: _formKey,
+                                          autovalidateMode:
+                                              AutovalidateMode.disabled,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  prefixIcon: const Icon(
+                                                      Icons.email_rounded),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25.0),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                      width: 0,
+                                                      style: BorderStyle.none,
                                                     ),
                                                   ),
-                                                  child: Text(
-                                                    'Cadastre-se',
+                                                  hintText: "email",
+                                                  filled: true,
+                                                  fillColor: Colors.grey[100],
+                                                ),
+                                                validator: (String? email) {
+                                                  if (email == null ||
+                                                      email.isEmpty) {
+                                                    return "Preencha seu email!";
+                                                  }
+                                                  return null;
+                                                },
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                onChanged: (email) {
+                                                  setState(() {
+                                                    _email = email;
+                                                  });
+                                                },
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  prefixIcon:
+                                                      const Icon(Icons.vpn_key),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25.0),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                      width: 0,
+                                                      style: BorderStyle.none,
+                                                    ),
+                                                  ),
+                                                  hintText: "senha",
+                                                  filled: true,
+                                                  fillColor: Colors.grey[100],
+                                                ),
+                                                obscureText: true,
+                                                validator: (String? value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Preencha a senha!";
+                                                  }
+                                                  if (!_successOnLogin) {
+                                                    return "Senha ou login incorretos.";
+                                                  }
+                                                  return null;
+                                                },
+                                                onChanged: (password) {
+                                                  setState(() {
+                                                    _password = password;
+                                                  });
+                                                },
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                onFieldSubmitted: (_) {},
+                                              ),
+                                              const SizedBox(
+                                                height: 30,
+                                              ),
+                                              FormButton(
+                                                text: "entrar",
+                                                icon: Icons.login,
+                                                onPressed: () =>
+                                                    _logIn(context),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Text(
+                                                    'Não possui conta?',
                                                     style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .inversePrimary,
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pushReplacementNamed(
+                                                              RegisterPage
+                                                                  .pageRouteName);
+                                                    },
+                                                    style: TextButton.styleFrom(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 3,
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      'Cadastre-se',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .inversePrimary,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

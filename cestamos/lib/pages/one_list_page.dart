@@ -1,6 +1,7 @@
 import 'package:cestamos/helpers/http-requests/item.dart';
 import 'package:cestamos/helpers/http-requests/user_list.dart';
 import 'package:cestamos/models/friendship.dart';
+import 'package:cestamos/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +13,7 @@ import '../helpers/http-requests/shop_list.dart';
 import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
 import '../widgets/add_friend_to_shop_list_dialog.dart';
+import '../widgets/show_members_of_list_dialog.dart';
 import '../widgets/confirm_quit_shop_list_dialog.dart';
 import '../widgets/add_floating_button.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
@@ -30,6 +32,7 @@ class _OneListPageState extends State<OneListPage> {
   ShopList _shopList = ShopList();
   var _loaded = false;
   var _shopListId = 0;
+  var _myUserId = 0;
 
   void refreshList() {
     setState(() {
@@ -40,6 +43,14 @@ class _OneListPageState extends State<OneListPage> {
   Future<bool> _getList(int shopListId) async {
     if (!_loaded) {
       _loaded = true;
+
+      if (_myUserId == 0) {
+        var pref = SharedPreferences.getInstance();
+        pref.then((value) {
+          _myUserId = value.getInt('user_id') ?? 0;
+        });
+      }
+
       var response = ShopListHttpRequestHelper.getList(shopListId);
       return response.then((value) {
         _shopList = value.content;
@@ -55,11 +66,13 @@ class _OneListPageState extends State<OneListPage> {
   }
 
   int getUserListIdFromUserId(int userId) {
-    return _shopList.users
-        .firstWhere(
-          (element) => element.id == userId,
-        )
-        .userListId;
+    return getUserListFromUserId(userId).userListId;
+  }
+
+  UserList getUserListFromUserId(int userId) {
+    return _shopList.users.firstWhere(
+      (element) => element.id == userId,
+    );
   }
 
   void quitList() async {
@@ -145,6 +158,19 @@ class _OneListPageState extends State<OneListPage> {
                     showDialog(
                       context: context,
                       builder: (_) {
+                        return ShowMembersOfListDialog(
+                          listMembers: _shopList.users,
+                          selfUser: getUserListFromUserId(_myUserId),
+                        );
+                      },
+                    );
+                  }
+                  break;
+                case 2:
+                  {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
                         return ConfirmQuitShopListDialog(
                           quit: () {
                             Navigator.of(context).pop();
@@ -169,6 +195,10 @@ class _OneListPageState extends State<OneListPage> {
               ),
               const PopupMenuItem(
                 value: 1,
+                child: Text('Membros do grupo'),
+              ),
+              const PopupMenuItem(
+                value: 2,
                 child: Text('Sair do grupo'),
               ),
             ],
