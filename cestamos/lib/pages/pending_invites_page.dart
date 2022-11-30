@@ -77,8 +77,11 @@ class _PendingInviteState extends State<PendingInvitesPage> {
                 ),
               );
             }
-            return Column(
-              children: _getListInvitations(),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: _getListInvitations(),
+              ),
             );
           }),
     );
