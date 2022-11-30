@@ -69,6 +69,7 @@ class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
         return Dialog(
           child: Container(
             color: Colors.white,
+            // TODO: correct width, not changing anything (ta 0.7)
             width: MediaQuery.of(context).size.width * 0.6,
             height: 220,
             child: Padding(
@@ -86,7 +87,7 @@ class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
                   ),
                   FormButton(
                       text: "Sim",
-                      icon: Icons.add,
+                      icon: Icons.person_add,
                       onPressed: () {
                         widget.addFriend(friendship);
                         Navigator.of(context).pop();
@@ -97,7 +98,7 @@ class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
                   ),
                   FormButton(
                     text: "Não",
-                    icon: Icons.add,
+                    icon: Icons.cancel,
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

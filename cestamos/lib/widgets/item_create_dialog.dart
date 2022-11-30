@@ -72,9 +72,9 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemName) {
                           if (newItemName.isNotEmpty) {
-                            setState(() {
-                              itemName = newItemName;
-                            });
+                            // setState(() {
+                            itemName = newItemName;
+                            // });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -107,9 +107,9 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemQuantity) {
                           if (newItemQuantity.isNotEmpty) {
-                            setState(() {
-                              itemQuantity = newItemQuantity;
-                            });
+                            // setState(() {
+                            itemQuantity = newItemQuantity;
+                            // });
                           }
                         },
                         textInputAction: TextInputAction.done,
@@ -121,6 +121,7 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                         text: "Adicionar",
                         icon: Icons.add,
                         onPressed: () => widget.createItem(
+                          _formKey,
                           itemName,
                           itemQuantity,
                         ),
