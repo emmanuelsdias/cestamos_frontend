@@ -46,4 +46,23 @@ class InvitationHttpRequestHelper {
     }
     return Pair(invitation, response.success);
   }
+
+  static Future<Pair<Invitation, bool>> answerInvitation(
+    int invitationId,
+    bool accepted,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url =
+        "$baseBackEndInvitationUrl/$invitationId?token=$token&accepted=$accepted";
+    var response = await RequestFactory.delete(url, {});
+    var invitationData = response.content;
+    Invitation invitation;
+    if (response.success) {
+      invitation = Invitation.fromJson(invitationData);
+    } else {
+      invitation = Invitation();
+    }
+    return Pair(invitation, response.success);
+  }
 }

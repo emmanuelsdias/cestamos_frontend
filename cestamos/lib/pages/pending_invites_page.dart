@@ -32,11 +32,34 @@ class _PendingInviteState extends State<PendingInvitesPage> {
     });
   }
 
+  Future<bool> _answerInvitation(int invitationId, bool accepted) async {
+    var response =
+        InvitationHttpRequestHelper.answerInvitation(invitationId, accepted);
+    return response.then(
+      (value) {
+        setState(() {
+          _loaded = false;
+        });
+        return value.success;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Convites Pendentes"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _refresh();
+              });
+            },
+            icon: const Icon(Icons.refresh_rounded),
+          ),
+        ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: FutureBuilder(
@@ -93,7 +116,7 @@ class _PendingInviteState extends State<PendingInvitesPage> {
                         ),
                         onPressed: () {
                           setState(() {
-                            acceptInvitation();
+                            _answerInvitation(invitation.id, true);
                           });
                         }), // icon-1
 
@@ -103,9 +126,7 @@ class _PendingInviteState extends State<PendingInvitesPage> {
                           color: Color.fromARGB(218, 245, 0, 0),
                         ),
                         onPressed: () {
-                          setState(() {
-                            deleteInvitation();
-                          });
+                          _answerInvitation(invitation.id, false);
                         }), // icon-1
                     // icon-2
                   ],
@@ -113,11 +134,4 @@ class _PendingInviteState extends State<PendingInvitesPage> {
               )))))
       .values
       .toList();
-
-  void deleteInvitation() {
-    // TO DO: INTEGRATION WITH BACKEND
-  }
-  void acceptInvitation() {
-    // TO DO: INTEGRATION WITH BACKEND
-  }
 }
