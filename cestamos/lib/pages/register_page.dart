@@ -25,7 +25,6 @@ class _RegisterPageState extends State<RegisterPage> {
   var _userName = "";
   var _password = "";
   var _successOnLogin = true;
-  var _errorMessage = "";
 
   void _signUp(BuildContext ctx) {
     _successOnLogin = true;

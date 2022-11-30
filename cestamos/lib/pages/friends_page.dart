@@ -1,14 +1,17 @@
-import 'package:cestamos/pages/add_friend_page.dart';
-import 'package:cestamos/pages/pending_invites_page.dart';
-import 'package:cestamos/providers/friendships.dart';
-import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
+import './add_friend_page.dart';
+import './pending_invites_page.dart';
+
+import '../providers/friendships.dart';
 
 import '../widgets/cestamos_bar.dart';
 import '../widgets/friendship_tile.dart';
 import '../widgets/add_floating_button.dart';
-// import '../helpers/http-requests/user.dart';
-// import '../models/user.dart';
+
+import '../helpers/http-requests/friendship.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -19,6 +22,37 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage> {
+  int _userId = 0;
+  String _userName = "";
+  String _email = "";
+
+  bool _loaded = false;
+
+  void _refresh() {
+    setState(() {
+      _loaded = false;
+    });
+  }
+
+  Future<bool> _getUserInfo() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    _userId = pref.getInt('user_id') ?? 0;
+    _userName = pref.getString('username') ?? "";
+    _email = pref.getString('email') ?? "";
+    return _userId != 0;
+  }
+
+  Future<bool> _getFriendships(Friendships frienshipsProvider) async {
+    if (_loaded) return true;
+    var response = FriendshipHttpRequestHelper.getFriendships();
+    return response.then((value) {
+      var friendships = value.content;
+      frienshipsProvider.setFriendshipList(friendships);
+      _loaded = true;
+      return value.success;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final friendshipsData = Provider.of<Friendships>(context);
@@ -26,15 +60,15 @@ class _FriendsPageState extends State<FriendsPage> {
     return Scaffold(
       appBar: CestamosBar(
         actions: [
-          IconButton(
+          FutureBuilder<bool>(
+            future: _getUserInfo(),
+            builder: (ctx, _) => IconButton(
               icon: const Icon(
                 Icons.refresh_rounded,
               ),
-              onPressed: () {
-                setState(() {
-                  refreshFriendsList();
-                });
-              }),
+              onPressed: _refresh,
+            ),
+          ),
           PopupMenuButton(
             onSelected: (result) {
               if (result == 0) {
@@ -42,7 +76,9 @@ class _FriendsPageState extends State<FriendsPage> {
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: const Text('Informações do Usuário'),
-                    content: const Text('Seu ID é 33'),
+                    content: Text(
+                      'ID: $_userId\nNome de usuário: $_userName\nemail: $_email',
+                    ),
                     actions: <Widget>[
                       TextButton(
                         child: const Text('OK'),
@@ -106,44 +142,53 @@ class _FriendsPageState extends State<FriendsPage> {
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: friendships.isEmpty
-          ? const Center(
-              child: Text(
-                "Você não tem amigos",
-              ),
-            )
-          : Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(15),
+      body: FutureBuilder<bool>(
+        future: _getFriendships(friendshipsData),
+        builder: ((context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return friendships.isEmpty
+              ? const Center(
                   child: Text(
-                    "Meus Amigos",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
+                    "Você não tem amigos",
+                  ),
+                )
+              : Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Text(
+                        "Meus Amigos",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () => {},
-                          child: Card(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: FriendshipTile(
-                                friendship: friendships[index],
-                              ),
-                            ),
-                          ));
-                    },
-                    itemCount: friendships.length,
-                  ),
-                ),
-              ],
-            ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () => {},
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: FriendshipTile(
+                                    friendship: friendships[index],
+                                  ),
+                                ),
+                              ));
+                        },
+                        itemCount: friendships.length,
+                      ),
+                    ),
+                  ],
+                );
+        }),
+      ),
+
       floatingActionButton: AddFloatingButton(
         onPressed: () =>
             Navigator.of(context).pushNamed(AddFriendPage.pageRouteName),
@@ -160,9 +205,5 @@ class _FriendsPageState extends State<FriendsPage> {
       //   ),
       // ),
     );
-  }
-
-  void refreshFriendsList() {
-    // TO DO: IMPLEMENT THE REFRESH WITH THE BACKEND
   }
 }

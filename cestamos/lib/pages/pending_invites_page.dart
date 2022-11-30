@@ -1,6 +1,8 @@
 import 'package:cestamos/models/invitation.dart';
 import 'package:flutter/material.dart';
 
+import '../helpers/http-requests/invitation.dart';
+
 class PendingInvitesPage extends StatefulWidget {
   const PendingInvitesPage({super.key});
   static const pageRouteName = "/pendinginvites";
@@ -10,28 +12,82 @@ class PendingInvitesPage extends StatefulWidget {
 }
 
 class _PendingInviteState extends State<PendingInvitesPage> {
-  List<Invitation> invitations = [
-    Invitation(id: 0, userId: 01, userName: "Ariel", email: "xyz@gmail.com"),
-    Invitation(
-        id: 1, userId: 02, userName: "Gandhi", email: "xyzgandhi@gmail.com"),
-    Invitation(id: 2, userId: 2612, userName: "Supi", email: "supigmail.com"),
-  ];
+  bool _loaded = false;
+  List<Invitation> _invitations = [];
+
+  void _refresh() {
+    setState(() {
+      _loaded = false;
+    });
+  }
+
+  Future<bool> _getInvitations() async {
+    if (_loaded) return true;
+    var response = InvitationHttpRequestHelper.getInvitations();
+    return response.then((value) {
+      var invitations = value.content;
+      _invitations = [...invitations];
+      _loaded = true;
+      return value.success;
+    });
+  }
+
+  Future<bool> _answerInvitation(int invitationId, bool accepted) async {
+    var response =
+        InvitationHttpRequestHelper.answerInvitation(invitationId, accepted);
+    return response.then(
+      (value) {
+        setState(() {
+          _loaded = false;
+        });
+        return value.success;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Convites Pendentes"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _refresh();
+              });
+            },
+            icon: const Icon(Icons.refresh_rounded),
+          ),
+        ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(children: _getListInvitations()),
-      ),
+      body: FutureBuilder(
+          future: _getInvitations(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (_invitations.isEmpty) {
+              return const Center(
+                child: Text(
+                  "Sem convites pendentes.",
+                ),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: _getListInvitations(),
+              ),
+            );
+          }),
     );
   }
 
-  List<Padding> _getListInvitations() => invitations
+  List<Padding> _getListInvitations() => _invitations
       .asMap()
       .map((i, invitation) => MapEntry(
           i,
@@ -63,7 +119,7 @@ class _PendingInviteState extends State<PendingInvitesPage> {
                         ),
                         onPressed: () {
                           setState(() {
-                            acceptInvitation();
+                            _answerInvitation(invitation.id, true);
                           });
                         }), // icon-1
 
@@ -73,9 +129,7 @@ class _PendingInviteState extends State<PendingInvitesPage> {
                           color: Color.fromARGB(218, 245, 0, 0),
                         ),
                         onPressed: () {
-                          setState(() {
-                            deleteInvitation();
-                          });
+                          _answerInvitation(invitation.id, false);
                         }), // icon-1
                     // icon-2
                   ],
@@ -83,24 +137,4 @@ class _PendingInviteState extends State<PendingInvitesPage> {
               )))))
       .values
       .toList();
-
-  void deleteInvitation() {
-    // TO DO: INTEGRATION WITH BACKEND
-  }
-  void acceptInvitation() {
-    // TO DO: INTEGRATION WITH BACKEND
-  }
-
-  void onReorder(int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) {
-      newIndex -= 1;
-    }
-
-    setState(() {
-      Invitation invitation = invitations[oldIndex];
-
-      invitations.removeAt(oldIndex);
-      invitations.insert(newIndex, invitation);
-    });
-  }
 }

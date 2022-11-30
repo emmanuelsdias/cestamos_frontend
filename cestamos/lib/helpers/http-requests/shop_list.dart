@@ -7,13 +7,13 @@ import './request_factory.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopListHttpRequestHelper {
-  static const String baseBackEndUserUrl =
+  static const String baseBackEndShopListUrl =
       "${BaseUrls.baseBackEndUrl}/shop_list";
 
   static Future<Pair<List<ShopListSummary>, bool>> getLists() async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
-    final url = "$baseBackEndUserUrl/?token=$token";
+    final url = "$baseBackEndShopListUrl/?token=$token";
     var response = await RequestFactory.get(url);
     var listsData = response.listedContent;
     List<ShopListSummary> lists;
@@ -30,10 +30,58 @@ class ShopListHttpRequestHelper {
   ) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
-    final url = "$baseBackEndUserUrl/$shopListId?token=$token";
+    final url = "$baseBackEndShopListUrl/$shopListId?token=$token";
     var response = await RequestFactory.get(url);
     var listData = response.content;
     ShopList list;
+    if (response.success) {
+      list = ShopList.fromJson(listData);
+    } else {
+      list = ShopList();
+    }
+    return Pair(list, response.success);
+  }
+
+  static Future<Pair<ShopList, bool>> addItemToList(
+    int shopListId,
+    String name,
+    String quantity,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/item?token=$token";
+    final body = {
+      "name": name,
+      "quantity": quantity,
+    };
+    var response = await RequestFactory.post(url, body);
+    var listData = response.content;
+    ShopList list;
+
+    if (response.success) {
+      list = ShopList.fromJson(listData);
+    } else {
+      list = ShopList();
+    }
+    return Pair(list, response.success);
+  }
+
+  static Future<Pair<ShopList, bool>> createList(
+    String listName,
+    List<int> userIds,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/?token=$token";
+    final body = {
+      "name": listName,
+      "user_ids": userIds,
+      "is_template": true,
+    };
+    var response = await RequestFactory.post(url, body);
+    var listData = response.content;
+    ShopList list;
+
     if (response.success) {
       list = ShopList.fromJson(listData);
     } else {

@@ -9,7 +9,6 @@ class RequestFactory {
 
   static RequestResponse convert(http.Response response) {
     var result = RequestResponse({}, [], 0);
-
     result.code = response.statusCode;
 
     var data = json.decode(utf8.decode(response.bodyBytes));
@@ -18,7 +17,6 @@ class RequestFactory {
     } else {
       result.content = data;
     }
-
     return result;
   }
 
