@@ -12,6 +12,32 @@ class FriendshipTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListTile(
         title: Text(friendship.username),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('Deseja mesmo deletar a amizade?'),
+                actions: <Widget>[
+                  TextButton(
+                      child: Text(
+                          style: TextStyle(color: Colors.redAccent), 'Deletar'),
+                      onPressed: () {
+                        // TO DO: implement the logout
+                        print("deletar amizade");
+                      }),
+                  TextButton(
+                    child: const Text('Cancelar'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
