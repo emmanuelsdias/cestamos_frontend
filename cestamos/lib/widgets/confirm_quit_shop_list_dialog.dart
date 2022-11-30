@@ -14,7 +14,8 @@ class ConfirmQuitShopListDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.7,
+        // width: MediaQuery.of(context).size.width * 0.7,
+        width: 200,
         height: 300,
         child: Center(
           child: Column(

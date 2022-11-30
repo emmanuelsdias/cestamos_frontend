@@ -80,9 +80,9 @@ class _ItemCreateDialogState extends State<ItemCreateDialog> {
                         keyboardType: TextInputType.name,
                         onChanged: (newItemName) {
                           if (newItemName.isNotEmpty) {
-                            setState(() {
-                              itemName = newItemName;
-                            });
+                            // setState(() {
+                            itemName = newItemName;
+                            // });
                           }
                         },
                         textInputAction: TextInputAction.done,
