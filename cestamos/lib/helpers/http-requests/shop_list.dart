@@ -1,4 +1,6 @@
 import 'dart:core';
+import 'package:cestamos/models/friendship.dart';
+
 import '../../models/shop_list.dart';
 import '../../models/my_tuples.dart';
 // import './base_urls_example.dart';
@@ -88,5 +90,30 @@ class ShopListHttpRequestHelper {
       list = ShopList();
     }
     return Pair(list, response.success);
+  }
+
+  static Future<Pair<Friendship, bool>> addFriendtoList(
+    int shopListId,
+    int userId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/user?token=$token";
+    final body = [
+      {
+        "user_id": userId,
+        "is_nutritionist": false,
+      }
+    ];
+    var response = await RequestFactory.post(url, body);
+    var friendData = response.content;
+    Friendship friend;
+    if (response.success) {
+      friend = Friendship.fromJson(friendData);
+    } else {
+      friend = Friendship();
+    }
+    // TODO: fix friend -> List<UserList>
+    return Pair(friend, response.success);
   }
 }

@@ -42,6 +42,11 @@ class _FriendsPageState extends State<FriendsPage> {
     return _userId != 0;
   }
 
+  Future<void> _logout() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.clear();
+  }
+
   Future<bool> _getFriendships(Friendships frienshipsProvider) async {
     if (_loaded) return true;
     var response = FriendshipHttpRequestHelper.getFriendships();
@@ -101,11 +106,15 @@ class _FriendsPageState extends State<FriendsPage> {
                     title: const Text('Deseja mesmo desloggar do Cestamos?'),
                     actions: <Widget>[
                       TextButton(
-                        child: Text(
-                            style: TextStyle(color: Colors.redAccent),
-                            'Desloggar'),
+                        child: const Text(
+                          'Desloggar',
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
                         onPressed: () {
-                          // TO DO: implement the logout
+                          _logout();
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          Navigator.of(context).pushReplacementNamed('/');
                         },
                       ),
                       TextButton(
@@ -188,22 +197,10 @@ class _FriendsPageState extends State<FriendsPage> {
                 );
         }),
       ),
-
       floatingActionButton: AddFloatingButton(
         onPressed: () =>
             Navigator.of(context).pushNamed(AddFriendPage.pageRouteName),
       ),
-
-      // FloatingActionButton(
-      //   onPressed: () =>
-      //       Navigator.of(context).pushNamed(AddFriendPage.pageRouteName),
-      //   backgroundColor: Theme.of(context).colorScheme.primary,
-      //   tooltip: 'Add Friend',
-      //   child: const Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      // ),
     );
   }
 }

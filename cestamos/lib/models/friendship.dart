@@ -1,8 +1,8 @@
 class Friendship {
   Friendship({
-    required this.friendshipId,
-    required this.userId,
-    required this.username,
+    this.friendshipId = 0,
+    this.userId = 0,
+    this.username = "",
   });
   final String username;
   final int userId;
@@ -10,7 +10,7 @@ class Friendship {
 
   factory Friendship.fromJson(Map<String, dynamic> json) {
     return Friendship(
-      friendshipId: json['friendship_id'] as int,
+      friendshipId: json['friendship_id'] ?? 0,
       userId: json['user_id'] as int,
       username: json['username'] as String,
     );

@@ -1,5 +1,8 @@
+import 'package:cestamos/helpers/http-requests/item.dart';
+import 'package:cestamos/helpers/http-requests/user_list.dart';
 import 'package:cestamos/models/friendship.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/item.dart';
 import '../models/shop_list.dart';
@@ -24,6 +27,7 @@ class OneListPage extends StatefulWidget {
 
 class _OneListPageState extends State<OneListPage> {
   List<Item> _items = [];
+  ShopList _shopList = ShopList();
   var _loaded = false;
   var _shopListId = 0;
 
@@ -38,6 +42,7 @@ class _OneListPageState extends State<OneListPage> {
       _loaded = true;
       var response = ShopListHttpRequestHelper.getList(shopListId);
       return response.then((value) {
+        _shopList = value.content;
         _items = value.content.items;
         return value.success;
       });
@@ -45,29 +50,42 @@ class _OneListPageState extends State<OneListPage> {
     return true;
   }
 
-  void quitList() {
-    // quit
+  void removeUserFromList(int userListId) {
+    UserListHttpRequestHelper.deleteUserList(userListId);
   }
 
-  void removeItem(int index) {
-    // remove item
-    setState(() {
-      _items.removeAt(index);
+  int getUserListIdFromUserId(int userId) {
+    return _shopList.users
+        .firstWhere(
+          (element) => element.id == userId,
+        )
+        .userListId;
+  }
+
+  void quitList() async {
+    var pref = SharedPreferences.getInstance();
+    pref.then((value) {
+      var selfUserId = value.getInt('user_id') ?? 0;
+      removeUserFromList(getUserListIdFromUserId(selfUserId));
     });
   }
 
-  void addFriend(Friendship friendship) {
-    // add friendship
+  void removeItem(Item item) {
+    ItemHttpRequestHelper.deleteItem(item);
+    refreshList();
   }
 
-  void editItem(formKey, int itemId, String itemName, String itemQuantity) {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-    if (itemName.isNotEmpty & itemQuantity.isNotEmpty) {
-      // editar item
-      Navigator.of(context).pop();
-    }
+  void addFriend(Friendship friendship) async {
+    await ShopListHttpRequestHelper.addFriendtoList(
+      _shopList.id,
+      friendship.userId,
+    );
+    refreshList();
+  }
+
+  void editItem(Item item) {
+    ItemHttpRequestHelper.editItem(item);
+    refreshList();
   }
 
   void createItem(String itemName, String itemQuantity) async {
@@ -80,15 +98,6 @@ class _OneListPageState extends State<OneListPage> {
       _items = newList.content.items;
     });
     refreshList();
-  }
-
-  void changeBoughtStatus() {
-    // change was_bought
-  }
-
-  String getListName() {
-    // return list name
-    return "Lista específica 1";
   }
 
   @override
@@ -140,6 +149,7 @@ class _OneListPageState extends State<OneListPage> {
                           quit: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
+
                             quitList();
                           },
                         );
@@ -255,10 +265,7 @@ class _OneListPageState extends State<OneListPage> {
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () {
-                        // TODO: Delete the item from DB etc..
-                        setState(() {
-                          _items.removeAt(index);
-                        });
+                        removeItem(item);
                         Navigator.pop(context, true);
                       },
                     ),
@@ -281,9 +288,8 @@ class _OneListPageState extends State<OneListPage> {
           activeColor: Theme.of(context).colorScheme.inversePrimary,
           value: item.wasBought,
           onChanged: (bool? value) {
-            setState(() {
-              item.wasBought = value!;
-            });
+            item.wasBought = value ?? item.wasBought;
+            editItem(item);
           },
         ),
         trailing: ReorderableDragStartListener(
