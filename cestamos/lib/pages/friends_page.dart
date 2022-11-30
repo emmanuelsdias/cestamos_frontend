@@ -58,6 +58,29 @@ class _FriendsPageState extends State<FriendsPage> {
               } else if (result == 2) {
                 Navigator.of(context)
                     .pushNamed(PendingInvitesPage.pageRouteName);
+              } else if (result == 3) {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Deseja mesmo desloggar do Cestamos?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text(
+                            style: TextStyle(color: Colors.redAccent),
+                            'Desloggar'),
+                        onPressed: () {
+                          // TO DO: implement the logout
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('Cancelar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                );
               }
             },
             icon: const Icon(Icons.more_vert_outlined),
@@ -73,6 +96,10 @@ class _FriendsPageState extends State<FriendsPage> {
               const PopupMenuItem(
                 value: 2,
                 child: Text('Convites pendentes'),
+              ),
+              const PopupMenuItem(
+                value: 3,
+                child: Text('Logout'),
               ),
             ],
           ),
