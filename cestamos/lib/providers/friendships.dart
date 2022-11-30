@@ -28,4 +28,9 @@ class Friendships with ChangeNotifier {
     _friendships.add(friendship);
     notifyListeners();
   }
+
+  void setFriendshipList(List<Friendship> friendships) {
+    _friendships = [...friendships];
+    notifyListeners();
+  }
 }
