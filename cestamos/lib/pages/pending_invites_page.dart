@@ -24,7 +24,10 @@ class _PendingInviteState extends State<PendingInvitesPage> {
         title: const Text("Convites Pendentes"),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Column(children: _getListInvitations()),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(children: _getListInvitations()),
+      ),
     );
   }
 

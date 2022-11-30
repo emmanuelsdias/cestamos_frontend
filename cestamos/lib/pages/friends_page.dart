@@ -58,6 +58,8 @@ class _FriendsPageState extends State<FriendsPage> {
               } else if (result == 2) {
                 Navigator.of(context)
                     .pushNamed(PendingInvitesPage.pageRouteName);
+              } else if (result == 3) {
+                // TO DO: impolement the button
               }
             },
             icon: const Icon(Icons.more_vert_outlined),
@@ -73,6 +75,10 @@ class _FriendsPageState extends State<FriendsPage> {
               const PopupMenuItem(
                 value: 2,
                 child: Text('Convites pendentes'),
+              ),
+              const PopupMenuItem(
+                value: 3,
+                child: Text('Logout'),
               ),
             ],
           ),
