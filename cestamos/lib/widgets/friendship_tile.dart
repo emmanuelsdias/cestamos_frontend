@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/friendship.dart';
+import '../helpers/http-requests/friendship.dart';
 
 class FriendshipTile extends StatelessWidget {
   const FriendshipTile({Key? key, required this.friendship}) : super(key: key);
@@ -21,12 +22,16 @@ class FriendshipTile extends StatelessWidget {
                 title: const Text('Deseja mesmo deletar a amizade?'),
                 actions: <Widget>[
                   TextButton(
-                      child: Text(
-                          style: TextStyle(color: Colors.redAccent), 'Deletar'),
-                      onPressed: () {
-                        // TO DO: implement the logout
-                        print("deletar amizade");
-                      }),
+                    child: Text(
+                        style: TextStyle(color: Colors.redAccent), 'Deletar'),
+                    onPressed: () {
+                      // TO DO: implement the logout
+                      FriendshipHttpRequestHelper.deleteFriendship(
+                          friendship.friendshipId,
+                          friendship.userId,
+                          friendship.username);
+                    },
+                  ),
                   TextButton(
                     child: const Text('Cancelar'),
                     onPressed: () {
