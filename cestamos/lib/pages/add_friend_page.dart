@@ -54,124 +54,101 @@ class _AddFriendFormState extends State<AddFriendForm> {
           vertical: 10,
           horizontal: 15,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(25),
-            ),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 1,
-                spreadRadius: 1,
-                color: Colors.black.withOpacity(0.1),
-                offset: const Offset(2, 2),
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(25),
               ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    "Adicionar amigo",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Form(
-                    key: _formKey,
-                    autovalidateMode: AutovalidateMode.disabled,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.email_rounded),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            hintText: "Email",
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                          ),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Insira o email";
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.name,
-                          textInputAction: TextInputAction.next,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.numbers_rounded),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            hintText: "User ID",
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                          ),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Insira o user ID";
-                            }
-                            return null;
-                          },
-                          keyboardType: const TextInputType.numberWithOptions(),
-                          onChanged: (userID) {
-                            if (userID.isNotEmpty) {
-                              _userID = userID;
-                            }
-                          },
-                          textInputAction: TextInputAction.done,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FormButton(
-                  text: "Adicionar",
-                  icon: Icons.add,
-                  onPressed: () {
-                    sendInvite();
-                    Navigator.of(context).pop();
-                  },
-                  option: 1,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FormButton(
-                  text: "Cancelar",
-                  icon: Icons.cancel,
-                  onPressed: () => Navigator.of(context).pop(),
-                  option: 2,
-                ),
-                const SizedBox(
-                  height: 20,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 1,
+                  spreadRadius: 1,
+                  color: Colors.black.withOpacity(0.1),
+                  offset: const Offset(2, 2),
                 ),
               ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Text(
+                        "Adicionar amigo",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                    Form(
+                      key: _formKey,
+                      autovalidateMode: AutovalidateMode.disabled,
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.numbers_rounded),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintText: "User ID",
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                            ),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return "Insira o user ID";
+                              }
+                              return null;
+                            },
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
+                            onChanged: (userID) {
+                              if (userID.isNotEmpty) {
+                                _userID = userID;
+                              }
+                            },
+                            textInputAction: TextInputAction.done,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    FormButton(
+                      text: "Adicionar",
+                      icon: Icons.add,
+                      onPressed: () {
+                        sendInvite();
+                        Navigator.of(context).pop();
+                      },
+                      option: 1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    FormButton(
+                      text: "Cancelar",
+                      icon: Icons.cancel,
+                      onPressed: () => Navigator.of(context).pop(),
+                      option: 2,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ));

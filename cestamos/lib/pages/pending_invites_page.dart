@@ -1,5 +1,7 @@
-import 'package:cestamos/models/invitation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cestamos/models/invitation.dart';
 
 import '../helpers/http-requests/invitation.dart';
 
@@ -13,6 +15,7 @@ class PendingInvitesPage extends StatefulWidget {
 
 class _PendingInviteState extends State<PendingInvitesPage> {
   bool _loaded = false;
+  int _myUserId = 0;
   List<Invitation> _invitations = [];
 
   void _refresh() {
@@ -22,11 +25,19 @@ class _PendingInviteState extends State<PendingInvitesPage> {
   }
 
   Future<bool> _getInvitations() async {
+    if (_myUserId == 0) {
+      var pref = SharedPreferences.getInstance();
+      pref.then((value) {
+        _myUserId = value.getInt('user_id') ?? 0;
+      });
+    }
     if (_loaded) return true;
     var response = InvitationHttpRequestHelper.getInvitations();
     return response.then((value) {
       var invitations = value.content;
-      _invitations = [...invitations];
+      _invitations = [...invitations]
+          .where((element) => element.userId != _myUserId)
+          .toList();
       _loaded = true;
       return value.success;
     });
