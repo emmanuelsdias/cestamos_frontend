@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import './form_buton.dart';
-import '../providers/friendships.dart';
 
 import '../models/user.dart';
-import '../models/friendship.dart';
+import '../widgets/form_buton.dart';
 
 class ShowMembersOfListDialog extends StatefulWidget {
   const ShowMembersOfListDialog({
     required this.listMembers,
     required this.selfUser,
+    required this.expellUser,
     required this.changeUserStatus,
     Key? key,
   }) : super(key: key);
 
   final List<UserList> listMembers;
   final UserList selfUser;
+  final Function expellUser;
   final Function changeUserStatus;
 
   @override
@@ -78,7 +76,42 @@ class _ShowMembersOfListDialogState extends State<ShowMembersOfListDialog> {
                                   Icons.delete,
                                   color: Colors.white,
                                 ),
-                                onPressed: () => print("AAA"),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: ((context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                          "Tirar usuário da lista?",
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              widget.expellUser(
+                                                userList.userListId,
+                                              );
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              "Tirar",
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text(
+                                              "Cancelar",
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                                  );
+                                },
                               ),
                         onTap: ((userList.id == widget.selfUser.id) ||
                                 (!widget.selfUser.isAdm))

@@ -9,6 +9,7 @@ import '../models/item.dart';
 import '../models/shop_list.dart';
 
 import '../helpers/http-requests/shop_list.dart';
+import '../helpers/http-requests/item.dart';
 
 import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
@@ -165,6 +166,9 @@ class _OneListPageState extends State<OneListPage> {
                         return ShowMembersOfListDialog(
                           listMembers: _shopList.users,
                           selfUser: getUserListFromUserId(_myUserId),
+                          expellUser: (int userListId) {
+                            removeUserFromList(userListId);
+                          },
                           changeUserStatus:
                               (int userListId, bool shouldBecomeAdm) {
                             changeUserStatus(

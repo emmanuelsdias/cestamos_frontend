@@ -24,4 +24,25 @@ class FriendshipHttpRequestHelper {
     }
     return Pair(friendships, response.success);
   }
+
+  static Future<Pair<Friendship, bool>> deleteFriendship(
+      int friendshipId, int userId, String userName) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndFriendshipUrl/$friendshipId?token=$token";
+    final body = {
+      "friendship_id": friendshipId,
+      "user_id": userId,
+    };
+
+    var response = await RequestFactory.delete(url, body);
+    var deletedFriendshipsData = response.content;
+    Friendship deletedFriendship;
+    if (response.success) {
+      deletedFriendship = Friendship.fromJson(deletedFriendshipsData);
+    } else {
+      deletedFriendship = Friendship();
+    }
+    return Pair(deletedFriendship, response.success);
+  }
 }
