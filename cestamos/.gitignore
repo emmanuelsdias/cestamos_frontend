@@ -45,6 +45,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+**/android/key.properties
 
 # Project-specific files
 /lib/helpers/http-requests/base_urls.dart
