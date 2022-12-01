@@ -26,4 +26,26 @@ class UserListHttpRequestHelper {
     }
     return Pair(userList, response.success);
   }
+
+  static Future<Pair<UserList, bool>> changeUserStatus(
+    int userListId,
+    bool shouldBecomeAdm,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndUserListUrl/$userListId?token=$token";
+    var body = {
+      "is_adm": shouldBecomeAdm,
+      "is_nutritionist": false,
+    };
+    var response = await RequestFactory.put(url, body);
+    var userListData = response.content;
+    UserList userList;
+    if (response.success) {
+      userList = UserList.fromJson(userListData);
+    } else {
+      userList = UserList();
+    }
+    return Pair(userList, response.success);
+  }
 }

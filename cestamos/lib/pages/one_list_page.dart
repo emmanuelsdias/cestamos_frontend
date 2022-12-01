@@ -65,6 +65,10 @@ class _OneListPageState extends State<OneListPage> {
     UserListHttpRequestHelper.deleteUserList(userListId);
   }
 
+  void changeUserStatus(int userListId, bool shouldBecomeAdm) {
+    UserListHttpRequestHelper.changeUserStatus(userListId, shouldBecomeAdm);
+  }
+
   int getUserListIdFromUserId(int userId) {
     return getUserListFromUserId(userId).userListId;
   }
@@ -161,6 +165,14 @@ class _OneListPageState extends State<OneListPage> {
                         return ShowMembersOfListDialog(
                           listMembers: _shopList.users,
                           selfUser: getUserListFromUserId(_myUserId),
+                          changeUserStatus:
+                              (int userListId, bool shouldBecomeAdm) {
+                            changeUserStatus(
+                              userListId,
+                              shouldBecomeAdm,
+                            );
+                            refreshList();
+                          },
                         );
                       },
                     );
