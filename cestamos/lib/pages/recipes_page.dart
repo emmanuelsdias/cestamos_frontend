@@ -1,6 +1,9 @@
+import 'package:cestamos/pages/recipe_detail_page.dart';
 import 'package:flutter/material.dart';
 import '../widgets/cestamos_bar.dart';
 import '../models/recipe.dart';
+import '../widgets/recipe_tile.dart';
+
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
 
@@ -71,8 +74,8 @@ class _RecipesPageState extends State<RecipesPage> {
                     child: Text("Você ainda não tem receitas!"),
                   )
                 : Column(
-                    children: const [
-                      Padding(
+                    children: [
+                      const Padding(
                         padding: EdgeInsets.all(15),
                         child: Text(
                           "Minhas Receitas",
@@ -81,7 +84,24 @@ class _RecipesPageState extends State<RecipesPage> {
                             fontSize: 25,
                           ),
                         ),
-                      )
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                RecipeDetailPage().pageRouteName,
+                                // arguments: _recipes[index],
+                              ),
+                              child: RecipeTile(
+                                recipeSummary: _recipes[index],
+                              ),
+                            );
+                          },
+                          itemCount: _recipes.length,
+                        ),
+                      ),
                     ],
                   );
           }),
