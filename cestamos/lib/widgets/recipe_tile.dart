@@ -31,13 +31,13 @@ class RecipeTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Preping time: ${recipeSummary.prepTime} min',
+                        'Prep: ${recipeSummary.prepTime} min',
                       ),
                       Text(
-                        'Cooking time: ${recipeSummary.cookingTime} min',
+                        'Cooking: ${recipeSummary.cookingTime} min',
                       ),
                       Text(
-                        'Resting time: ${recipeSummary.restingTime} min',
+                        'Resting: ${recipeSummary.restingTime} min',
                       )
                     ],
                   )
