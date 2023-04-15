@@ -16,7 +16,16 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
-  List<RecipeSummary> _recipes = []; // TEM QUE CRIAR O MODEL DA RECEITA
+  List<RecipeSummary> _recipes = [
+    RecipeSummary(
+      id: 1,
+      recipeName: "Receita Teste",
+      description: "Uma receita testada e aprovada",
+      prepTime: 50,
+      cookingTime: 15,
+      restingTime: 5,
+    )
+  ]; // TEM QUE CRIAR O MODEL DA RECEITA
 
   Future<bool> _refreshRecipes() async {
     // var response = ShopListHttpRequestHelper.getLists();
@@ -91,7 +100,7 @@ class _RecipesPageState extends State<RecipesPage> {
                             return GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                 context,
-                                RecipeDetailPage().pageRouteName,
+                                RecipeDetailPage.pageRouteName,
                                 // arguments: _recipes[index],
                               ),
                               child: RecipeTile(

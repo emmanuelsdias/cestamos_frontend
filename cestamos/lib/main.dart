@@ -7,6 +7,7 @@ import 'pages/create_list_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
+import 'pages/recipe_detail_page.dart';
 import 'pages/logged_screen.dart';
 import 'pages/one_list_page.dart';
 import 'pages/add_friend_page.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
 
   final _routes = <String, WidgetBuilder>{
     '/': (BuildContext context) => const LoginPage(),
+    // '/': (BuildContext context) => const LoggedScreen(),
     LandingPage.pageRouteName: (BuildContext context) => const LandingPage(),
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
     CreateListPage.pageRouteName: (BuildContext context) =>
         const CreateListPage(),
     PendingInvitesPage.pageRouteName: (BuildContext context) =>
-        const PendingInvitesPage()
+        const PendingInvitesPage(),
+    RecipeDetailPage.pageRouteName: (BuildContext context) => const RecipeDetailPage(),
   };
 
   @override
