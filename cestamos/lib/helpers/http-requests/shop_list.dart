@@ -78,7 +78,7 @@ class ShopListHttpRequestHelper {
     final body = {
       "name": listName,
       "user_ids": userIds,
-      "is_template": true,
+      "is_template": false,
     };
     var response = await RequestFactory.post(url, body);
     var listData = response.content;
