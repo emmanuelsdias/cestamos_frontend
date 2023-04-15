@@ -12,17 +12,38 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
+  Future<bool> _refreshRecipes() async {
+    // var response = ShopListHttpRequestHelper.getLists();
+    // return response.then((value) {
+    //   _lists = value.content;
+
+    //   return value.success;
+    // });
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CestamosBar(),
+      appBar: CestamosBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _refreshRecipes();
+              });
+            },
+            icon: const Icon(Icons.refresh_rounded),
+          ),
+        ],
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'Minhas receitas aqui!',
+              'Minhas receitas aqui ficarão aqui!',
             ),
           ],
         ),
