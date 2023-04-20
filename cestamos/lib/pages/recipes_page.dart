@@ -79,7 +79,7 @@ class _RecipesPageState extends State<RecipesPage> {
                               onTap: () => Navigator.pushNamed(
                                 context,
                                 RecipeDetailPage.pageRouteName,
-                                // arguments: _recipes[index],
+                                arguments: _recipes[index],
                               ),
                               child: RecipeTile(
                                 recipeSummary: _recipes[index],

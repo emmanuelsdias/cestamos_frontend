@@ -1,6 +1,7 @@
 class Recipe {
   int id;
-  int userId;
+  int authorUserId;
+  String authorUserName;
   String recipeName;
   String description;
   String ingredients;
@@ -12,7 +13,8 @@ class Recipe {
   bool isPublic;
   Recipe(
       {this.id = 0,
-      this.userId = 0,
+      this.authorUserId = 0,
+      this.authorUserName = "",
       this.recipeName = "",
       this.description = "",
       // this.items = const []
@@ -26,18 +28,19 @@ class Recipe {
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-        id: json['recipe_id'] as int,
-        userId: json['user_id'] as int,
         recipeName: json['name'] as String,
         description: json['description'] as String,
-        peopleServed: json['people_served'] as int,
-        // ingredients: json['ingredients'] ITEMS? LIST? STRING?
         ingredients: json['ingredients'] as String,
+        peopleServed: json['people_served'] as int,
         instructions: json['instructions'] as String,
         prepTime: json['prep_time'] as String,
         cookingTime: json['cooking_time'] as String,
         restingTime: json['resting_time'] as String,
-        isPublic: json['is_public'] as bool);
+        isPublic: json['is_public'] as bool,
+        id: json['recipe_id'] as int,
+        authorUserId: json['author_user_id'] as int,
+        authorUserName: json['author_user_name'] as String,
+    );
   }
 }
 
