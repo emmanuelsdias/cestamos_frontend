@@ -1,6 +1,7 @@
 import 'package:cestamos/pages/pending_invites_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 import 'providers/friendships.dart';
 import 'pages/create_list_page.dart';
@@ -12,7 +13,18 @@ import 'pages/logged_screen.dart';
 import 'pages/one_list_page.dart';
 import 'pages/add_friend_page.dart';
 
-void main() {
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 

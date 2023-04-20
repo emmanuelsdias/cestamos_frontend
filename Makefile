@@ -1,5 +1,5 @@
 start:
-	cd setup && python ./ipconfig.py && cd ..
+	cd setup && python3 ./ipconfig.py && cd ..
 	cd cestamos && flutter run
 
 load-urls:
