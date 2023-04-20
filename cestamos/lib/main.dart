@@ -10,7 +10,7 @@ import 'pages/login_page.dart';
 import 'pages/register_page.dart';
 import 'pages/recipe_detail_page.dart';
 import 'pages/logged_screen.dart';
-import 'pages/one_list_page.dart';
+import 'pages/list_detail_page.dart';
 import 'pages/add_friend_page.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
-    OneListPage.pageRouteName: (BuildContext context) => const OneListPage(),
+    ListDetailPage.pageRouteName: (BuildContext context) => const ListDetailPage(),
     AddFriendPage.pageRouteName: (BuildContext context) =>
         const AddFriendPage(),
     CreateListPage.pageRouteName: (BuildContext context) =>
