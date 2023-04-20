@@ -16,11 +16,11 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
-  List<RecipeSummary> _recipes = [
+  final List<RecipeSummary> _recipes = [
     RecipeSummary(
       id: 1,
       recipeName: "Receita Teste",
-      description: "Uma receita testada e aprovada",
+      description: "Uma receita testada e aprovada!",
       prepTime: 50,
       cookingTime: 15,
       restingTime: 5,
