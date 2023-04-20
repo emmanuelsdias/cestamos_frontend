@@ -1,18 +1,14 @@
-import './item.dart';
-import './user.dart';
-
 class Recipe {
   int id;
   int userId;
   String recipeName;
-  // LEMBRAR DE ADD OS INGREDIENTE: É TEXTO? É ITEM?
-  // List<item> items; ?????
   String description;
+  String ingredients;
   int peopleServed;
   String instructions;
-  int prepTime;
-  int cookingTime;
-  int restingTime;
+  String prepTime;
+  String cookingTime;
+  String restingTime;
   bool isPublic;
   Recipe(
       {this.id = 0,
@@ -20,11 +16,12 @@ class Recipe {
       this.recipeName = "",
       this.description = "",
       // this.items = const []
+      this.ingredients = "",
       this.peopleServed = 0,
       this.instructions = "",
-      this.prepTime = 0,
-      this.cookingTime = 0,
-      this.restingTime = 0,
+      this.prepTime = "0",
+      this.cookingTime = "0",
+      this.restingTime = "0",
       this.isPublic = false});
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
@@ -35,10 +32,11 @@ class Recipe {
         description: json['description'] as String,
         peopleServed: json['people_served'] as int,
         // ingredients: json['ingredients'] ITEMS? LIST? STRING?
+        ingredients: json['ingredients'] as String,
         instructions: json['instructions'] as String,
-        prepTime: json['prep_time'] as int,
-        cookingTime: json['cooking_time'] as int,
-        restingTime: json['resting_time'] as int,
+        prepTime: json['prep_time'] as String,
+        cookingTime: json['cooking_time'] as String,
+        restingTime: json['resting_time'] as String,
         isPublic: json['is_public'] as bool);
   }
 }
@@ -47,9 +45,11 @@ class RecipeSummary {
   int id;
   String recipeName;
   String description;
-  int prepTime;
-  int cookingTime;
-  int restingTime;
+  String prepTime;
+  String cookingTime;
+  String restingTime;
+  int authorUserId;
+  String authorUserName;
 
   RecipeSummary({
     required this.id,
@@ -58,6 +58,8 @@ class RecipeSummary {
     required this.prepTime,
     required this.cookingTime,
     required this.restingTime,
+    required this.authorUserId,
+    required this.authorUserName,
   });
 
   factory RecipeSummary.fromJson(Map<String, dynamic> json) {
@@ -65,9 +67,11 @@ class RecipeSummary {
       id: json['recipe_id'] as int,
       recipeName: json['name'] as String,
       description: json['description'] as String,
-      prepTime: json['prep_time'] as int,
-      cookingTime: json['cooking_time'] as int,
-      restingTime: json['resting_time'] as int,
+      prepTime: json['prep_time'] as String,
+      cookingTime: json['cooking_time'] as String,
+      restingTime: json['resting_time'] as String,
+      authorUserId: json['author_user_id'] as int,
+      authorUserName: json['author_user_name'] as String,
     );
   }
 }

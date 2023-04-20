@@ -28,19 +28,9 @@ class RecipeTile extends StatelessWidget {
                     overflow: TextOverflow.clip,
                     softWrap: false,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        'Prep: ${recipeSummary.prepTime} min',
-                      ),
-                      Text(
-                        'Cooking: ${recipeSummary.cookingTime} min',
-                      ),
-                      Text(
-                        'Resting: ${recipeSummary.restingTime} min',
-                      )
-                    ],
-                  )
+                  Text(
+                    'Tempo de preparo: ${recipeSummary.prepTime} min',
+                  ),
                 ],
               )),
         ),

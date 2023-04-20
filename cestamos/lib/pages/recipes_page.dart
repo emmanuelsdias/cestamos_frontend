@@ -1,11 +1,10 @@
-import 'package:cestamos/pages/recipe_detail_page.dart';
 import 'package:flutter/material.dart';
 import '../widgets/cestamos_bar.dart';
 import '../models/recipe.dart';
 import '../widgets/recipe_tile.dart';
+import './recipe_detail_page.dart';
 
-// import '../helpers/http-requests/user.dart';
-// import '../models/user.dart';
+import '../helpers/http-requests/recipe.dart';
 
 class RecipesPage extends StatefulWidget {
   const RecipesPage({super.key});
@@ -16,25 +15,14 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
-  List<RecipeSummary> _recipes = [
-    RecipeSummary(
-      id: 1,
-      recipeName: "Receita Teste",
-      description: "Uma receita testada e aprovada",
-      prepTime: 50,
-      cookingTime: 15,
-      restingTime: 5,
-    )
-  ]; // TEM QUE CRIAR O MODEL DA RECEITA
+  List<RecipeSummary> _recipes = [];
 
   Future<bool> _refreshRecipes() async {
-    // var response = ShopListHttpRequestHelper.getLists();
-    // return response.then((value) {
-    //   _lists = value.content;
-
-    //   return value.success;
-    // });
-    return true;
+    var response = RecipeHttpRequestHelper.getUserRecipes();
+    return response.then((value) {
+      _recipes = value.content;
+      return value.success;
+    });
   }
 
   @override
@@ -53,16 +41,6 @@ class _RecipesPageState extends State<RecipesPage> {
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: const <Widget>[
-      //       Text(
-      //         'Minhas receitas aqui ficarão aqui!',
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: FutureBuilder<bool>(
           future: _refreshRecipes(),
           builder: (context, snapshot) {
@@ -113,7 +91,8 @@ class _RecipesPageState extends State<RecipesPage> {
                       ),
                     ],
                   );
-          }),
+            },
+          ),
     );
   }
 }
