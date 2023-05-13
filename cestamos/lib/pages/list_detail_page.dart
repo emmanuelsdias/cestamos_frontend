@@ -19,16 +19,16 @@ import '../widgets/confirm_quit_shop_list_dialog.dart';
 import '../widgets/add_floating_button.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
-class OneListPage extends StatefulWidget {
-  const OneListPage({Key? key}) : super(key: key);
-  static const pageRouteName = "/one_list";
+class ListDetailPage extends StatefulWidget {
+  const ListDetailPage({Key? key}) : super(key: key);
+  static const pageRouteName = "/list_detail";
 
   @override
   // ignore: library_private_types_in_public_api
-  _OneListPageState createState() => _OneListPageState();
+  _ListDetailPageState createState() => _ListDetailPageState();
 }
 
-class _OneListPageState extends State<OneListPage> {
+class _ListDetailPageState extends State<ListDetailPage> {
   List<Item> _items = [];
   ShopList _shopList = ShopList();
   var _loaded = false;
