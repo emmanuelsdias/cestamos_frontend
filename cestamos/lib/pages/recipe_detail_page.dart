@@ -45,7 +45,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
     recipeName: "Receita Teste",
     description: "Uma receita testada e aprovada!",
     peopleServed: 10,
-    // ingredients: json['ingredients'] ITEMS? LIST? STRING?
+    ingredients: const [],
     instructions: const [],
     prepTime: 50,
     cookingTime: 15,
