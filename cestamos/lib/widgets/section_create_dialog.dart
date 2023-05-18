@@ -40,7 +40,7 @@ class _SectionCreateDialogState extends State<SectionCreateDialog> {
           child: Column(
             children: [
               const Text(
-                "Adicionar passo",
+                "Adicionar seção",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -128,7 +128,7 @@ class _SectionCreateDialogState extends State<SectionCreateDialog> {
                       ),
                       FormButton(
                         text: "Adicionar",
-                        icon: Icons.add,
+                        icon: Icons.add_to_photos,
                         onPressed: () => _createSection(context),
                         option: 1,
                       ),

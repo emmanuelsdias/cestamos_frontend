@@ -3,8 +3,7 @@ import '../models/shop_list.dart';
 import './helpers/flight_shuttle_builder.dart';
 
 class ShopListTile extends StatelessWidget {
-  const ShopListTile({Key? key, required this.shopListSummary})
-      : super(key: key);
+  const ShopListTile({Key? key, required this.shopListSummary}) : super(key: key);
 
   final ShopListSummary shopListSummary;
 

@@ -97,8 +97,7 @@ class _FriendsPageState extends State<FriendsPage> {
               } else if (result == 1) {
                 Navigator.of(context).pushNamed(AddFriendPage.pageRouteName);
               } else if (result == 2) {
-                Navigator.of(context)
-                    .pushNamed(PendingInvitesPage.pageRouteName);
+                Navigator.of(context).pushNamed(PendingInvitesPage.pageRouteName);
               } else if (result == 3) {
                 showDialog(
                   context: context,
@@ -112,8 +111,7 @@ class _FriendsPageState extends State<FriendsPage> {
                         ),
                         onPressed: () {
                           _logout();
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                           Navigator.of(context).pushReplacementNamed('/');
                         },
                       ),
@@ -163,46 +161,37 @@ class _FriendsPageState extends State<FriendsPage> {
                     "Você não tem amigos",
                   ),
                 )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text(
-                          "Meus Amigos",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
+              : Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Text(
+                        "Meus Amigos",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
                         ),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                                onTap: () => {},
-                                child: Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: FriendshipTile(
-                                      friendship: friendships[index],
-                                    ),
-                                  ),
-                                ));
-                          },
-                          itemCount: friendships.length,
-                        ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () => {},
+                            child: FriendshipTile(
+                              friendship: friendships[index],
+                            ),
+                          );
+                        },
+                        itemCount: friendships.length,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
         }),
       ),
       floatingActionButton: AddFloatingButton(
-        onPressed: () =>
-            Navigator.of(context).pushNamed(AddFriendPage.pageRouteName),
+        onPressed: () => Navigator.of(context).pushNamed(AddFriendPage.pageRouteName),
       ),
     );
   }
