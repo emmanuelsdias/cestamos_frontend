@@ -69,9 +69,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
 
   void _removeItem(String itemName, String itemQuantity) {
     setState(() {
-      _ingredients.removeWhere((e) =>
-          (e.ingredientName == itemName) &&
-          (e.ingredientQuantity == itemQuantity));
+      _ingredients.removeWhere((e) => (e.ingredientName == itemName) && (e.ingredientQuantity == itemQuantity));
     });
   }
 
@@ -88,9 +86,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
 
   void _removeSection(String sectionTitle, String sectionDescription) {
     setState(() {
-      _instructions.removeWhere((e) =>
-          (e.instructionTitle == sectionTitle) &&
-          (e.instructionDescription == sectionDescription));
+      _instructions.removeWhere((e) => (e.instructionTitle == sectionTitle) && (e.instructionDescription == sectionDescription));
     });
   }
 
@@ -147,8 +143,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                   TextFormField(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
+                                        borderRadius: BorderRadius.circular(15.0),
                                         borderSide: const BorderSide(
                                           width: 0,
                                           style: BorderStyle.none,
@@ -160,8 +155,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      hintText:
-                                          "Coloque um título para sua receita aqui",
+                                      hintText: "Coloque um título para sua receita aqui",
                                       filled: true,
                                       fillColor: Colors.grey[100],
                                     ),
@@ -189,8 +183,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                     textInputAction: TextInputAction.done,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
+                                        borderRadius: BorderRadius.circular(15.0),
                                         borderSide: const BorderSide(
                                           width: 0,
                                           style: BorderStyle.none,
@@ -300,8 +293,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                     Column(
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Flexible(
                                               child: Text(
@@ -317,8 +309,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                                 Text(
                                                   item.ingredientQuantity,
                                                   maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                                 const SizedBox(
                                                   width: 10,
@@ -328,15 +319,11 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                                   width: 20,
                                                   child: FittedBox(
                                                     child: FloatingActionButton(
-                                                      onPressed: () =>
-                                                          _removeItem(
+                                                      onPressed: () => _removeItem(
                                                         item.ingredientName,
                                                         item.ingredientQuantity,
                                                       ),
-                                                      backgroundColor:
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .primary,
+                                                      backgroundColor: Theme.of(context).colorScheme.primary,
                                                       child: const Icon(
                                                         Icons.remove,
                                                         color: Colors.white,
@@ -367,16 +354,13 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                         },
                                       );
                                     },
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.primary,
+                                    backgroundColor: Theme.of(context).colorScheme.primary,
                                     label: Row(
                                       children: [
                                         Text(
                                           'Novo ingrediente',
                                           style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary,
+                                            color: Theme.of(context).colorScheme.onPrimary,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -385,9 +369,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                         ),
                                         Icon(
                                           Icons.add,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
+                                          color: Theme.of(context).colorScheme.onPrimary,
                                         ),
                                       ],
                                     ),
@@ -402,85 +384,85 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    for (var i = 1; i <= _instructions.length; i++)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(25),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(1, 1),
+                    for (var i = 0; i < _instructions.length; i++)
+                      Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: const Offset(1, 1),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
                                         Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              "$i",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 40,
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "${i + 1}",
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 40,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  _instructions[i].instructionTitle,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            IconButton(
+                                              onPressed: () => _removeSection(
+                                                _instructions[i].instructionTitle,
+                                                _instructions[i].instructionDescription,
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              _instructions[i - 1]
-                                                  .instructionTitle,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                              icon: Icon(
+                                                Icons.cancel,
+                                                color: Theme.of(context).colorScheme.primary,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        IconButton(
-                                          onPressed: () => _removeSection(
-                                            _instructions[i - 1]
-                                                .instructionTitle,
-                                            _instructions[i - 1]
-                                                .instructionDescription,
-                                          ),
-                                          icon: Icon(
-                                            Icons.cancel,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          _instructions[i].instructionDescription,
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      _instructions[i - 1]
-                                          .instructionDescription,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
                     const SizedBox(
                       height: 20,
@@ -510,7 +492,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                             width: 10,
                           ),
                           Icon(
-                            Icons.add,
+                            Icons.add_to_photos,
                             color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ],

@@ -57,16 +57,6 @@ class _RecipesPageState extends State<RecipesPage> {
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: const <Widget>[
-      //       Text(
-      //         'Minhas receitas aqui ficarão aqui!',
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: FutureBuilder<bool>(
           future: _refreshRecipes(),
           builder: (context, snapshot) {
@@ -78,8 +68,7 @@ class _RecipesPageState extends State<RecipesPage> {
             var success = snapshot.data!;
             if (!success) {
               return const Center(
-                child: Text(
-                    "Algo de errado aconteceu nas suas receitas. Tente novamente mais tarde!"),
+                child: Text("Algo de errado aconteceu nas suas receitas. Tente novamente mais tarde!"),
               );
             }
             return _recipes.isEmpty
@@ -119,8 +108,7 @@ class _RecipesPageState extends State<RecipesPage> {
                   );
           }),
       floatingActionButton: AddFloatingButton(
-        onPressed: () =>
-            Navigator.of(context).pushNamed(CreateRecipePage.pageRouteName),
+        onPressed: () => Navigator.of(context).pushNamed(CreateRecipePage.pageRouteName),
       ),
     );
   }
