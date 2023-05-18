@@ -12,8 +12,8 @@ class Instruction {
     customJson = customJson.replaceAll('&', ',');
     var json = customJson as Map<String, dynamic>;
     return Instruction(
-        instructionTitle: json['instruction_title'] as String,
-        instructionDescription: json['instruction_description'] as String,
+      instructionTitle: json['instruction_title'] as String,
+      instructionDescription: json['instruction_description'] as String,
     );
   }
 
@@ -26,7 +26,8 @@ class Instructions {
   static List<Instruction> instructionListfromCustomString(String customJson) {
     customJson = customJson.replaceAll('[', '').replaceAll(']', '');
     var customJsons = customJson.split(',');
-    List<Instruction> instructions = customJsons.map((e) => Instruction.fromCustomJson(e)).toList();
+    List<Instruction> instructions =
+        customJsons.map((e) => Instruction.fromCustomJson(e)).toList();
     return instructions;
   }
 
@@ -54,8 +55,8 @@ class Ingredient {
     customJson = customJson.replaceAll('&', ',');
     var json = customJson as Map<String, dynamic>;
     return Ingredient(
-        ingredientName: json['ingredient_name'] as String,
-        ingredientQuantity: json['ingredient_quantity'] as String,
+      ingredientName: json['ingredient_name'] as String,
+      ingredientQuantity: json['ingredient_quantity'] as String,
     );
   }
 
@@ -68,7 +69,8 @@ class Ingredients {
   static List<Ingredient> ingredientListfromCustomString(String customJson) {
     customJson = customJson.replaceAll('[', '').replaceAll(']', '');
     var customJsons = customJson.split(',');
-    List<Ingredient> ingredients = customJsons.map((e) => Ingredient.fromCustomJson(e)).toList();
+    List<Ingredient> ingredients =
+        customJsons.map((e) => Ingredient.fromCustomJson(e)).toList();
     return ingredients;
   }
 
@@ -97,20 +99,19 @@ class Recipe {
   int cookingTime;
   int restingTime;
   bool isPublic;
-  Recipe(
-      {this.id = 0,
-      this.userId = 0,
-      this.recipeName = "",
-      this.description = "",
-      this.ingredients = const [],
-      this.peopleServed = 0,
-      this.instructions = const [],
-      this.prepTime = 0,
-      this.cookingTime = 0,
-      this.restingTime = 0,
-      this.isPublic = false,
-    }
-  );
+  Recipe({
+    this.id = 0,
+    this.userId = 0,
+    this.recipeName = "",
+    this.description = "",
+    this.ingredients = const [],
+    this.peopleServed = 0,
+    this.instructions = const [],
+    this.prepTime = 0,
+    this.cookingTime = 0,
+    this.restingTime = 0,
+    this.isPublic = false,
+  });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
@@ -119,17 +120,20 @@ class Recipe {
         recipeName: json['name'] as String,
         description: json['description'] as String,
         peopleServed: json['people_served'] as int,
-        ingredients: Ingredients.ingredientListfromCustomString(json['ingredients'] as String),
-        instructions: Instructions.instructionListfromCustomString(json['instructions'] as String),
+        ingredients: Ingredients.ingredientListfromCustomString(
+            json['ingredients'] as String),
+        instructions: Instructions.instructionListfromCustomString(
+            json['instructions'] as String),
         prepTime: json['prep_time'] as int,
         cookingTime: json['cooking_time'] as int,
         restingTime: json['resting_time'] as int,
         isPublic: json['is_public'] as bool);
   }
 
-  String get indredientsString {
+  String get ingredientsString {
     return Ingredients.ingredientList2CustomString(ingredients);
   }
+
   String get instructionsString {
     return Instructions.instructionList2CustomString(instructions);
   }

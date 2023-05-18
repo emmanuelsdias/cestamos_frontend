@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './create_list_page.dart';
-import 'list_detail_page.dart';
+import './list_detail_page.dart';
 
 import '../helpers/http-requests/shop_list.dart';
 import '../models/shop_list.dart';

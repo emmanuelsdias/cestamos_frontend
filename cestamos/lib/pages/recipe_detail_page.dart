@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import '../widgets/cestamos_bar.dart';
+// import '../widgets/cestamos_bar.dart';
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
 import '../models/recipe.dart';
 
-import 'package:cestamos/helpers/http-requests/item.dart';
-import 'package:cestamos/helpers/http-requests/user_list.dart';
-import 'package:cestamos/models/friendship.dart';
-import 'package:cestamos/models/user.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:cestamos/helpers/http-requests/item.dart';
+// import 'package:cestamos/helpers/http-requests/user_list.dart';
+// import 'package:cestamos/models/friendship.dart';
+// import 'package:cestamos/models/user.dart';
+// import 'package:flutter/material.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/item.dart';
-import '../models/shop_list.dart';
+// import '../models/item.dart';
+// import '../models/shop_list.dart';
 
-import '../helpers/http-requests/shop_list.dart';
-import '../helpers/http-requests/item.dart';
+// import '../helpers/http-requests/shop_list.dart';
+// import '../helpers/http-requests/item.dart';
 
-import '../widgets/item_create_dialog.dart';
-import '../widgets/item_edit_dialog.dart';
-import '../widgets/add_friend_to_shop_list_dialog.dart';
-import '../widgets/show_members_of_list_dialog.dart';
-import '../widgets/confirm_quit_shop_list_dialog.dart';
-import '../widgets/add_floating_button.dart';
+// import '../widgets/item_create_dialog.dart';
+// import '../widgets/item_edit_dialog.dart';
+// import '../widgets/add_friend_to_shop_list_dialog.dart';
+// import '../widgets/show_members_of_list_dialog.dart';
+// import '../widgets/confirm_quit_shop_list_dialog.dart';
+// import '../widgets/add_floating_button.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
 class RecipeDetailPage extends StatefulWidget {
@@ -40,18 +40,18 @@ String _getUserNameFromUserId(int id) {
 
 class _RecipeDetailPageState extends State<RecipeDetailPage> {
   final _recipe = Recipe(
-      id: 1,
-      userId: 1,
-      recipeName: "Receita Teste",
-      description: "Uma receita testada e aprovada!",
-      peopleServed: 10,
-      // ingredients: json['ingredients'] ITEMS? LIST? STRING?
-      instructions:
-          "#1 Descrição do passo 1 bem detalhada.\n#2 Descrição do passo 2 não tão bem detalhada.",
-      prepTime: 50,
-      cookingTime: 15,
-      restingTime: 5,
-      isPublic: true);
+    id: 1,
+    userId: 1,
+    recipeName: "Receita Teste",
+    description: "Uma receita testada e aprovada!",
+    peopleServed: 10,
+    // ingredients: json['ingredients'] ITEMS? LIST? STRING?
+    instructions: const [],
+    prepTime: 50,
+    cookingTime: 15,
+    restingTime: 5,
+    isPublic: true,
+  );
 
   @override
   Widget build(BuildContext context) {

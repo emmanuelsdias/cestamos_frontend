@@ -1,8 +1,13 @@
-import 'package:cestamos/pages/recipe_detail_page.dart';
 import 'package:flutter/material.dart';
-import '../widgets/cestamos_bar.dart';
+
+import './create_recipe_page.dart';
+import './recipe_detail_page.dart';
+
 import '../models/recipe.dart';
+
+import '../widgets/cestamos_bar.dart';
 import '../widgets/recipe_tile.dart';
+import '../widgets/add_floating_button.dart';
 
 // import '../helpers/http-requests/user.dart';
 // import '../models/user.dart';
@@ -114,6 +119,10 @@ class _RecipesPageState extends State<RecipesPage> {
                     ],
                   );
           }),
+      floatingActionButton: AddFloatingButton(
+        onPressed: () =>
+            Navigator.of(context).pushNamed(CreateRecipePage.pageRouteName),
+      ),
     );
   }
 }

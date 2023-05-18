@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'providers/friendships.dart';
 import 'pages/create_list_page.dart';
+import 'pages/create_recipe_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
@@ -38,14 +39,18 @@ class MyApp extends StatelessWidget {
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
-    ListDetailPage.pageRouteName: (BuildContext context) => const ListDetailPage(),
+    ListDetailPage.pageRouteName: (BuildContext context) =>
+        const ListDetailPage(),
     AddFriendPage.pageRouteName: (BuildContext context) =>
         const AddFriendPage(),
     CreateListPage.pageRouteName: (BuildContext context) =>
         const CreateListPage(),
+    CreateRecipePage.pageRouteName: (BuildContext context) =>
+        const CreateRecipePage(),
     PendingInvitesPage.pageRouteName: (BuildContext context) =>
         const PendingInvitesPage(),
-    RecipeDetailPage.pageRouteName: (BuildContext context) => const RecipeDetailPage(),
+    RecipeDetailPage.pageRouteName: (BuildContext context) =>
+        const RecipeDetailPage(),
   };
 
   @override
