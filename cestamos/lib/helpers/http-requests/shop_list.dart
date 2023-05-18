@@ -52,10 +52,12 @@ class ShopListHttpRequestHelper {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
     final url = "$baseBackEndShopListUrl/$shopListId/item?token=$token";
-    final body = {
-      "name": name,
-      "quantity": quantity,
-    };
+    final body = [
+      {
+        "name": name,
+        "quantity": quantity,
+      }
+    ];
     var response = await RequestFactory.post(url, body);
     var listData = response.content;
     ShopList list;
