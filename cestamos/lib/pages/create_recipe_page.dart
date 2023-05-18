@@ -9,6 +9,7 @@ import '../widgets/item_create_dialog.dart';
 import '../widgets/section_create_dialog.dart';
 // import '../widgets/item_edit_dialog.dart';
 import '../widgets/add_floating_button.dart';
+import '../helpers/http-requests/recipe.dart';
 
 class CreateRecipePage extends StatefulWidget {
   const CreateRecipePage({Key? key}) : super(key: key);
@@ -22,16 +23,38 @@ class CreateRecipePage extends StatefulWidget {
 class _CreateRecipePageState extends State<CreateRecipePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _recipeName = "";
-  List<Ingredient> _ingredients = [];
+  final List<Ingredient> _ingredients = [];
   String _description = "";
-  int _peopleServed = -1;
-  List<Instruction> _instructions = [];
-  int _prepTime = -1;
-  int _cookingTime = -1;
-  int _restingTime = -1;
+  final int _peopleServed = -1;
+  final List<Instruction> _instructions = [];
+  final String _prepTime = "-1";
+  final String _cookingTime = "-1";
+  final String _restingTime = "-1";
   bool _isPublic = false;
 
-  void _createRecipe() {}
+  Future<bool> _createRecipe() async {
+    if (!_formKey.currentState!.validate()) {
+      return false;
+    }
+    _formKey.currentState!.save();
+
+    var recipe = Recipe(
+      recipeName: _recipeName,
+      ingredients: _ingredients,
+      description: _description,
+      peopleServed: _peopleServed,
+      instructions: _instructions,
+      prepTime: _prepTime,
+      cookingTime: _cookingTime,
+      restingTime: _restingTime,
+      isPublic: _isPublic,
+    );
+
+    var response = RecipeHttpRequestHelper.createRecipe(recipe);
+    return response.then((value) {
+      return value.success;
+    });
+  }
 
   void _createItem(String itemName, String itemQuantity) {
     setState(() {
@@ -511,10 +534,10 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                   Switch(
                     activeTrackColor: Theme.of(context).colorScheme.primary,
                     activeColor: Theme.of(context).colorScheme.secondary,
-                    value: _isPublic,
+                    value: !_isPublic,
                     onChanged: (value) {
                       setState(() {
-                        _isPublic = value;
+                        _isPublic = !value;
                       });
                     },
                   ),
