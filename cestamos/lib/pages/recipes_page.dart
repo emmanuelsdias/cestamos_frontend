@@ -9,7 +9,7 @@ import '../widgets/cestamos_bar.dart';
 import '../widgets/recipe_tile.dart';
 import '../widgets/add_floating_button.dart';
 
-// import '../helpers/http-requests/user.dart';
+import '../helpers/http-requests/recipe.dart';
 // import '../models/user.dart';
 
 class RecipesPage extends StatefulWidget {
@@ -21,25 +21,24 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
-  final List<RecipeSummary> _recipes = [
+  List<RecipeSummary> _recipes = [
     RecipeSummary(
       id: 1,
       recipeName: "Receita Teste",
       description: "Uma receita testada e aprovada!",
-      prepTime: 50,
-      cookingTime: 15,
-      restingTime: 5,
+      prepTime: "50",
+      cookingTime: "15",
+      restingTime: "5",
     )
-  ]; // TEM QUE CRIAR O MODEL DA RECEITA
+  ];
 
   Future<bool> _refreshRecipes() async {
-    // var response = ShopListHttpRequestHelper.getLists();
-    // return response.then((value) {
-    //   _lists = value.content;
+    var response = RecipeHttpRequestHelper.getRecipes(false);
+    return response.then((value) {
+      _recipes = value.content;
 
-    //   return value.success;
-    // });
-    return true;
+      return value.success;
+    });
   }
 
   @override
@@ -106,7 +105,7 @@ class _RecipesPageState extends State<RecipesPage> {
                               onTap: () => Navigator.pushNamed(
                                 context,
                                 RecipeDetailPage.pageRouteName,
-                                // arguments: _recipes[index],
+                                arguments: _recipes[index],
                               ),
                               child: RecipeTile(
                                 recipeSummary: _recipes[index],

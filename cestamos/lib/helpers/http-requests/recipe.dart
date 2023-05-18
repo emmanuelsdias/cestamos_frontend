@@ -9,19 +9,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RecipeHttpRequestHelper {
   static const String baseBackEndItemUrl = "${BaseUrls.baseBackEndUrl}/recipe";
 
-  static Future<Pair<List<Recipe>, bool>> getRecipes(bool feed) async {
+  static Future<Pair<List<RecipeSummary>, bool>> getRecipes(bool feed) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
     final url = "$baseBackEndItemUrl/?token=$token&get_feed=$feed";
     var response = await RequestFactory.get(url);
     var recipesData = response.listedContent;
-    List<Recipe> recipes;
+    List<RecipeSummary> recipes;
     if (response.success) {
-      recipes = recipesData.map((i) => Recipe.fromJson(i)).toList();
+      recipes = recipesData.map((i) => RecipeSummary.fromJson(i)).toList();
     } else {
       recipes = [];
     }
     return Pair(recipes, response.success);
+  }
+
+  static Future<Pair<Recipe, bool>> getRecipe(int recipeId) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndItemUrl/$recipeId?token=$token";
+    var response = await RequestFactory.get(url);
+    var recipeData = response.content;
+    Recipe recipe;
+    if (response.success) {
+      recipe = Recipe.fromJson(recipeData);
+    } else {
+      recipe = Recipe();
+    }
+    return Pair(recipe, response.success);
   }
 
   static Future<Pair<Recipe, bool>> createRecipe(Recipe recipe) async {

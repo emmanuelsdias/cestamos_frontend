@@ -23,13 +23,13 @@ class CreateRecipePage extends StatefulWidget {
 class _CreateRecipePageState extends State<CreateRecipePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _recipeName = "";
-  List<Ingredient> _ingredients = [];
+  final List<Ingredient> _ingredients = [];
   String _description = "";
-  int _peopleServed = -1;
-  List<Instruction> _instructions = [];
-  int _prepTime = -1;
-  int _cookingTime = -1;
-  int _restingTime = -1;
+  final int _peopleServed = -1;
+  final List<Instruction> _instructions = [];
+  final String _prepTime = "-1";
+  final String _cookingTime = "-1";
+  final String _restingTime = "-1";
   bool _isPublic = false;
 
   Future<bool> _createRecipe() async {

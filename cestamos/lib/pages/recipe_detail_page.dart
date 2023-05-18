@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import '../models/user.dart';
 import '../models/recipe.dart';
 
-// import 'package:cestamos/helpers/http-requests/item.dart';
+import 'package:cestamos/helpers/http-requests/recipe.dart';
 // import 'package:cestamos/helpers/http-requests/user_list.dart';
 // import 'package:cestamos/models/friendship.dart';
 // import 'package:cestamos/models/user.dart';
@@ -34,27 +34,34 @@ class RecipeDetailPage extends StatefulWidget {
   State<RecipeDetailPage> createState() => _RecipeDetailPageState();
 }
 
-String _getUserNameFromUserId(int id) {
-  return "Nome do usuário";
-}
-
 class _RecipeDetailPageState extends State<RecipeDetailPage> {
-  final _recipe = Recipe(
+  Recipe _recipe = Recipe(
     id: 1,
-    userId: 1,
+    authorUserId: 1,
     recipeName: "Receita Teste",
     description: "Uma receita testada e aprovada!",
     peopleServed: 10,
     ingredients: [],
     instructions: [],
-    prepTime: 50,
-    cookingTime: 15,
-    restingTime: 5,
+    prepTime: "50",
+    cookingTime: "15",
+    restingTime: "5",
     isPublic: true,
   );
 
+  Future<bool> _refreshRecipe(int recipeId) async {
+    var response = RecipeHttpRequestHelper.getRecipe(recipeId);
+    return response.then((value) {
+      _recipe = value.content;
+      return value.success;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final recipeSummary =
+        ModalRoute.of(context)!.settings.arguments as RecipeSummary;
+    var recipeId = recipeSummary.id;
     return Scaffold(
       appBar: AppBar(
         title: Hero(
@@ -70,224 +77,253 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _refreshRecipe(recipeId);
+              });
+            },
+            icon: const Icon(Icons.refresh_rounded),
+          ),
+        ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                const SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25),
+      body: FutureBuilder<bool>(
+        future: _refreshRecipe(recipeId),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          var success = snapshot.data!;
+          if (!success) {
+            return const Center(
+              child: Text(
+                  "Algo de errado aconteceu na receita. Tente novamente mais tarde!"),
+            );
+          }
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 30,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(1, 1),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.account_circle_rounded,
-                                      size: 50,
-                                      color: Colors.black.withOpacity(0.3),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      _getUserNameFromUserId(_recipe.userId),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                _recipe.recipeName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                _recipe.description,
-                              ),
-                            ],
-                          ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(25),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 1,
+                            spreadRadius: 1,
+                            color: Colors.black.withOpacity(0.1),
+                            offset: const Offset(1, 1),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(1, 1),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Ingredientes",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.account_circle_rounded,
+                                          size: 50,
+                                          color: Colors.black.withOpacity(0.3),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          _recipe.authorUserName,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 10,
+                                    height: 10,
                                   ),
-                                  Row(
+                                  Text(
+                                    _recipe.recipeName,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    _recipe.description,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 1,
+                            spreadRadius: 1,
+                            color: Colors.black.withOpacity(0.1),
+                            offset: const Offset(1, 1),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text("Ingrediente 1"),
-                                      Expanded(
-                                        child: Container(
-                                          height: 0,
+                                      const Text(
+                                        "Ingredientes",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
                                         ),
                                       ),
-                                      const Text("200 g"),
-                                      const SizedBox(width: 10),
-                                      SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: FittedBox(
-                                          child: FloatingActionButton(
-                                            onPressed: () => {},
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            child: const Icon(
-                                              Icons.add,
-                                              color: Colors.white,
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Text("Ingrediente 1"),
+                                          Expanded(
+                                            child: Container(
+                                              height: 0,
                                             ),
                                           ),
-                                        ),
+                                          const Text("200 g"),
+                                          const SizedBox(width: 10),
+                                          SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: FittedBox(
+                                              child: FloatingActionButton(
+                                                onPressed: () => {},
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        color: Colors.black.withOpacity(0.1),
-                        offset: const Offset(1, 1),
+                    const SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 1,
+                            spreadRadius: 1,
+                            color: Colors.black.withOpacity(0.1),
+                            offset: const Offset(1, 1),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: const [
-                                  Text(
-                                    "1",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: const [
+                                      Text(
+                                        "1",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 40,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Primeiro passo da receita",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Text(
-                                    "Primeiro passo da receita",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
+                                  const Text(
+                                      "Descrição longa e detalhada do primeiro passo da receita, perceba que as vezes acaba tendo mais de uma linha."),
                                 ],
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Text(
-                                  "Descrição longa e detalhada do primeiro passo da receita, perceba que as vezes acaba tendo mais de uma linha."),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
