@@ -10,7 +10,23 @@ class RecipeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Card(
+      // ignore: avoid_unnecessary_containers
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(25),
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 1,
+              spreadRadius: 1,
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(1, 1),
+            ),
+          ],
+        ),
+        margin: const EdgeInsets.all(10.0),
         child: ListTile(
           title: Hero(
               transitionOnUserGestures: true,
@@ -22,22 +38,120 @@ class RecipeTile extends StatelessWidget {
                     recipeSummary.recipeName,
                     overflow: TextOverflow.clip,
                     softWrap: false,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
-                  Text(
-                    recipeSummary.description,
-                    overflow: TextOverflow.clip,
-                    softWrap: false,
+                  const SizedBox(
+                    height: 5,
                   ),
+                  Text(recipeSummary.description,
+                      overflow: TextOverflow.clip,
+                      softWrap: false,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                      )),
                   Row(
                     children: [
-                      Text(
-                        'Prep: ${recipeSummary.prepTime} min',
+                      const Icon(
+                        Icons.timer_rounded,
+                        size: 30,
+                        color: Color(0xFF25548D),
                       ),
-                      Text(
-                        'Cooking: ${recipeSummary.cookingTime} min',
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE9476D),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 1,
+                              spreadRadius: 1,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: const Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.all(10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Prep: ${recipeSummary.prepTime} min',
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                      Text(
-                        'Resting: ${recipeSummary.restingTime} min',
+                      const SizedBox(
+                        width: 25,
+                      ),
+                      const Icon(
+                        Icons.timer_rounded,
+                        size: 30,
+                        color: Color(0xFF25548D),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE9476D),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 1,
+                              spreadRadius: 1,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: const Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.all(10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Cooking: ${recipeSummary.cookingTime} min',
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 25,
+                      ),
+                      const Icon(
+                        Icons.timer_rounded,
+                        size: 30,
+                        color: Color(0xFF25548D),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE9476D),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 1,
+                              spreadRadius: 1,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: const Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.all(10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Resting: ${recipeSummary.restingTime} min',
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   )
