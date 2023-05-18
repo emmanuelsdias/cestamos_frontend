@@ -22,7 +22,7 @@ class Item {
     );
   }
 
-  factory Item.fromIngredient(Ingredients ingredient) {
+  factory Item.fromIngredient(Ingredient ingredient) {
     return Item(
       itemId: 0,
       name: ingredient.ingredientName,
