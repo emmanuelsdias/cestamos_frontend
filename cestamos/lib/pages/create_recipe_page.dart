@@ -27,9 +27,9 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   String _description = "";
   final int _peopleServed = -1;
   final List<Instruction> _instructions = [];
-  final String _prepTime = "-1";
-  final String _cookingTime = "-1";
-  final String _restingTime = "-1";
+  String _prepTime = "-1";
+  String _cookingTime = "-1";
+  String _restingTime = "-1";
   bool _isPublic = false;
 
   Future<bool> _createRecipe() async {
@@ -211,41 +211,141 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                       }
                                     },
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //     const Text("Número de pessoas servidas:"),
-                                  //     const SizedBox(
-                                  //       width: 10,
-                                  //     ),
-                                  //     TextFormField(
-                                  //       decoration: InputDecoration(
-                                  //         border: OutlineInputBorder(
-                                  //           borderRadius:
-                                  //               BorderRadius.circular(30.0),
-                                  //           borderSide: const BorderSide(
-                                  //             width: 0,
-                                  //             style: BorderStyle.none,
-                                  //           ),
-                                  //         ),
-                                  //         filled: true,
-                                  //         fillColor: Colors.grey[100],
-                                  //       ),
-                                  //       validator: (String? value) {
-                                  //         if (value == null || value.isEmpty) {
-                                  //           return "Insira um número!";
-                                  //         }
-                                  //         return null;
-                                  //       },
-                                  //       keyboardType: TextInputType.number,
-                                  //       textInputAction: TextInputAction.done,
-                                  //       // onChanged: (peopleServed) {
-                                  //       //   if (peopleServed.isNotEmpty) {
-                                  //       //     _peopleServed = peopleServed;
-                                  //       //   }
-                                  //       // },
-                                  //     ),
-                                  //   ],
-                                  // ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Tempo de preparo:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Flexible(
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                              borderSide: const BorderSide(
+                                                width: 0,
+                                                style: BorderStyle.none,
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.grey[100],
+                                          ),
+                                          validator: (String? value) {
+                                            if (value == null || value.isEmpty) {
+                                              return "Faltou o tempo de preparo!";
+                                            }
+                                            return null;
+                                          },
+                                          keyboardType: TextInputType.name,
+                                          onChanged: (prepTime) {
+                                            if (prepTime.isNotEmpty) {
+                                              _prepTime = prepTime;
+                                            }
+                                          },
+                                          textInputAction: TextInputAction.done,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Tempo de fogo:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Flexible(
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                              borderSide: const BorderSide(
+                                                width: 0,
+                                                style: BorderStyle.none,
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.grey[100],
+                                          ),
+                                          validator: (String? value) {
+                                            if (value == null || value.isEmpty) {
+                                              return "Faltou o tempo de fogo!";
+                                            }
+                                            return null;
+                                          },
+                                          keyboardType: TextInputType.name,
+                                          onChanged: (cookingTime) {
+                                            if (cookingTime.isNotEmpty) {
+                                              _cookingTime = cookingTime;
+                                            }
+                                          },
+                                          textInputAction: TextInputAction.done,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Tempo de descanso:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Flexible(
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                              borderSide: const BorderSide(
+                                                width: 0,
+                                                style: BorderStyle.none,
+                                              ),
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.grey[100],
+                                          ),
+                                          validator: (String? value) {
+                                            if (value == null || value.isEmpty) {
+                                              return "Faltou o tempo de descanso!";
+                                            }
+                                            return null;
+                                          },
+                                          keyboardType: TextInputType.name,
+                                          onChanged: (restingTime) {
+                                            if (restingTime.isNotEmpty) {
+                                              _restingTime = restingTime;
+                                            }
+                                          },
+                                          textInputAction: TextInputAction.done,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
