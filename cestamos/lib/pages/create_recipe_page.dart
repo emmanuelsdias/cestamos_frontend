@@ -7,8 +7,6 @@ import '../widgets/form_buton.dart';
 
 import '../widgets/item_create_dialog.dart';
 import '../widgets/section_create_dialog.dart';
-// import '../widgets/item_edit_dialog.dart';
-import '../widgets/add_floating_button.dart';
 import '../helpers/http-requests/recipe.dart';
 
 class CreateRecipePage extends StatefulWidget {
@@ -414,21 +412,17 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                                 const SizedBox(
                                                   width: 10,
                                                 ),
-                                                SizedBox(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: FittedBox(
-                                                    child: FloatingActionButton(
-                                                      onPressed: () => _removeItem(
-                                                        item.ingredientName,
-                                                        item.ingredientQuantity,
-                                                      ),
-                                                      backgroundColor: Theme.of(context).colorScheme.primary,
-                                                      child: const Icon(
-                                                        Icons.remove,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
+                                                IconButton(
+                                                  iconSize: 20,
+                                                  padding: EdgeInsets.zero,
+                                                  constraints: const BoxConstraints(),
+                                                  onPressed: () => _removeItem(
+                                                    item.ingredientName,
+                                                    item.ingredientQuantity,
+                                                  ),
+                                                  icon: Icon(
+                                                    Icons.cancel,
+                                                    color: Theme.of(context).colorScheme.inversePrimary,
                                                   ),
                                                 ),
                                               ],
@@ -541,7 +535,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
                                               ),
                                               icon: Icon(
                                                 Icons.cancel,
-                                                color: Theme.of(context).colorScheme.primary,
+                                                color: Theme.of(context).colorScheme.inversePrimary,
                                               ),
                                             ),
                                           ],
