@@ -50,7 +50,7 @@ class RecipeTile extends StatelessWidget {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () => _deleteRecipe(
+                            onPressed: () => _editRecipe(
                               recipeSummary.id,
                             ),
                             icon: Icon(
