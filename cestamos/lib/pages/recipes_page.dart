@@ -130,6 +130,7 @@ class _RecipesPageState extends State<RecipesPage> {
                               ),
                               child: RecipeTile(
                                 recipeSummary: _recipes[index],
+                                isMyFeed: isMyFeed,
                               ),
                             );
                           },
