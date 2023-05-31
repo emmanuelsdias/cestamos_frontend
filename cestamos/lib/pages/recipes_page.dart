@@ -79,11 +79,10 @@ class _RecipesPageState extends State<RecipesPage> {
                 : Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
-                            child: FractionallySizedBox(
-                              widthFactor: 0.9,
-                            ),
+                          const SizedBox(
+                            width: 80,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(15),
@@ -103,16 +102,21 @@ class _RecipesPageState extends State<RecipesPage> {
                                     ),
                                   ),
                           ),
-                          const Flexible(
-                            child: FractionallySizedBox(
-                              widthFactor: 0.5,
-                            ),
-                          ),
-                          FlutterSwitch(
-                              value: !isMyFeed,
-                              inactiveIcon: const Icon(Icons.person_rounded, color: Colors.black),
-                              activeIcon: const Icon(Icons.people_rounded, color: Color(0xFFE9476D)),
-                              onToggle: ((value) => setState(() => {isMyFeed = !isMyFeed})))
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: FlutterSwitch(
+                                value: !isMyFeed,
+                                activeColor: Theme.of(context).colorScheme.primary,
+                                inactiveIcon: const Icon(
+                                  Icons.person_rounded,
+                                  color: Colors.black,
+                                ),
+                                activeIcon: Icon(
+                                  Icons.people_rounded,
+                                  color: Theme.of(context).colorScheme.inversePrimary,
+                                ),
+                                onToggle: ((value) => setState(() => {isMyFeed = !isMyFeed}))),
+                          )
                         ],
                       ),
                       Expanded(
