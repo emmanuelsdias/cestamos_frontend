@@ -33,7 +33,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
       appBar: AppBar(
         title: Hero(
           transitionOnUserGestures: true,
-          tag: _recipe.id,
+          tag: "${_recipe.id.toString()} receita",
           flightShuttleBuilder: flightShuttleBuilder,
           child: Text(
             _recipe.recipeName,

@@ -51,6 +51,7 @@ class _AddIngredientsToShopListModalState extends State<AddIngredientsToShopList
       title: const Text("Escolha os ingredientes"),
       content: SizedBox(
         height: 300,
+        width: 250,
         child: _content(context),
       ),
     );

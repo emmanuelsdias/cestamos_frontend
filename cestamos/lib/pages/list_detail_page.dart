@@ -9,7 +9,6 @@ import '../models/item.dart';
 import '../models/shop_list.dart';
 
 import '../helpers/http-requests/shop_list.dart';
-import '../helpers/http-requests/item.dart';
 
 import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
@@ -120,8 +119,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final shopListSummary =
-        ModalRoute.of(context)!.settings.arguments as ShopListSummary;
+    final shopListSummary = ModalRoute.of(context)!.settings.arguments as ShopListSummary;
     _shopListId = shopListSummary.id;
     return Scaffold(
       appBar: AppBar(
@@ -169,8 +167,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
                           expellUser: (int userListId) {
                             removeUserFromList(userListId);
                           },
-                          changeUserStatus:
-                              (int userListId, bool shouldBecomeAdm) {
+                          changeUserStatus: (int userListId, bool shouldBecomeAdm) {
                             changeUserStatus(
                               userListId,
                               shouldBecomeAdm,
@@ -272,11 +269,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
     });
   }
 
-  List<Widget> _getListItems() => _items
-      .asMap()
-      .map((i, item) => MapEntry(i, _buildTenableListTile(item, i)))
-      .values
-      .toList();
+  List<Widget> _getListItems() => _items.asMap().map((i, item) => MapEntry(i, _buildTenableListTile(item, i))).values.toList();
 
   Widget _buildTenableListTile(Item item, int index) {
     return Dismissible(
@@ -293,8 +286,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  content: Text(
-                      "Tem certeza que você quer excluir da sua lista o item ${_items[index].name}?"),
+                  content: Text("Tem certeza que você quer excluir da sua lista o item ${_items[index].name}?"),
                   actions: <Widget>[
                     TextButton(
                       child: const Text(
@@ -349,9 +341,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
           overflow: TextOverflow.clip,
           softWrap: false,
           style: TextStyle(
-            decoration: item.wasBought
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
+            decoration: item.wasBought ? TextDecoration.lineThrough : TextDecoration.none,
             decorationThickness: 2,
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -363,9 +353,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
           overflow: TextOverflow.clip,
           softWrap: false,
           style: TextStyle(
-            decoration: item.wasBought
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
+            decoration: item.wasBought ? TextDecoration.lineThrough : TextDecoration.none,
             decorationThickness: 2,
             color: Colors.black,
           ),
