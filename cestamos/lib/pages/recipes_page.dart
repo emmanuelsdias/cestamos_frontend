@@ -108,10 +108,6 @@ class _RecipesPageState extends State<RecipesPage> {
                               widthFactor: 0.5,
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Switch(value: isMyFeed, onChanged: ((value) => setState(() => {isMyFeed = !isMyFeed}))),
-                          // ),
                           FlutterSwitch(
                               value: !isMyFeed,
                               inactiveIcon: const Icon(Icons.person_rounded, color: Colors.black),
