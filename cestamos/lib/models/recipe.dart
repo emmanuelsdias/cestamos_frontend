@@ -1,5 +1,3 @@
-import './item.dart';
-import './user.dart';
 import 'dart:convert';
 
 class Instruction {
@@ -30,8 +28,7 @@ class Instructions {
       return [];
     }
     var customJsons = customJson.split(',');
-    List<Instruction> instructions =
-        customJsons.map((e) => Instruction.fromCustomJson(e)).toList();
+    List<Instruction> instructions = customJsons.map((e) => Instruction.fromCustomJson(e)).toList();
     return instructions;
   }
 
@@ -76,8 +73,7 @@ class Ingredients {
       return [];
     }
     var customJsons = customJson.split(',');
-    List<Ingredient> ingredients =
-        customJsons.map((e) => Ingredient.fromCustomJson(e)).toList();
+    List<Ingredient> ingredients = customJsons.map((e) => Ingredient.fromCustomJson(e)).toList();
 
     return ingredients;
   }
@@ -131,10 +127,8 @@ class Recipe {
         recipeName: json['name'] as String,
         description: json['description'] as String,
         peopleServed: json['people_served'] as int,
-        ingredients: Ingredients.ingredientListfromCustomString(
-            json['ingredients'] as String),
-        instructions: Instructions.instructionListfromCustomString(
-            json['instructions'] as String),
+        ingredients: Ingredients.ingredientListfromCustomString(json['ingredients'] as String),
+        instructions: Instructions.instructionListfromCustomString(json['instructions'] as String),
         prepTime: json['prep_time'] as String,
         cookingTime: json['cooking_time'] as String,
         restingTime: json['resting_time'] as String,

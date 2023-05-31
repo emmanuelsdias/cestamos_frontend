@@ -17,7 +17,7 @@ class RecipeTile extends StatelessWidget {
         child: ListTile(
           title: Hero(
             transitionOnUserGestures: true,
-            tag: recipeSummary.id,
+            tag: "${recipeSummary.id.toString()} receita",
             flightShuttleBuilder: flightShuttleBuilder,
             child: Padding(
               padding: const EdgeInsets.all(8.0),

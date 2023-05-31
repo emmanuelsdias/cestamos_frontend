@@ -1,28 +1,8 @@
 import 'package:flutter/material.dart';
-// import '../widgets/cestamos_bar.dart';
-// import '../helpers/http-requests/user.dart';
-// import '../models/user.dart';
 import '../models/recipe.dart';
 
-import 'package:cestamos/helpers/http-requests/recipe.dart';
-// import 'package:cestamos/helpers/http-requests/user_list.dart';
-// import 'package:cestamos/models/friendship.dart';
-// import 'package:cestamos/models/user.dart';
-// import 'package:flutter/material.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-
-// import '../models/item.dart';
-// import '../models/shop_list.dart';
-
-// import '../helpers/http-requests/shop_list.dart';
-// import '../helpers/http-requests/item.dart';
-
-// import '../widgets/item_create_dialog.dart';
-// import '../widgets/item_edit_dialog.dart';
-// import '../widgets/add_friend_to_shop_list_dialog.dart';
-// import '../widgets/show_members_of_list_dialog.dart';
-// import '../widgets/confirm_quit_shop_list_dialog.dart';
-// import '../widgets/add_floating_button.dart';
+import '../helpers/http-requests/recipe.dart';
+import '../widgets/add_ingredient_to_list_modal.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
 class RecipeDetailPage extends StatefulWidget {
@@ -53,7 +33,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
       appBar: AppBar(
         title: Hero(
           transitionOnUserGestures: true,
-          tag: _recipe.id,
+          tag: "${_recipe.id.toString()} receita",
           flightShuttleBuilder: flightShuttleBuilder,
           child: Text(
             _recipe.recipeName,
@@ -241,7 +221,15 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                                         height: 10,
                                       ),
                                       FloatingActionButton.extended(
-                                        onPressed: () => {},
+                                        onPressed: () {
+                                          // open modal
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AddIngredientsToShopListModal(
+                                              ingredients: _recipe.ingredients,
+                                            ),
+                                          );
+                                        },
                                         backgroundColor: Theme.of(context).colorScheme.primary,
                                         label: Row(
                                           children: [

@@ -1,6 +1,7 @@
 import 'dart:core';
-import 'package:cestamos/models/friendship.dart';
 
+import '../../models/item.dart';
+import '../../models/friendship.dart';
 import '../../models/shop_list.dart';
 import '../../models/my_tuples.dart';
 // import './base_urls_example.dart';
@@ -9,8 +10,7 @@ import './request_factory.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopListHttpRequestHelper {
-  static const String baseBackEndShopListUrl =
-      "${BaseUrls.baseBackEndUrl}/shop_list";
+  static const String baseBackEndShopListUrl = "${BaseUrls.baseBackEndUrl}/shop_list";
 
   static Future<Pair<List<ShopListSummary>, bool>> getLists() async {
     var prefs = await SharedPreferences.getInstance();
@@ -49,15 +49,27 @@ class ShopListHttpRequestHelper {
     String name,
     String quantity,
   ) async {
+    List<Item> items = [Item(name: name, quantity: quantity)];
+    var response = await ShopListHttpRequestHelper.addItemsToList(shopListId, items);
+    return response;
+  }
+
+  static Future<Pair<ShopList, bool>> addItemsToList(
+    int shopListId,
+    List<Item> items,
+  ) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
     final url = "$baseBackEndShopListUrl/$shopListId/item?token=$token";
-    final body = [
-      {
-        "name": name,
-        "quantity": quantity,
-      }
-    ];
+    final body = items
+        .map(
+          (item) => {
+            "name": item.name,
+            "quantity": item.quantity,
+          },
+        )
+        .toList();
+
     var response = await RequestFactory.post(url, body);
     var listData = response.content;
     ShopList list;
