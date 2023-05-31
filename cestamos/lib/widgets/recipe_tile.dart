@@ -6,6 +6,15 @@ class RecipeTile extends StatelessWidget {
   const RecipeTile({Key? key, required this.recipeSummary}) : super(key: key);
   final RecipeSummary recipeSummary;
 
+  // just leaving the functions for further implementation
+  void _deleteRecipe(int recipeId) {
+    recipeId = 1;
+  }
+
+  void _editRecipe(int recipeId) {
+    recipeId = 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,14 +32,44 @@ class RecipeTile extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(
-                    recipeSummary.recipeName,
-                    overflow: TextOverflow.clip,
-                    softWrap: false,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(
+                        width: 80,
+                      ),
+                      Text(
+                        recipeSummary.recipeName,
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => _deleteRecipe(
+                              recipeSummary.id,
+                            ),
+                            icon: Icon(
+                              Icons.edit,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => _deleteRecipe(
+                              recipeSummary.id,
+                            ),
+                            icon: Icon(
+                              Icons.cancel,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 5,
