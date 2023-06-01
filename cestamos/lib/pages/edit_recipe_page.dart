@@ -5,9 +5,9 @@ import '../models/recipe.dart';
 import '../widgets/cestamos_bar.dart';
 import '../widgets/form_buton.dart';
 
+import '../helpers/http-requests/recipe.dart';
 import '../widgets/item_create_dialog.dart';
 import '../widgets/section_create_dialog.dart';
-import '../helpers/http-requests/recipe.dart';
 
 class EditRecipePage extends StatefulWidget {
   const EditRecipePage({Key? key}) : super(key: key);
@@ -38,8 +38,8 @@ class _EditRecipePageState extends State<EditRecipePage> {
 
     var recipe = _recipe;
 
-    // var response = RecipeHttpRequestHelper.editRecipe(recipe);
-    var response = RecipeHttpRequestHelper.createRecipe(recipe);
+    var response = RecipeHttpRequestHelper.editRecipe(recipe);
+
     return response.then((value) {
       return value.success;
     });

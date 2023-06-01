@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
+import '../helpers/http-requests/recipe.dart';
 import './helpers/flight_shuttle_builder.dart';
+import '../pages/edit_recipe_page.dart';
 
 class RecipeTile extends StatelessWidget {
   const RecipeTile({Key? key, required this.recipeSummary, required this.isMyFeed}) : super(key: key);
   final RecipeSummary recipeSummary;
   final bool isMyFeed;
 
-  // just leaving the functions for further implementation
-  void _deleteRecipe(int recipeId) {
-    recipeId = 1;
-  }
-
-  void _editRecipe(int recipeId) {
-    recipeId = 1;
+  Future<bool> _deleteRecipe(int recipeId) async {
+    var response = RecipeHttpRequestHelper.deleteRecipe(recipeId);
+    return response.then((value) {
+      return value.success;
+    });
   }
 
   @override
@@ -39,24 +39,31 @@ class RecipeTile extends StatelessWidget {
                     children: [
                       if (isMyFeed) ...[
                         const SizedBox(
-                          width: 80,
+                          width: 65,
                         )
                       ],
-                      Text(
-                        recipeSummary.recipeName,
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                      Expanded(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          recipeSummary.recipeName,
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                       if (isMyFeed) ...[
                         Row(
                           children: [
                             IconButton(
-                              onPressed: () => _deleteRecipe(
-                                recipeSummary.id,
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              constraints: const BoxConstraints(),
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                EditRecipePage.pageRouteName,
+                                arguments: recipeSummary,
                               ),
                               icon: Icon(
                                 Icons.edit,
@@ -64,12 +71,36 @@ class RecipeTile extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                              onPressed: () => _editRecipe(
-                                recipeSummary.id,
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              constraints: const BoxConstraints(),
+                              onPressed: () => showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: Text('Deseja mesmo deletar a receita "${recipeSummary.recipeName}"? Esta ação não poderá ser revertida!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text(
+                                        'Deletar',
+                                        style: TextStyle(color: Colors.redAccent),
+                                      ),
+                                      onPressed: () {
+                                        _deleteRecipe(recipeSummary.id);
+                                        Navigator.of(context).popUntil((route) => route.isFirst);
+                                        Navigator.of(context).pushReplacementNamed('/');
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text('Cancelar'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                               icon: Icon(
                                 Icons.cancel,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: Theme.of(context).colorScheme.inversePrimary,
                               ),
                             ),
                           ],
