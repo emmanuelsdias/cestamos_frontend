@@ -6,6 +6,7 @@ import 'dart:io';
 import 'providers/friendships.dart';
 import 'pages/create_list_page.dart';
 import 'pages/create_recipe_page.dart';
+import 'pages/edit_recipe_page.dart';
 import 'pages/landing_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
@@ -17,9 +18,7 @@ import 'pages/add_friend_page.dart';
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -34,23 +33,17 @@ class MyApp extends StatelessWidget {
 
   final _routes = <String, WidgetBuilder>{
     '/': (BuildContext context) => const LoginPage(),
-    // '/': (BuildContext context) => const LoggedScreen(),
     LandingPage.pageRouteName: (BuildContext context) => const LandingPage(),
     LoginPage.pageRouteName: (BuildContext context) => const LoginPage(),
     RegisterPage.pageRouteName: (BuildContext context) => const RegisterPage(),
     LoggedScreen.pageRouteName: (BuildContext context) => const LoggedScreen(),
-    ListDetailPage.pageRouteName: (BuildContext context) =>
-        const ListDetailPage(),
-    AddFriendPage.pageRouteName: (BuildContext context) =>
-        const AddFriendPage(),
-    CreateListPage.pageRouteName: (BuildContext context) =>
-        const CreateListPage(),
-    CreateRecipePage.pageRouteName: (BuildContext context) =>
-        const CreateRecipePage(),
-    PendingInvitesPage.pageRouteName: (BuildContext context) =>
-        const PendingInvitesPage(),
-    RecipeDetailPage.pageRouteName: (BuildContext context) =>
-        const RecipeDetailPage(),
+    ListDetailPage.pageRouteName: (BuildContext context) => const ListDetailPage(),
+    AddFriendPage.pageRouteName: (BuildContext context) => const AddFriendPage(),
+    CreateListPage.pageRouteName: (BuildContext context) => const CreateListPage(),
+    CreateRecipePage.pageRouteName: (BuildContext context) => const CreateRecipePage(),
+    EditRecipePage.pageRouteName: (BuildContext context) => const EditRecipePage(),
+    PendingInvitesPage.pageRouteName: (BuildContext context) => const PendingInvitesPage(),
+    RecipeDetailPage.pageRouteName: (BuildContext context) => const RecipeDetailPage(),
   };
 
   @override

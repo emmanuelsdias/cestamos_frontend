@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cestamos/helpers/http-requests/recipe.dart';
+
 import '../models/recipe.dart';
+
+import '../pages/edit_recipe_page.dart';
 
 import '../helpers/http-requests/recipe.dart';
 import '../widgets/add_ingredient_to_list_modal.dart';
@@ -16,6 +20,7 @@ class RecipeDetailPage extends StatefulWidget {
 
 class _RecipeDetailPageState extends State<RecipeDetailPage> {
   Recipe _recipe = Recipe();
+  bool isMyRecipe = true;
 
   Future<bool> _refreshRecipe(int recipeId) async {
     var response = RecipeHttpRequestHelper.getRecipe(recipeId);
@@ -53,6 +58,32 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
             },
             icon: const Icon(Icons.refresh_rounded),
           ),
+          if (isMyRecipe)
+            PopupMenuButton(
+              onSelected: (result) {
+                if (result == 0) {
+                  Navigator.pushNamed(
+                    context,
+                    EditRecipePage.pageRouteName,
+                    arguments: recipeSummary,
+                  );
+                } else if (result == 1) {
+                  // Colocar dialogo deleção
+
+                }
+              },
+              icon: const Icon(Icons.more_vert_outlined),
+              itemBuilder: (context) => <PopupMenuEntry>[
+                const PopupMenuItem(
+                  value: 0,
+                  child: Text('Editar minha receita'),
+                ),
+                const PopupMenuItem(
+                  value: 1,
+                  child: Text('Apagar minha receita'),
+                ),
+              ],
+            ),
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -327,63 +358,6 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                           ),
                         ],
                       ),
-
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     color: Theme.of(context).colorScheme.surface,
-                    //     borderRadius: const BorderRadius.all(
-                    //       Radius.circular(25),
-                    //     ),
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //         blurRadius: 1,
-                    //         spreadRadius: 1,
-                    //         color: Colors.black.withOpacity(0.1),
-                    //         offset: const Offset(1, 1),
-                    //       ),
-                    //     ],
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.all(20.0),
-                    //           child: Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: <Widget>[
-                    //               Row(
-                    //                 children: const [
-                    //                   Text(
-                    //                     "1",
-                    //                     style: TextStyle(
-                    //                       fontWeight: FontWeight.bold,
-                    //                       fontSize: 40,
-                    //                     ),
-                    //                   ),
-                    //                   SizedBox(
-                    //                     width: 10,
-                    //                   ),
-                    //                   Text(
-                    //                     "Primeiro passo da receita",
-                    //                     style: TextStyle(
-                    //                       fontWeight: FontWeight.bold,
-                    //                       fontSize: 20,
-                    //                     ),
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //               const SizedBox(
-                    //                 width: 10,
-                    //               ),
-                    //               const Text(
-                    //                   "Descrição longa e detalhada do primeiro passo da receita, perceba que as vezes acaba tendo mais de uma linha."),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     const SizedBox(
                       height: 30,
                     ),
