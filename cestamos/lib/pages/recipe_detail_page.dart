@@ -5,6 +5,8 @@ import '../models/recipe.dart';
 
 import '../pages/edit_recipe_page.dart';
 
+import '../helpers/http-requests/recipe.dart';
+import '../widgets/add_ingredient_to_list_modal.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
 class RecipeDetailPage extends StatefulWidget {
@@ -36,7 +38,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
       appBar: AppBar(
         title: Hero(
           transitionOnUserGestures: true,
-          tag: _recipe.id,
+          tag: "${_recipe.id.toString()} receita",
           flightShuttleBuilder: flightShuttleBuilder,
           child: Text(
             _recipe.recipeName,
@@ -250,7 +252,15 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                                         height: 10,
                                       ),
                                       FloatingActionButton.extended(
-                                        onPressed: () => {},
+                                        onPressed: () {
+                                          // open modal
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AddIngredientsToShopListModal(
+                                              ingredients: _recipe.ingredients,
+                                            ),
+                                          );
+                                        },
                                         backgroundColor: Theme.of(context).colorScheme.primary,
                                         label: Row(
                                           children: [

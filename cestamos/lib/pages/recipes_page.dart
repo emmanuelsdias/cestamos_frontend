@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_switch/flutter_switch.dart';
 import './create_recipe_page.dart';
 import './recipe_detail_page.dart';
 
@@ -15,12 +15,12 @@ import '../helpers/http-requests/recipe.dart';
 class RecipesPage extends StatefulWidget {
   const RecipesPage({super.key});
   static const pageRouteName = "/recipes";
-
   @override
   State<RecipesPage> createState() => _RecipesPageState();
 }
 
 class _RecipesPageState extends State<RecipesPage> {
+  bool isMyFeed = true;
   List<RecipeSummary> _recipes = [
     RecipeSummary(
       id: 1,
@@ -33,7 +33,7 @@ class _RecipesPageState extends State<RecipesPage> {
   ];
 
   Future<bool> _refreshRecipes() async {
-    var response = RecipeHttpRequestHelper.getRecipes(false);
+    var response = RecipeHttpRequestHelper.getRecipes(!isMyFeed);
     return response.then((value) {
       _recipes = value.content;
 
@@ -71,21 +71,53 @@ class _RecipesPageState extends State<RecipesPage> {
                 child: Text("Algo de errado aconteceu nas suas receitas. Tente novamente mais tarde!"),
               );
             }
+
             return _recipes.isEmpty
                 ? const Center(
                     child: Text("Você ainda não tem receitas!"),
                   )
                 : Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text(
-                          "Minhas Receitas",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 80,
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: isMyFeed
+                                ? const Text(
+                                    "Minhas Receitas",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                    ),
+                                  )
+                                : const Text(
+                                    "Receitas de Amigos",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: FlutterSwitch(
+                                value: !isMyFeed,
+                                activeColor: Theme.of(context).colorScheme.primary,
+                                inactiveIcon: const Icon(
+                                  Icons.person_rounded,
+                                  color: Colors.black,
+                                ),
+                                activeIcon: Icon(
+                                  Icons.people_rounded,
+                                  color: Theme.of(context).colorScheme.inversePrimary,
+                                ),
+                                onToggle: ((value) => setState(() => {isMyFeed = !isMyFeed}))),
+                          )
+                        ],
                       ),
                       Expanded(
                         child: ListView.builder(
@@ -98,6 +130,7 @@ class _RecipesPageState extends State<RecipesPage> {
                               ),
                               child: RecipeTile(
                                 recipeSummary: _recipes[index],
+                                isMyFeed: isMyFeed,
                               ),
                             );
                           },

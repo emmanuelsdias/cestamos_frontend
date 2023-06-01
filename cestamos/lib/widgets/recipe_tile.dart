@@ -3,11 +3,22 @@ import '../models/recipe.dart';
 import './helpers/flight_shuttle_builder.dart';
 
 class RecipeTile extends StatelessWidget {
-  const RecipeTile({Key? key, required this.recipeSummary}) : super(key: key);
+  const RecipeTile({Key? key, required this.recipeSummary, required this.isMyFeed}) : super(key: key);
   final RecipeSummary recipeSummary;
+  final bool isMyFeed;
+
+  // just leaving the functions for further implementation
+  void _deleteRecipe(int recipeId) {
+    recipeId = 1;
+  }
+
+  void _editRecipe(int recipeId) {
+    recipeId = 1;
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (isMyFeed) {}
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
@@ -17,20 +28,54 @@ class RecipeTile extends StatelessWidget {
         child: ListTile(
           title: Hero(
             transitionOnUserGestures: true,
-            tag: recipeSummary.id,
+            tag: "${recipeSummary.id.toString()} receita",
             flightShuttleBuilder: flightShuttleBuilder,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(
-                    recipeSummary.recipeName,
-                    overflow: TextOverflow.clip,
-                    softWrap: false,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                  Row(
+                    mainAxisAlignment: isMyFeed ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
+                    children: [
+                      if (isMyFeed) ...[
+                        const SizedBox(
+                          width: 80,
+                        )
+                      ],
+                      Text(
+                        recipeSummary.recipeName,
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      if (isMyFeed) ...[
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => _deleteRecipe(
+                                recipeSummary.id,
+                              ),
+                              icon: Icon(
+                                Icons.edit,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => _editRecipe(
+                                recipeSummary.id,
+                              ),
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]
+                    ],
                   ),
                   const SizedBox(
                     height: 5,
