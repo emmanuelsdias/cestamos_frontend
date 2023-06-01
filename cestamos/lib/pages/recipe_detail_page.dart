@@ -65,6 +65,9 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                     EditRecipePage.pageRouteName,
                     arguments: recipeSummary,
                   );
+                } else if (result == 1) {
+                  // Colocar dialogo deleção
+
                 }
               },
               icon: const Icon(Icons.more_vert_outlined),
@@ -72,6 +75,10 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                 const PopupMenuItem(
                   value: 0,
                   child: Text('Editar minha receita'),
+                ),
+                const PopupMenuItem(
+                  value: 1,
+                  child: Text('Apagar minha receita'),
                 ),
               ],
             ),
