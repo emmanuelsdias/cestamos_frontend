@@ -22,8 +22,11 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   Recipe _recipe = Recipe();
   bool isMyRecipe = true;
 
-  void _deleteRecipe(int recipeId) {
-    recipeId = 1;
+  Future<bool> _deleteRecipe(int recipeId) async {
+    var response = RecipeHttpRequestHelper.deleteRecipe(recipeId);
+    return response.then((value) {
+      return value.success;
+    });
   }
 
   Future<bool> _refreshRecipe(int recipeId) async {
@@ -358,11 +361,14 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              _recipe.instructions[i].instructionTitle,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                            Expanded(
+                                              child: Text(
+                                                _recipe.instructions[i].instructionTitle,
+                                                // overflow: TextOverflow.clip,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
                                               ),
                                             ),
                                           ],

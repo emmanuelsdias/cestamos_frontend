@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
+import '../helpers/http-requests/recipe.dart';
 import './helpers/flight_shuttle_builder.dart';
 import '../pages/edit_recipe_page.dart';
 
@@ -8,9 +9,11 @@ class RecipeTile extends StatelessWidget {
   final RecipeSummary recipeSummary;
   final bool isMyFeed;
 
-  // just leaving the functions for further implementation
-  void _deleteRecipe(int recipeId) {
-    recipeId = 1;
+  Future<bool> _deleteRecipe(int recipeId) async {
+    var response = RecipeHttpRequestHelper.deleteRecipe(recipeId);
+    return response.then((value) {
+      return value.success;
+    });
   }
 
   @override
@@ -36,22 +39,27 @@ class RecipeTile extends StatelessWidget {
                     children: [
                       if (isMyFeed) ...[
                         const SizedBox(
-                          width: 80,
+                          width: 65,
                         )
                       ],
-                      Text(
-                        recipeSummary.recipeName,
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                      Expanded(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          recipeSummary.recipeName,
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                       if (isMyFeed) ...[
                         Row(
                           children: [
                             IconButton(
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              constraints: const BoxConstraints(),
                               onPressed: () => Navigator.pushNamed(
                                 context,
                                 EditRecipePage.pageRouteName,
@@ -63,6 +71,8 @@ class RecipeTile extends StatelessWidget {
                               ),
                             ),
                             IconButton(
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              constraints: const BoxConstraints(),
                               onPressed: () => showDialog(
                                 context: context,
                                 builder: (ctx) => AlertDialog(
@@ -90,7 +100,7 @@ class RecipeTile extends StatelessWidget {
                               ),
                               icon: Icon(
                                 Icons.cancel,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: Theme.of(context).colorScheme.inversePrimary,
                               ),
                             ),
                           ],
