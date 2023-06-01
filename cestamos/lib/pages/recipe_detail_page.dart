@@ -22,6 +22,10 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   Recipe _recipe = Recipe();
   bool isMyRecipe = true;
 
+  void _deleteRecipe(int recipeId) {
+    recipeId = 1;
+  }
+
   Future<bool> _refreshRecipe(int recipeId) async {
     var response = RecipeHttpRequestHelper.getRecipe(recipeId);
     return response.then((value) {
@@ -68,8 +72,31 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                     arguments: recipeSummary,
                   );
                 } else if (result == 1) {
-                  // Colocar dialogo deleção
-
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Deseja mesmo deletar sua receita?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text(
+                            'Deletar',
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                          onPressed: () {
+                            _deleteRecipe(recipeId);
+                            Navigator.of(context).popUntil((route) => route.isFirst);
+                            Navigator.of(context).pushReplacementNamed('/');
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Cancelar'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
               icon: const Icon(Icons.more_vert_outlined),

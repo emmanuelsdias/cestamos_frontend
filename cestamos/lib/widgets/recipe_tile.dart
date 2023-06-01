@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import './helpers/flight_shuttle_builder.dart';
+import '../pages/edit_recipe_page.dart';
 
 class RecipeTile extends StatelessWidget {
   const RecipeTile({Key? key, required this.recipeSummary, required this.isMyFeed}) : super(key: key);
@@ -9,10 +10,6 @@ class RecipeTile extends StatelessWidget {
 
   // just leaving the functions for further implementation
   void _deleteRecipe(int recipeId) {
-    recipeId = 1;
-  }
-
-  void _editRecipe(int recipeId) {
     recipeId = 1;
   }
 
@@ -55,8 +52,10 @@ class RecipeTile extends StatelessWidget {
                         Row(
                           children: [
                             IconButton(
-                              onPressed: () => _deleteRecipe(
-                                recipeSummary.id,
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                EditRecipePage.pageRouteName,
+                                arguments: recipeSummary,
                               ),
                               icon: Icon(
                                 Icons.edit,
@@ -64,8 +63,30 @@ class RecipeTile extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                              onPressed: () => _editRecipe(
-                                recipeSummary.id,
+                              onPressed: () => showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: Text('Deseja mesmo deletar a receita "${recipeSummary.recipeName}"? Esta ação não poderá ser revertida!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text(
+                                        'Deletar',
+                                        style: TextStyle(color: Colors.redAccent),
+                                      ),
+                                      onPressed: () {
+                                        _deleteRecipe(recipeSummary.id);
+                                        Navigator.of(context).popUntil((route) => route.isFirst);
+                                        Navigator.of(context).pushReplacementNamed('/');
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text('Cancelar'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                               icon: Icon(
                                 Icons.cancel,
