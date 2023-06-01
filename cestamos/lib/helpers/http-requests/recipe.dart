@@ -66,4 +66,52 @@ class RecipeHttpRequestHelper {
     }
     return Pair(createdRecipe, response.success);
   }
+
+  static Future<Pair<Recipe, bool>> editRecipe(Recipe recipe) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndItemUrl/${recipe.id}?token=$token";
+    final body = {
+      "name": recipe.recipeName,
+      "description": recipe.description,
+      "ingredients": recipe.ingredientsString,
+      "people_served": recipe.peopleServed,
+      "instructions": recipe.instructionsString,
+      "prep_time": recipe.prepTime,
+      "cooking_time": recipe.cookingTime,
+      "resting_time": recipe.restingTime,
+      "is_public": recipe.isPublic,
+    };
+
+    var response = await RequestFactory.put(url, body);
+    var recipeData = response.content;
+    Recipe editedRecipe;
+
+    if (response.success) {
+      editedRecipe = Recipe.fromJson(recipeData);
+    } else {
+      editedRecipe = Recipe();
+    }
+    return Pair(editedRecipe, response.success);
+  }
+
+  static Future<Pair<Recipe, bool>> deleteRecipe(int recipeId) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndItemUrl/$recipeId?token=$token";
+    final body = {
+      "is_deleted": true, // just so body can be considered a map
+    };
+
+    var response = await RequestFactory.delete(url, body);
+    var recipeData = response.content;
+    Recipe deletedRecipe;
+
+    if (response.success) {
+      deletedRecipe = Recipe.fromJson(recipeData);
+    } else {
+      deletedRecipe = Recipe();
+    }
+    return Pair(deletedRecipe, response.success);
+  }
 }
