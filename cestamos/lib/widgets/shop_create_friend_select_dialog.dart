@@ -24,21 +24,21 @@ class _ShopCreateFriendSelectDialogState extends State<ShopCreateFriendSelectDia
     return widget.invitedFriendships.contains(friendship);
   }
 
+  List<Friendship> _friendships = [];
+
+  Future<bool> _getFriendships() async {
+    var response = FriendshipHttpRequestHelper.getFriendships();
+    return response.then((value) {
+      var friendships = value.content;
+      setState(() {
+        _friendships = friendships;
+      });
+      return value.success;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Friendship> _friendships = [];
-
-    Future<bool> _getFriendships() async {
-      var response = FriendshipHttpRequestHelper.getFriendships();
-      return response.then((value) {
-        var friendships = value.content;
-        setState(() {
-          _friendships = friendships;
-        });
-        return value.success;
-      });
-    }
-
     return Dialog(
       child: Container(
         color: Colors.white,
@@ -58,6 +58,7 @@ class _ShopCreateFriendSelectDialogState extends State<ShopCreateFriendSelectDia
             ),
             Expanded(
               child: FutureBuilder<bool>(
+                future: _getFriendships(),
                 builder: (ctx, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(

@@ -17,21 +17,21 @@ class AddFriendToShopListDialog extends StatefulWidget {
 }
 
 class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
+  List<Friendship> _friendships = [];
+
+  Future<bool> _getFriendships() async {
+    var response = FriendshipHttpRequestHelper.getFriendships();
+    return response.then((value) {
+      var friendships = value.content;
+      setState(() {
+        _friendships = friendships;
+      });
+      return value.success;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Friendship> _friendships = [];
-
-    Future<bool> _getFriendships() async {
-      var response = FriendshipHttpRequestHelper.getFriendships();
-      return response.then((value) {
-        var friendships = value.content;
-        setState(() {
-          _friendships = friendships;
-        });
-        return value.success;
-      });
-    }
-
     return Dialog(
       child: Container(
         color: Colors.white,
