@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/friendships.dart';
 import '../models/friendship.dart';
+import '../helpers/http-requests/friendship.dart';
 
 class ShopCreateFriendSelectDialog extends StatefulWidget {
   const ShopCreateFriendSelectDialog({
@@ -17,20 +16,29 @@ class ShopCreateFriendSelectDialog extends StatefulWidget {
   final Function addFriend;
 
   @override
-  State<ShopCreateFriendSelectDialog> createState() =>
-      _ShopCreateFriendSelectDialogState();
+  State<ShopCreateFriendSelectDialog> createState() => _ShopCreateFriendSelectDialogState();
 }
 
-class _ShopCreateFriendSelectDialogState
-    extends State<ShopCreateFriendSelectDialog> {
+class _ShopCreateFriendSelectDialogState extends State<ShopCreateFriendSelectDialog> {
   bool _isInvited(Friendship friendship) {
     return widget.invitedFriendships.contains(friendship);
   }
 
   @override
   Widget build(BuildContext context) {
-    final friendshipsData = Provider.of<Friendships>(context);
-    final friendships = friendshipsData.friendships;
+    List<Friendship> _friendships = [];
+
+    Future<bool> _getFriendships() async {
+      var response = FriendshipHttpRequestHelper.getFriendships();
+      return response.then((value) {
+        var friendships = value.content;
+        setState(() {
+          _friendships = friendships;
+        });
+        return value.success;
+      });
+    }
+
     return Dialog(
       child: Container(
         color: Colors.white,
@@ -49,26 +57,41 @@ class _ShopCreateFriendSelectDialogState
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemBuilder: (_, index) {
-                  Friendship friendship = friendships[index];
-                  return ListTile(
-                    leading: Checkbox(
-                      value: _isInvited(friendship),
-                      onChanged: (value) {
-                        setState(() {
-                          if (value != null && value) {
-                            widget.addFriend(friendship);
-                          } else {
-                            widget.removeFriend(friendship);
-                          }
-                        });
-                      },
-                    ),
-                    title: Text(friendship.username),
+              child: FutureBuilder<bool>(
+                builder: (ctx, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  var success = snapshot.data!;
+                  if (!success) {
+                    return const Center(
+                      child: Text("Algo de errado aconteceu. Tente novamente mais tarde!"),
+                    );
+                  }
+                  return ListView.builder(
+                    itemBuilder: (_, index) {
+                      Friendship friendship = _friendships[index];
+                      return ListTile(
+                        leading: Checkbox(
+                          value: _isInvited(friendship),
+                          onChanged: (value) {
+                            setState(() {
+                              if (value != null && value) {
+                                widget.addFriend(friendship);
+                              } else {
+                                widget.removeFriend(friendship);
+                              }
+                            });
+                          },
+                        ),
+                        title: Text(friendship.username),
+                      );
+                    },
+                    itemCount: _friendships.length,
                   );
                 },
-                itemCount: friendships.length,
               ),
             ),
           ],
