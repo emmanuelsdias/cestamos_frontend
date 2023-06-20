@@ -1,17 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import './add_friend_page.dart';
 import './pending_invites_page.dart';
-
-import '../providers/friendships.dart';
 
 import '../widgets/cestamos_bar.dart';
 import '../widgets/friendship_tile.dart';
 import '../widgets/add_floating_button.dart';
 
 import '../helpers/http-requests/friendship.dart';
+import '../models/friendship.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -28,11 +26,7 @@ class _FriendsPageState extends State<FriendsPage> {
 
   bool _loaded = false;
 
-  void _refresh() {
-    setState(() {
-      _loaded = false;
-    });
-  }
+  List<Friendship> _friendships = [];
 
   Future<bool> _getUserInfo() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -47,21 +41,19 @@ class _FriendsPageState extends State<FriendsPage> {
     pref.clear();
   }
 
-  Future<bool> _getFriendships(Friendships frienshipsProvider) async {
-    if (_loaded) return true;
+  Future<bool> _getFriendships() async {
     var response = FriendshipHttpRequestHelper.getFriendships();
     return response.then((value) {
       var friendships = value.content;
-      frienshipsProvider.setFriendshipList(friendships);
-      _loaded = true;
+      setState(() {
+        _friendships = friendships;
+      });
       return value.success;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final friendshipsData = Provider.of<Friendships>(context);
-    final friendships = friendshipsData.friendships;
     return Scaffold(
       appBar: CestamosBar(
         actions: [
@@ -71,7 +63,7 @@ class _FriendsPageState extends State<FriendsPage> {
               icon: const Icon(
                 Icons.refresh_rounded,
               ),
-              onPressed: _refresh,
+              onPressed: _getFriendships,
             ),
           ),
           PopupMenuButton(
@@ -150,12 +142,12 @@ class _FriendsPageState extends State<FriendsPage> {
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: FutureBuilder<bool>(
-        future: _getFriendships(friendshipsData),
+        future: _getFriendships(),
         builder: ((context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-          return friendships.isEmpty
+          return _friendships.isEmpty
               ? const Center(
                   child: Text(
                     "Você não tem amigos",
@@ -179,11 +171,11 @@ class _FriendsPageState extends State<FriendsPage> {
                           return GestureDetector(
                             onTap: () => {},
                             child: FriendshipTile(
-                              friendship: friendships[index],
+                              friendship: _friendships[index],
                             ),
                           );
                         },
-                        itemCount: friendships.length,
+                        itemCount: _friendships.length,
                       ),
                     ),
                   ],

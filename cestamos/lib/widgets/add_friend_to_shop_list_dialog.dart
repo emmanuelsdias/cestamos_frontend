@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import './form_buton.dart';
-import '../providers/friendships.dart';
 import '../models/friendship.dart';
+import '../helpers/http-requests/friendship.dart';
 
 class AddFriendToShopListDialog extends StatefulWidget {
   const AddFriendToShopListDialog({
@@ -14,15 +13,25 @@ class AddFriendToShopListDialog extends StatefulWidget {
   final Function addFriend;
 
   @override
-  State<AddFriendToShopListDialog> createState() =>
-      _AddFriendToShopListDialogState();
+  State<AddFriendToShopListDialog> createState() => _AddFriendToShopListDialogState();
 }
 
 class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
+  List<Friendship> _friendships = [];
+
+  Future<bool> _getFriendships() async {
+    var response = FriendshipHttpRequestHelper.getFriendships();
+    return response.then((value) {
+      var friendships = value.content;
+      setState(() {
+        _friendships = friendships;
+      });
+      return value.success;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final friendshipsData = Provider.of<Friendships>(context);
-    final friendships = friendshipsData.friendships;
     return Dialog(
       child: Container(
         color: Colors.white,
@@ -41,30 +50,46 @@ class _AddFriendToShopListDialogState extends State<AddFriendToShopListDialog> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemBuilder: (_, index) {
-                  Friendship friendship = friendships[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: GestureDetector(
-                      child: Card(
-                        color: Theme.of(context).colorScheme.primary,
-                        child: ListTile(
-                          title: Text(
-                            friendship.username,
-                            style: const TextStyle(
-                              color: Colors.white,
+              child: FutureBuilder<bool>(
+                future: _getFriendships(),
+                builder: (ctx, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  var success = snapshot.data!;
+                  if (!success) {
+                    return const Center(
+                      child: Text("Algo de errado aconteceu. Tente novamente mais tarde!"),
+                    );
+                  }
+                  return ListView.builder(
+                    itemBuilder: (_, index) {
+                      Friendship friendship = _friendships[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: GestureDetector(
+                          child: Card(
+                            color: Theme.of(context).colorScheme.primary,
+                            child: ListTile(
+                              title: Text(
+                                friendship.username,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
+                          onTap: () {
+                            _showConfirmDialog(context, friendship);
+                          },
                         ),
-                      ),
-                      onTap: () {
-                        _showConfirmDialog(context, friendship);
-                      },
-                    ),
+                      );
+                    },
+                    itemCount: _friendships.length,
                   );
                 },
-                itemCount: friendships.length,
               ),
             ),
           ],
