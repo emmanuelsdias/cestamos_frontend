@@ -42,7 +42,7 @@ class _AddNutricionistToShopListDialogState extends State<AddNutricionistToShopL
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                "Nutricionostas",
+                "Nutricionistas",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
