@@ -3,6 +3,7 @@ import 'dart:core';
 import '../../models/item.dart';
 import '../../models/friendship.dart';
 import '../../models/shop_list.dart';
+import '../../models/recipe.dart';
 import '../../models/my_tuples.dart';
 // import './base_urls_example.dart';
 import './base_urls.dart';
@@ -15,12 +16,13 @@ class ShopListHttpRequestHelper {
   static Future<Pair<List<ShopListSummary>, bool>> getLists() async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
+    var userId = prefs.getInt("user_id") ?? -1;
     final url = "$baseBackEndShopListUrl/?token=$token";
     var response = await RequestFactory.get(url);
     var listsData = response.listedContent;
     List<ShopListSummary> lists;
     if (response.success) {
-      lists = listsData.map((i) => ShopListSummary.fromJson(i)).toList();
+      lists = listsData.map((i) => ShopListSummary.fromJson(i, userId)).toList();
     } else {
       lists = [];
     }
@@ -129,5 +131,78 @@ class ShopListHttpRequestHelper {
     }
     // TODO: fix friend -> List<UserList>
     return Pair(friend, response.success);
+  }
+
+  static Future<Pair<List<RecipeSummary>, bool>> getRecipesFromList(
+    int shopListId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe?token=$token";
+    var response = await RequestFactory.get(url);
+    var recipesData = response.listedContent;
+    List<RecipeSummary> recipes;
+    if (response.success) {
+      recipes = recipesData.map((i) => RecipeSummary.fromJson(i)).toList();
+    } else {
+      recipes = [];
+    }
+    return Pair(recipes, response.success);
+  }
+
+  static Future<Pair<RecipeSummary, bool>> addRecipeToList(
+    int shopListId,
+    int recipeId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId?token=$token";
+    final Map<String, dynamic> body = {};
+
+    var response = await RequestFactory.post(url, body);
+    var recipeData = response.content;
+    RecipeSummary recipe;
+
+    if (response.success) {
+      recipe = RecipeSummary.fromJson(recipeData);
+    } else {
+      recipe = RecipeSummary(
+        id: 1,
+        recipeName: "Receita Teste",
+        description: "Uma receita testada e aprovada!",
+        prepTime: "50",
+        cookingTime: "15",
+        restingTime: "5",
+      );
+    }
+    return Pair(recipe, response.success);
+  }
+
+  static Future<Pair<RecipeSummary, bool>> removeRecipeFromList(
+    int shopListId,
+    int recipeId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId?token=$token";
+    final Map<String, dynamic> body = {};
+
+    var response = await RequestFactory.delete(url, body);
+    var recipeData = response.content;
+    RecipeSummary deletedRecipe;
+
+    if (response.success) {
+      deletedRecipe = RecipeSummary.fromJson(recipeData);
+    } else {
+      deletedRecipe = RecipeSummary(
+        id: 1,
+        recipeName: "Receita Teste",
+        description: "Uma receita testada e aprovada!",
+        prepTime: "50",
+        cookingTime: "15",
+        restingTime: "5",
+      );
+    }
+    return Pair(deletedRecipe, response.success);
   }
 }

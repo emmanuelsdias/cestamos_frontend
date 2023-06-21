@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import '../helpers/http-requests/recipe.dart';
+import '../helpers/http-requests/shop_list.dart';
 import './helpers/flight_shuttle_builder.dart';
 import '../pages/edit_recipe_page.dart';
 
-class RecipeTile extends StatelessWidget {
-  const RecipeTile({Key? key, required this.recipeSummary, required this.isMyFeed}) : super(key: key);
+class NutricionistRecipeTile extends StatelessWidget {
+  const NutricionistRecipeTile({
+    Key? key,
+    required this.recipeSummary,
+    required this.listId,
+    required this.isInList,
+  }) : super(key: key);
   final RecipeSummary recipeSummary;
-  final bool isMyFeed;
+  final bool isInList;
+  final int listId;
 
-  Future<bool> _deleteRecipe(int recipeId) async {
-    var response = RecipeHttpRequestHelper.deleteRecipe(recipeId);
+  Future<bool> _removeRecipeFromList(int recipeId, int listId) async {
+    var response = ShopListHttpRequestHelper.removeRecipeFromList(listId, recipeId);
+    return response.then((value) {
+      return value.success;
+    });
+  }
+
+  Future<bool> _addRecipeToList(int listId, int recipeId) async {
+    var response = ShopListHttpRequestHelper.addRecipeToList(listId, recipeId);
     return response.then((value) {
       return value.success;
     });
@@ -196,79 +210,98 @@ class RecipeTile extends StatelessWidget {
             ),
           ),
         ),
-        if (isMyFeed) ...[
-          Align(
-            alignment: Alignment.topRight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Stack(
-                  children: <Widget>[
-                    // Cartas pra preencher fundo do icone com branco
-                    Positioned.fill(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 10,
-                        ),
-                        color: Colors.white, // Color
+        Align(
+          alignment: Alignment.topRight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Stack(
+                children: <Widget>[
+                  // Cartas pra preencher fundo do icone com branco
+                  Positioned.fill(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
                       ),
+                      color: Colors.white, // Color
                     ),
-                    IconButton(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      constraints: const BoxConstraints(),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text('Deseja mesmo deletar a receita "${recipeSummary.recipeName}"? Esta ação não poderá ser revertida!'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text(
-                                'Deletar',
-                                style: TextStyle(color: Colors.redAccent),
-                              ),
-                              onPressed: () {
-                                _deleteRecipe(recipeSummary.id);
-                                Navigator.of(context).popUntil((route) => route.isFirst);
-                                Navigator.of(context).pushReplacementNamed('/');
-                              },
+                  ),
+                  isInList
+                      ? IconButton(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          constraints: const BoxConstraints(),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Deseja mesmo remover a receita "${recipeSummary.recipeName}" da lista?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    'Remover',
+                                    style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                                  ),
+                                  onPressed: () {
+                                    _removeRecipeFromList(recipeSummary.id, listId);
+                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                    Navigator.of(context).pushReplacementNamed('/');
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Cancelar'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
                             ),
-                            TextButton(
-                              child: const Text('Cancelar'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                          ),
+                          icon: Icon(
+                            Icons.cancel,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                        )
+                      : IconButton(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          constraints: const BoxConstraints(),
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Deseja mesmo adicionar a receita "${recipeSummary.recipeName}" à lista?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    'Adicionar',
+                                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                                  ),
+                                  onPressed: () {
+                                    _addRecipeToList(listId, recipeSummary.id);
+                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                    Navigator.of(context).pushReplacementNamed('/');
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    'Cancelar',
+                                    style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                          icon: Icon(
+                            Icons.add_box,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
-                      ),
-                      icon: Icon(
-                        Icons.cancel,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                IconButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  constraints: const BoxConstraints(),
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    EditRecipePage.pageRouteName,
-                    arguments: recipeSummary,
-                  ),
-                  icon: Icon(
-                    Icons.edit,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
+                ],
+              )
+            ],
           ),
-        ],
+        ),
       ],
     );
   }

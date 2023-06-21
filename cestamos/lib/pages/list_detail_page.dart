@@ -13,6 +13,7 @@ import '../helpers/http-requests/shop_list.dart';
 import '../widgets/item_create_dialog.dart';
 import '../widgets/item_edit_dialog.dart';
 import '../widgets/add_friend_to_shop_list_dialog.dart';
+import '../widgets/add_nutricionist_to_shop_list_dialog.dart';
 import '../widgets/show_members_of_list_dialog.dart';
 import '../widgets/confirm_quit_shop_list_dialog.dart';
 import '../widgets/add_floating_button.dart';
@@ -161,6 +162,18 @@ class _ListDetailPageState extends State<ListDetailPage> {
                     showDialog(
                       context: context,
                       builder: (_) {
+                        return AddNutricionistToShopListDialog(
+                          addFriend: addFriend,
+                        );
+                      },
+                    );
+                  }
+                  break;
+                case 2:
+                  {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
                         return ShowMembersOfListDialog(
                           listMembers: _shopList.users,
                           selfUser: getUserListFromUserId(_myUserId),
@@ -179,7 +192,7 @@ class _ListDetailPageState extends State<ListDetailPage> {
                     );
                   }
                   break;
-                case 2:
+                case 3:
                   {
                     showDialog(
                       context: context,
@@ -206,12 +219,13 @@ class _ListDetailPageState extends State<ListDetailPage> {
                 value: 0,
                 child: Text('Adicionar amigo'),
               ),
+              const PopupMenuItem(value: 1, child: Text('Adicionar Nutricionista')),
               const PopupMenuItem(
-                value: 1,
+                value: 2,
                 child: Text('Membros do grupo'),
               ),
               const PopupMenuItem(
-                value: 2,
+                value: 3,
                 child: Text('Sair do grupo'),
               ),
             ],
@@ -241,17 +255,35 @@ class _ListDetailPageState extends State<ListDetailPage> {
           );
         },
       ),
-      floatingActionButton: AddFloatingButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (ctx) {
-              return ItemCreateDialog(
-                createItem: createItem,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: const Color(0xFF77DD77),
+            onPressed: () {
+              //...
+            },
+            child: const Icon(
+              Icons.liquor,
+              color: Color.fromARGB(255, 70, 105, 70),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          AddFloatingButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (ctx) {
+                  return ItemCreateDialog(
+                    createItem: createItem,
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './create_list_page.dart';
 import './list_detail_page.dart';
+import './nutri_add_recipe_to_list_page.dart';
 
 import '../helpers/http-requests/shop_list.dart';
 import '../models/shop_list.dart';
@@ -19,13 +20,16 @@ class ListsPage extends StatefulWidget {
 }
 
 class _ListsPageState extends State<ListsPage> {
+  List<ShopListSummary> _listsWhereIAmMember = [];
+  List<ShopListSummary> _listsWhereIAmNutri = [];
   List<ShopListSummary> _lists = [];
 
   Future<bool> _refreshList() async {
     var response = ShopListHttpRequestHelper.getLists();
     return response.then((value) {
+      _listsWhereIAmMember = value.content.where((element) => !element.amINutri).toList();
+      _listsWhereIAmNutri = value.content.where((element) => element.amINutri).toList();
       _lists = value.content;
-
       return value.success;
     });
   }
@@ -68,42 +72,74 @@ class _ListsPageState extends State<ListsPage> {
                     "Você não tem listas",
                   ),
                 )
-              : Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text(
-                        "Minhas Listas",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          "Minhas Listas",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
+                      ListView.builder(
+                        shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () => Navigator.pushNamed(
                               context,
                               ListDetailPage.pageRouteName,
-                              arguments: _lists[index],
+                              arguments: _listsWhereIAmMember[index],
                             ),
                             child: ShopListTile(
-                              shopListSummary: _lists[index],
+                              shopListSummary: _listsWhereIAmMember[index],
                             ),
                           );
                         },
-                        itemCount: _lists.length,
+                        itemCount: _listsWhereIAmMember.length,
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          "Listas dos meus clientes",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              NutriAddRecipeToListPage.pageRouteName,
+                              arguments: _listsWhereIAmNutri[index],
+                            ),
+                            child: ShopListTile(
+                              shopListSummary: _listsWhereIAmNutri[index],
+                            ),
+                          );
+                        },
+                        itemCount: _listsWhereIAmNutri.length,
+                      ),
+                      const SizedBox(
+                        height: 80,
+                      ),
+                    ],
+                  ),
                 );
         },
       ),
       floatingActionButton: AddFloatingButton(
-        onPressed: () =>
-            Navigator.of(context).pushNamed(CreateListPage.pageRouteName),
+        onPressed: () => Navigator.of(context).pushNamed(CreateListPage.pageRouteName),
       ),
     );
   }
