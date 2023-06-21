@@ -1,35 +1,27 @@
+import 'package:cestamos/helpers/http-requests/shop_list.dart';
 import 'package:flutter/material.dart';
 
 import '../models/recipe.dart';
+import '../models/mega_model.dart';
 
-import '../pages/edit_recipe_page.dart';
-
-import '../helpers/http-requests/recipe.dart';
-import '../widgets/add_ingredient_to_list_modal.dart';
+import '../widgets/add_nutri_ingredient_to_list_modal.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
-class RecipeDetailPage extends StatefulWidget {
-  const RecipeDetailPage({Key? key}) : super(key: key);
-  static const pageRouteName = "/recipe_detail";
+class NutriRecipeDetailPage extends StatefulWidget {
+  const NutriRecipeDetailPage({Key? key}) : super(key: key);
+  static const pageRouteName = "/recipe_detail_nutri";
 
   @override
   // ignore: library_private_types_in_public_api
-  State<RecipeDetailPage> createState() => _RecipeDetailPageState();
+  State<NutriRecipeDetailPage> createState() => _NutriRecipeDetailPageState();
 }
 
-class _RecipeDetailPageState extends State<RecipeDetailPage> {
+class _NutriRecipeDetailPageState extends State<NutriRecipeDetailPage> {
   Recipe _recipe = Recipe();
-  bool isMyRecipe = true;
+  int _shopListId = -1;
 
-  Future<bool> _deleteRecipe(int recipeId) async {
-    var response = RecipeHttpRequestHelper.deleteRecipe(recipeId);
-    return response.then((value) {
-      return value.success;
-    });
-  }
-
-  Future<bool> _refreshRecipe(int recipeId) async {
-    var response = RecipeHttpRequestHelper.getRecipe(recipeId);
+  Future<bool> _refreshRecipe(int shopListId, int recipeId) async {
+    var response = ShopListHttpRequestHelper.getRecipeFromList(shopListId, recipeId);
     return response.then((value) {
       _recipe = value.content;
       return value.success;
@@ -38,8 +30,11 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final recipeSummary = ModalRoute.of(context)!.settings.arguments as RecipeSummary;
+    final mega = ModalRoute.of(context)!.settings.arguments as MegaModel;
+    final recipeSummary = mega.recipeSummary!;
     var recipeId = recipeSummary.id;
+    _shopListId = mega.shopListId!;
+
     return Scaffold(
       appBar: AppBar(
         title: Hero(
@@ -59,65 +54,16 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
           IconButton(
             onPressed: () {
               setState(() {
-                _refreshRecipe(recipeId);
+                _refreshRecipe(_shopListId, recipeId);
               });
             },
             icon: const Icon(Icons.refresh_rounded),
           ),
-          if (isMyRecipe)
-            PopupMenuButton(
-              onSelected: (result) {
-                if (result == 0) {
-                  Navigator.pushNamed(
-                    context,
-                    EditRecipePage.pageRouteName,
-                    arguments: recipeSummary,
-                  );
-                } else if (result == 1) {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: const Text('Deseja mesmo deletar sua receita?'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text(
-                            'Deletar',
-                            style: TextStyle(color: Colors.redAccent),
-                          ),
-                          onPressed: () {
-                            _deleteRecipe(recipeId);
-                            Navigator.of(context).popUntil((route) => route.isFirst);
-                            Navigator.of(context).pushReplacementNamed('/');
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Cancelar'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.more_vert_outlined),
-              itemBuilder: (context) => <PopupMenuEntry>[
-                const PopupMenuItem(
-                  value: 0,
-                  child: Text('Editar minha receita'),
-                ),
-                const PopupMenuItem(
-                  value: 1,
-                  child: Text('Apagar minha receita'),
-                ),
-              ],
-            ),
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: FutureBuilder<bool>(
-        future: _refreshRecipe(recipeId),
+        future: _refreshRecipe(_shopListId, recipeId),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -285,8 +231,9 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                                           // open modal
                                           showDialog(
                                             context: context,
-                                            builder: (context) => AddIngredientsToShopListModal(
+                                            builder: (context) => AddNutriIngredientsToShopListModal(
                                               ingredients: _recipe.ingredients,
+                                              shopListId: _shopListId,
                                             ),
                                           );
                                         },
