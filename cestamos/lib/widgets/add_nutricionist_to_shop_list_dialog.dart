@@ -125,7 +125,10 @@ class _AddNutricionistToShopListDialogState extends State<AddNutricionistToShopL
                       text: "Sim",
                       icon: Icons.person_add,
                       onPressed: () {
-                        widget.addFriend(friendship);
+                        widget.addFriend(
+                          friendship,
+                          isNutricionist: true,
+                        );
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       }),
