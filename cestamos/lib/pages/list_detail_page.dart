@@ -93,10 +93,11 @@ class _ListDetailPageState extends State<ListDetailPage> {
     refreshList();
   }
 
-  void addFriend(Friendship friendship) async {
+  void addFriend(Friendship friendship, {bool isNutricionist = false}) async {
     await ShopListHttpRequestHelper.addFriendtoList(
       _shopList.id,
       friendship.userId,
+      isNutricionist
     );
     refreshList();
   }

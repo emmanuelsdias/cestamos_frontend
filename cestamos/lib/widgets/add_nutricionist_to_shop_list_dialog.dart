@@ -113,7 +113,7 @@ class _AddNutricionistToShopListDialogState extends State<AddNutricionistToShopL
               child: Column(
                 children: [
                   Text(
-                    "Quer adicionar ${friendship.username} à lista de compras?",
+                    "Quer adicionar o nutricionista ${friendship.username} à lista de compras?",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
