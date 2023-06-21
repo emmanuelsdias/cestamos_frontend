@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import '../models/mega_model.dart';
 
-import '../widgets/add_ingredient_to_list_modal.dart';
+import '../widgets/add_nutri_ingredient_to_list_modal.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
 class NutriRecipeDetailPage extends StatefulWidget {
@@ -231,8 +231,9 @@ class _NutriRecipeDetailPageState extends State<NutriRecipeDetailPage> {
                                           // open modal
                                           showDialog(
                                             context: context,
-                                            builder: (context) => AddIngredientsToShopListModal(
+                                            builder: (context) => AddNutriIngredientsToShopListModal(
                                               ingredients: _recipe.ingredients,
+                                              shopListId: _shopListId,
                                             ),
                                           );
                                         },
