@@ -19,6 +19,8 @@ import '../widgets/confirm_quit_shop_list_dialog.dart';
 import '../widgets/add_floating_button.dart';
 import '../widgets/helpers/flight_shuttle_builder.dart';
 
+import './list_recipes_page.dart';
+
 class ListDetailPage extends StatefulWidget {
   const ListDetailPage({Key? key}) : super(key: key);
   static const pageRouteName = "/list_detail";
@@ -261,7 +263,10 @@ class _ListDetailPageState extends State<ListDetailPage> {
           FloatingActionButton(
             backgroundColor: const Color(0xFF77DD77),
             onPressed: () {
-              //...
+              Navigator.of(context).pushNamed(
+                ListRecipesPage.pageRouteName,
+                arguments: shopListSummary,
+              );
             },
             child: const Icon(
               Icons.liquor,
