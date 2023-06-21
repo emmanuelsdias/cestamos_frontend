@@ -18,8 +18,7 @@ class ShowMembersOfListDialog extends StatefulWidget {
   final Function changeUserStatus;
 
   @override
-  State<ShowMembersOfListDialog> createState() =>
-      _ShowMembersOfListDialogState();
+  State<ShowMembersOfListDialog> createState() => _ShowMembersOfListDialogState();
 }
 
 class _ShowMembersOfListDialogState extends State<ShowMembersOfListDialog> {
@@ -51,7 +50,7 @@ class _ShowMembersOfListDialogState extends State<ShowMembersOfListDialog> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Card(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: userList.isNutritionist ? const Color(0xFF77DD77) : Theme.of(context).colorScheme.primary,
                       child: ListTile(
                         title: Text(
                           userList.userName,
@@ -64,12 +63,16 @@ class _ShowMembersOfListDialogState extends State<ShowMembersOfListDialog> {
                                 Icons.star_rounded,
                                 color: Colors.white,
                               )
-                            : const Icon(
-                                Icons.account_circle_rounded,
-                                color: Colors.white,
-                              ),
-                        trailing: ((userList.id == widget.selfUser.id) ||
-                                (!widget.selfUser.isAdm))
+                            : userList.isNutritionist
+                                ? const Icon(
+                                    Icons.local_florist,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.account_circle_rounded,
+                                    color: Colors.white,
+                                  ),
+                        trailing: ((userList.id == widget.selfUser.id) || (!widget.selfUser.isAdm))
                             ? null
                             : IconButton(
                                 icon: const Icon(
@@ -101,8 +104,7 @@ class _ShowMembersOfListDialogState extends State<ShowMembersOfListDialog> {
                                             ),
                                           ),
                                           TextButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
+                                            onPressed: () => Navigator.of(context).pop(),
                                             child: const Text(
                                               "Cancelar",
                                             ),
@@ -113,8 +115,7 @@ class _ShowMembersOfListDialogState extends State<ShowMembersOfListDialog> {
                                   );
                                 },
                               ),
-                        onTap: ((userList.id == widget.selfUser.id) ||
-                                (!widget.selfUser.isAdm))
+                        onTap: ((userList.id == widget.selfUser.id) || (!widget.selfUser.isAdm))
                             ? null
                             : () {
                                 _showAdminChangeDialog(context, userList);
