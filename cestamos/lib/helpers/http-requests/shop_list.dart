@@ -150,48 +150,58 @@ class ShopListHttpRequestHelper {
     return Pair(recipes, response.success);
   }
 
-  static Future<Pair<Recipe, bool>> addRecipeToList(
+  static Future<Pair<RecipeSummary, bool>> addRecipeToList(
     int shopListId,
     int recipeId,
   ) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
     final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId?token=$token";
-    final body = {
-      "is_added": true, // just so body can be considered a map
-    };
+    final Map<String, dynamic> body = {};
 
     var response = await RequestFactory.post(url, body);
     var recipeData = response.content;
-    Recipe recipe;
+    RecipeSummary recipe;
 
     if (response.success) {
-      recipe = Recipe.fromJson(recipeData);
+      recipe = RecipeSummary.fromJson(recipeData);
     } else {
-      recipe = Recipe();
+      recipe = RecipeSummary(
+        id: 1,
+        recipeName: "Receita Teste",
+        description: "Uma receita testada e aprovada!",
+        prepTime: "50",
+        cookingTime: "15",
+        restingTime: "5",
+      );
     }
     return Pair(recipe, response.success);
   }
 
-  static Future<Pair<Recipe, bool>> removeRecipeFromList(
+  static Future<Pair<RecipeSummary, bool>> removeRecipeFromList(
     int shopListId,
     int recipeId,
   ) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
     final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId?token=$token";
-    final body = {
-      "is_deleted": true, // just so body can be considered a map
-    };
+    final Map<String, dynamic> body = {};
 
     var response = await RequestFactory.delete(url, body);
     var recipeData = response.content;
-    Recipe deletedRecipe;
+    RecipeSummary deletedRecipe;
 
     if (response.success) {
-      deletedRecipe = Recipe.fromJson(recipeData);
+      deletedRecipe = RecipeSummary.fromJson(recipeData);
     } else {
-      deletedRecipe = Recipe();
+      deletedRecipe = RecipeSummary(
+        id: 1,
+        recipeName: "Receita Teste",
+        description: "Uma receita testada e aprovada!",
+        prepTime: "50",
+        cookingTime: "15",
+        restingTime: "5",
+      );
     }
     return Pair(deletedRecipe, response.success);
   }

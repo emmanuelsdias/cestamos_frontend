@@ -62,6 +62,14 @@ class _NutriAddRecipeToListPageState extends State<NutriAddRecipeToListPage> {
     return true;
   }
 
+  Future<bool> _getAllMyRecipes() async {
+    var response = RecipeHttpRequestHelper.getRecipes(false);
+    return response.then((value) {
+      _recipes = value.content;
+      return value.success;
+    });
+  }
+
   Future<bool> _getRecipesInList() async {
     var response = ShopListHttpRequestHelper.getRecipesFromList(_shopListId);
     return response.then((value) {
@@ -70,19 +78,28 @@ class _NutriAddRecipeToListPageState extends State<NutriAddRecipeToListPage> {
     });
   }
 
-  void _getRecipesNotInList() async {
+  void _getRecipesNotInList() {
     var idsInList = _recipesInList.map((element) => element.id).toList();
     _recipesNotInList = _recipes.where((element) => !idsInList.contains(element.id)).toList();
   }
 
   Future<bool> _getRecipes() async {
-    var response = RecipeHttpRequestHelper.getRecipes(false);
-    return response.then((value) {
-      _recipes = value.content;
-      _getRecipesInList();
-      _getRecipesNotInList();
-      return value.success;
-    });
+    return _getAllMyRecipes().then(
+      (value) {
+        if (!value) {
+          return false;
+        }
+        return _getRecipesInList().then(
+          (otherValue) {
+            if (!otherValue) {
+              return false;
+            }
+            _getRecipesNotInList();
+            return true;
+          },
+        );
+      },
+    );
   }
 
   void removeUserFromList(int userListId) {
@@ -179,7 +196,6 @@ class _NutriAddRecipeToListPageState extends State<NutriAddRecipeToListPage> {
                 child: Text("Algo de errado aconteceu nas suas receitas. Tente novamente mais tarde!"),
               );
             }
-
             return _recipes.isEmpty
                 ? const Center(
                     child: Text("Você ainda não tem receitas!"),
