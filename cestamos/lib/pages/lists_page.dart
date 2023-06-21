@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './create_list_page.dart';
 import './list_detail_page.dart';
+import './nutri_add_recipe_to_list_page.dart';
 
 import '../helpers/http-requests/shop_list.dart';
 import '../models/shop_list.dart';
@@ -100,10 +101,13 @@ class _ListsPageState extends State<ListsPage> {
                         },
                         itemCount: _listsWhereIAmMember.length,
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       const Padding(
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          "Listas em que sou nutricionista",
+                          "Listas dos meus clientes",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
@@ -116,7 +120,7 @@ class _ListsPageState extends State<ListsPage> {
                           return GestureDetector(
                             onTap: () => Navigator.pushNamed(
                               context,
-                              ListDetailPage.pageRouteName,
+                              NutriAddRecipeToListPage.pageRouteName,
                               arguments: _listsWhereIAmNutri[index],
                             ),
                             child: ShopListTile(
@@ -125,6 +129,9 @@ class _ListsPageState extends State<ListsPage> {
                           );
                         },
                         itemCount: _listsWhereIAmNutri.length,
+                      ),
+                      const SizedBox(
+                        height: 80,
                       ),
                     ],
                   ),

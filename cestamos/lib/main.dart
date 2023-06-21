@@ -12,6 +12,7 @@ import 'pages/recipe_detail_page.dart';
 import 'pages/logged_screen.dart';
 import 'pages/list_detail_page.dart';
 import 'pages/add_friend_page.dart';
+import 'pages/nutri_add_recipe_to_list_page.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
     EditRecipePage.pageRouteName: (BuildContext context) => const EditRecipePage(),
     PendingInvitesPage.pageRouteName: (BuildContext context) => const PendingInvitesPage(),
     RecipeDetailPage.pageRouteName: (BuildContext context) => const RecipeDetailPage(),
+    NutriAddRecipeToListPage.pageRouteName: (BuildContext context) => const NutriAddRecipeToListPage(),
   };
 
   @override

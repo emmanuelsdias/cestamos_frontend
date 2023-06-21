@@ -3,6 +3,7 @@ import 'dart:core';
 import '../../models/item.dart';
 import '../../models/friendship.dart';
 import '../../models/shop_list.dart';
+import '../../models/recipe.dart';
 import '../../models/my_tuples.dart';
 // import './base_urls_example.dart';
 import './base_urls.dart';
@@ -130,5 +131,68 @@ class ShopListHttpRequestHelper {
     }
     // TODO: fix friend -> List<UserList>
     return Pair(friend, response.success);
+  }
+
+  static Future<Pair<List<RecipeSummary>, bool>> getRecipesFromList(
+    int shopListId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe?token=$token";
+    var response = await RequestFactory.get(url);
+    var recipesData = response.listedContent;
+    List<RecipeSummary> recipes;
+    if (response.success) {
+      recipes = recipesData.map((i) => RecipeSummary.fromJson(i)).toList();
+    } else {
+      recipes = [];
+    }
+    return Pair(recipes, response.success);
+  }
+
+  static Future<Pair<Recipe, bool>> addRecipeToList(
+    int shopListId,
+    int recipeId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId?token=$token";
+    final body = {
+      "is_added": true, // just so body can be considered a map
+    };
+
+    var response = await RequestFactory.post(url, body);
+    var recipeData = response.content;
+    Recipe recipe;
+
+    if (response.success) {
+      recipe = Recipe.fromJson(recipeData);
+    } else {
+      recipe = Recipe();
+    }
+    return Pair(recipe, response.success);
+  }
+
+  static Future<Pair<Recipe, bool>> removeRecipeFromList(
+    int shopListId,
+    int recipeId,
+  ) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId?token=$token";
+    final body = {
+      "is_deleted": true, // just so body can be considered a map
+    };
+
+    var response = await RequestFactory.delete(url, body);
+    var recipeData = response.content;
+    Recipe deletedRecipe;
+
+    if (response.success) {
+      deletedRecipe = Recipe.fromJson(recipeData);
+    } else {
+      deletedRecipe = Recipe();
+    }
+    return Pair(deletedRecipe, response.success);
   }
 }
