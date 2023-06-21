@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import './create_recipe_page.dart';
-import './recipe_detail_page.dart';
+import './nutri_recipe_detail_page.dart';
 
 import '../models/recipe.dart';
 import '../models/shop_list.dart';
+import '../models/mega_model.dart';
 
 import '../widgets/recipe_tile.dart';
-import '../widgets/add_floating_button.dart';
 
 import '../helpers/http-requests/shop_list.dart';
 
@@ -97,11 +96,17 @@ class _ListRecipesPageState extends State<ListRecipesPage> {
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              RecipeDetailPage.pageRouteName,
-                              arguments: _recipes[index],
-                            ),
+                            onTap: () {
+                              MegaModel mega = MegaModel(
+                                shopListId: _shopListId,
+                                recipeSummary: _recipes[index],
+                              );
+                              Navigator.pushNamed(
+                                context,
+                                NutriRecipeDetailPage.pageRouteName,
+                                arguments: mega,
+                              );
+                            },
                             child: RecipeTile(
                               recipeSummary: _recipes[index],
                               isMyFeed: false,

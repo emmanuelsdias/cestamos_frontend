@@ -206,4 +206,19 @@ class ShopListHttpRequestHelper {
     }
     return Pair(deletedRecipe, response.success);
   }
+
+  static Future<Pair<Recipe, bool>> getRecipeFromList(int shopListId, int recipeId) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token') ?? "";
+    final url = "$baseBackEndShopListUrl/$shopListId/recipe/$recipeId/?token=$token";
+    var response = await RequestFactory.get(url);
+    var recipeData = response.content;
+    Recipe recipe;
+    if (response.success) {
+      recipe = Recipe.fromJson(recipeData);
+    } else {
+      recipe = Recipe();
+    }
+    return Pair(recipe, response.success);
+  }
 }
