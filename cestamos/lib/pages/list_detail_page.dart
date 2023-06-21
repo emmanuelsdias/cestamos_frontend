@@ -95,11 +95,8 @@ class _ListDetailPageState extends State<ListDetailPage> {
     refreshList();
   }
 
-  void addFriend(Friendship friendship) async {
-    await ShopListHttpRequestHelper.addFriendtoList(
-      _shopList.id,
-      friendship.userId,
-    );
+  void addFriend(Friendship friendship, {bool isNutricionist = false}) async {
+    await ShopListHttpRequestHelper.addFriendtoList(_shopList.id, friendship.userId, isNutricionist);
     refreshList();
   }
 
@@ -221,7 +218,10 @@ class _ListDetailPageState extends State<ListDetailPage> {
                 value: 0,
                 child: Text('Adicionar amigo'),
               ),
-              const PopupMenuItem(value: 1, child: Text('Adicionar Nutricionista')),
+              const PopupMenuItem(
+                value: 1,
+                child: Text('Adicionar nutricionista'),
+              ),
               const PopupMenuItem(
                 value: 2,
                 child: Text('Membros do grupo'),

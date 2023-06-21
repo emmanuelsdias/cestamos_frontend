@@ -1,5 +1,7 @@
 import 'dart:core';
 
+import 'package:cestamos/models/user.dart';
+
 import '../../models/item.dart';
 import '../../models/friendship.dart';
 import '../../models/shop_list.dart';
@@ -109,9 +111,10 @@ class ShopListHttpRequestHelper {
     return Pair(list, response.success);
   }
 
-  static Future<Pair<Friendship, bool>> addFriendtoList(
+  static Future<Pair<List<UserList>, bool>> addFriendtoList(
     int shopListId,
     int userId,
+    bool isNutricionist,
   ) async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
@@ -119,19 +122,19 @@ class ShopListHttpRequestHelper {
     final body = [
       {
         "user_id": userId,
-        "is_nutritionist": false,
+        "is_nutritionist": isNutricionist,
       }
     ];
     var response = await RequestFactory.post(url, body);
-    var friendData = response.content;
-    Friendship friend;
+    var listsData = response.listedContent;
+    List<UserList> userList;
+
     if (response.success) {
-      friend = Friendship.fromJson(friendData);
+      userList = listsData.map((i) => UserList.fromJson(i)).toList();
     } else {
-      friend = Friendship();
+      userList = [];
     }
-    // TODO: fix friend -> List<UserList>
-    return Pair(friend, response.success);
+    return Pair(userList, response.success);
   }
 
   static Future<Pair<List<RecipeSummary>, bool>> getRecipesFromList(

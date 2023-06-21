@@ -42,7 +42,7 @@ class _AddNutricionistToShopListDialogState extends State<AddNutricionistToShopL
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                "Nutricionostas",
+                "Nutricionistas",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -113,7 +113,7 @@ class _AddNutricionistToShopListDialogState extends State<AddNutricionistToShopL
               child: Column(
                 children: [
                   Text(
-                    "Quer adicionar ${friendship.username} à lista de compras?",
+                    "Quer adicionar o nutricionista ${friendship.username} à lista de compras?",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -125,7 +125,10 @@ class _AddNutricionistToShopListDialogState extends State<AddNutricionistToShopL
                       text: "Sim",
                       icon: Icons.person_add,
                       onPressed: () {
-                        widget.addFriend(friendship);
+                        widget.addFriend(
+                          friendship,
+                          isNutricionist: true,
+                        );
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       }),
