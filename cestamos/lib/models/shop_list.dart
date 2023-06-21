@@ -18,9 +18,7 @@ class ShopList {
       id: json['shop_list_id'] as int,
       shopListName: json['name'] as String,
       items: (json['items'] as List).map((e) => Item.fromJson(e)).toList(),
-      users: (json['user_lists'] as List)
-          .map((e) => UserList.fromJson(e))
-          .toList(),
+      users: (json['user_lists'] as List).map((e) => UserList.fromJson(e)).toList(),
     );
   }
 }
@@ -28,16 +26,22 @@ class ShopList {
 class ShopListSummary {
   int id;
   String shopListName;
+  bool amINutri;
 
   ShopListSummary({
     required this.id,
     required this.shopListName,
+    this.amINutri = false,
   });
 
-  factory ShopListSummary.fromJson(Map<String, dynamic> json) {
+  factory ShopListSummary.fromJson(Map<String, dynamic> json, int userId) {
+    var allUsers = json["user_lists"];
+    var myUser = allUsers.firstWhere((element) => element["user_id"] == userId);
+    bool checkIfNutri = myUser["is_nutritionist"];
     return ShopListSummary(
       id: json['shop_list_id'] as int,
       shopListName: json['name'] as String,
+      amINutri: checkIfNutri,
     );
   }
 }

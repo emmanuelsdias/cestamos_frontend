@@ -82,7 +82,7 @@ class _RecipesPageState extends State<RecipesPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const SizedBox(
-                            width: 80,
+                            width: 40,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(15),
@@ -104,18 +104,22 @@ class _RecipesPageState extends State<RecipesPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
-                            child: FlutterSwitch(
-                                value: !isMyFeed,
-                                activeColor: Theme.of(context).colorScheme.primary,
-                                inactiveIcon: const Icon(
-                                  Icons.person_rounded,
-                                  color: Colors.black,
-                                ),
-                                activeIcon: Icon(
-                                  Icons.people_rounded,
-                                  color: Theme.of(context).colorScheme.inversePrimary,
-                                ),
-                                onToggle: ((value) => setState(() => {isMyFeed = !isMyFeed}))),
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: FlutterSwitch(
+                                  value: !isMyFeed,
+                                  activeColor: Theme.of(context).colorScheme.primary,
+                                  inactiveIcon: const Icon(
+                                    Icons.person_rounded,
+                                    color: Colors.black,
+                                  ),
+                                  activeIcon: Icon(
+                                    Icons.people_rounded,
+                                    color: Theme.of(context).colorScheme.inversePrimary,
+                                  ),
+                                  onToggle: ((value) => setState(() => {isMyFeed = !isMyFeed}))),
+                            ),
                           )
                         ],
                       ),
