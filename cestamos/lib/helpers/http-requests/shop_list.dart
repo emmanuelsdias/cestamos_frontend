@@ -15,12 +15,13 @@ class ShopListHttpRequestHelper {
   static Future<Pair<List<ShopListSummary>, bool>> getLists() async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token') ?? "";
+    var userId = prefs.getInt("user_id") ?? -1;
     final url = "$baseBackEndShopListUrl/?token=$token";
     var response = await RequestFactory.get(url);
     var listsData = response.listedContent;
     List<ShopListSummary> lists;
     if (response.success) {
-      lists = listsData.map((i) => ShopListSummary.fromJson(i)).toList();
+      lists = listsData.map((i) => ShopListSummary.fromJson(i, userId)).toList();
     } else {
       lists = [];
     }

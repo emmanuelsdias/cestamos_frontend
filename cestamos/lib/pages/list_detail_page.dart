@@ -255,17 +255,35 @@ class _ListDetailPageState extends State<ListDetailPage> {
           );
         },
       ),
-      floatingActionButton: AddFloatingButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (ctx) {
-              return ItemCreateDialog(
-                createItem: createItem,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: const Color(0xFF77DD77),
+            onPressed: () {
+              //...
+            },
+            child: const Icon(
+              Icons.liquor,
+              color: Color.fromARGB(255, 70, 105, 70),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          AddFloatingButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (ctx) {
+                  return ItemCreateDialog(
+                    createItem: createItem,
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }
